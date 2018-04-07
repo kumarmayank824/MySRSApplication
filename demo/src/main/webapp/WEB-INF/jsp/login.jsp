@@ -133,7 +133,7 @@
 	
 						<div class="flex-col-c p-t-15">
 							<span class="txt1 p-b-17">
-								Not a member?<a href="#" class="txt2">Sign up now</a>
+								Not a member?<a href="/registerRequest" class="txt2">Sign up now</a>
 							</span>
 						</div>
 				</div>

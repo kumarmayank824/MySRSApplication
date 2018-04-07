@@ -11,6 +11,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/w3.css">
+		<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 		<link href="css/table/datatables.min.css" rel="stylesheet"/>
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
@@ -37,6 +38,67 @@
 		.width-200{
 		    width:360px;
 		}
+		.navbar {
+		    overflow: hidden;
+		    font-family: Arial, Helvetica, sans-serif;
+          }
+
+		.navbar a {
+		    float: left;
+		    font-size: 16px;
+		    color: white;
+		    text-align: center;
+		    padding: 14px 16px;
+		    text-decoration: none;
+		}
+		
+		.dropdown {
+		    float: right;
+		    overflow: hidden;
+		    position: inherit !important;
+		}
+		
+		.dropdown .dropbtn {
+		    font-size: 18px;    
+		    border: none;
+		    outline: none;
+		    color: white;
+		    padding: 12px 20px;
+		    background-color: inherit;
+		    font-family: inherit;
+		    margin: 0;
+		}
+		
+		.navbar a:hover, .dropdown:hover .dropbtn {
+		    background-color: red;
+		}
+		
+		.dropdown-content {
+		    display: none;
+		    position: absolute;
+		    background-color: #f9f9f9;
+		    min-width: 210px;
+		    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		    z-index: 1;
+		}
+		
+		.dropdown-content a {
+		    float: none;
+		    color: black;
+		    padding: 12px 16px;
+		    text-decoration: none;
+		    display: block;
+		    text-align: left;
+		}
+		
+		.dropdown-content a:hover {
+		    background-color: #ddd;
+		}
+		
+		.dropdown:hover .dropdown-content {
+		    display: block;
+		}
+		
 	</style>
 	
 	<body>
@@ -48,18 +110,23 @@
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Upload</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Download</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
+		    <div class="dropdown">
+			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
+			      <i class="fa fa-caret-down"></i>
+			    </button>
+			    <div class="dropdown-content">
+			      <a href="#"><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/tologout"><i class="fa fa-sign-out"></i> Logout</a>
+			    </div>
+		    </div> 
 		  </div>
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Upload</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Profile</a>
+		    <a href="/tologout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
 		  </div>
 		</div>
 		
@@ -113,7 +180,7 @@
 		 <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 		</footer>
 		
-		<div id="modelDiv" style="display: none">
+		<!-- <div id="modelDiv" style="display: none">
 			
 			 <div class="container text-center"> 
                 <div class="costumModal">
@@ -132,14 +199,14 @@
 			                        </h4>
 			                    </div>
 			                    <div class="modal-body">
-			                        <!-- <p>
+			                        <p>
 			                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 			                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 			                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 			                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			                        </p> -->
+			                        </p>
 			                    </div>
 			                    <div class="modal-footer">
 			                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">
@@ -152,7 +219,7 @@
 			        </div>
 				</div>
 		      </div>
-		 </div> 
+		 </div>  -->
 		
 	</body>
 	

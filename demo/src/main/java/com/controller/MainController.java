@@ -61,18 +61,6 @@ public class MainController {
         return "login";
     }
 	
-	@RequestMapping(value="/registerRequest", method = RequestMethod.GET) 
-	public String handleRegistrationRequest(Model model, String error, String logout) {
-        return "registration";
-    }
-	
-	@RequestMapping(value="/registerUser", method = RequestMethod.POST) 
-	public String registerUser(Model model, @RequestParam("username") String UserName,
-			@RequestParam("emailId") String emailId,
-			@RequestParam("password") String password) {
-        return "registration";
-    }
-	
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET) 
 	public String  loadLoginSuccessPage(Model model,HttpServletRequest request,HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -33,8 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	    .formLogin().loginPage("/login")
     	    .usernameParameter("username").passwordParameter("password")
     	  .and()
-    	    .logout().logoutSuccessUrl("/login?logout") 
-    	  .and()
     	    .csrf();
     }
     
