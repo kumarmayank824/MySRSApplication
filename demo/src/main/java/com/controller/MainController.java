@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -61,21 +60,25 @@ public class MainController {
         return "login";
     }
 	
+	@RequestMapping(value="/registerRequest", method = RequestMethod.GET) 
+	public String handleRegistrationRequest(Model model, String error, String logout) {
+        return "registration";
+    }
+	
+	@RequestMapping(value="/registerUser", method = RequestMethod.POST) 
+	public String registerUser(Model model, @RequestParam("username") String UserName,
+			@RequestParam("emailId") String emailId,
+			@RequestParam("password") String password) {
+        return "registration";
+    }
+	
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET) 
-	public String  loadLoginSuccessPage(Model model,HttpServletRequest request,HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
-		}
+	public String loadLoginSuccessPage(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
 		return "loginSuccess";
 	}
 	
 	@RequestMapping(value="/to-upload-pdf-page", method = RequestMethod.GET) 
-	public String loadUploadPdfPage(Model model,HttpServletRequest request,HttpServletResponse response) {		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
-		}
+	public String loadUploadPdfPage(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
 		return "upload";
 	}
 	
@@ -145,11 +148,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/to-upload-details", method = RequestMethod.GET) 
-	public String showUploadDetails(Model model,HttpServletRequest request,HttpServletResponse response) {		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
-		}
+	public String showUploadDetails(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
 		return "uploadDetails";
 	}
 	
@@ -228,17 +227,5 @@ public class MainController {
 	    }
 	         
 	}	
-	
-	@RequestMapping(value="/tologout", method = RequestMethod.GET)
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    if (auth != null && auth.getDetails() != null){   
-	    	request.getSession().invalidate();
-	        new SecurityContextLogoutHandler().logout(request, response, auth);
-	    }
-	    //We can redirect wherever we want, but generally it's a good practice to show login screen again.
-	    return "logoutSuccess";
-	    //return "redirect:/tologoutSuccess";
-	}
 	
 }
