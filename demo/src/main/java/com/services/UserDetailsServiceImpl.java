@@ -1,4 +1,4 @@
-package com.services;
+/*package com.services;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,4 +25,4 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
-}
+}*/

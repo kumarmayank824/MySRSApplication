@@ -94,31 +94,30 @@ body, h1, h2, h3, h4, h5, h6 {
 	<div class="limiter">
 		<div class="container-login100" style="background-color: #f44336;">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form action="/login" method="post">
+				<form:form action="/registerUser" method="post" modelAttribute="user">
 
 					<span class="login100-form-title p-b-30"> Sign up in seconds </span>
+					<c:if test="${confirmationMessage ne null}">
+					        <span "class="alert alert-success">${confirmationMessage}</span>
+				    </c:if>
+				    <c:if test="${alreadyRegisteredMessage ne null}">
+					        <span "class="alert alert-success">${alreadyRegisteredMessage}</span>
+				    </c:if>
 					<div class="wrap-input100 validate-input m-b-23"
 						data-validate="Username is reauired">
 						<span class="label-input100">Username</span> <input
 							class="input100" type="text" name="username"
-							placeholder="Type your username"> <span
+							placeholder="Type your username" required> <span
 							class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-23"
 						data-validate="Email is required">
 						<span class="label-input100">Email Id</span> <input
-							class="input100" type="email" name="emailId"
-							placeholder="Type your Email Id"> <span
+							class="input100" type="email" name="email"
+							placeholder="Type your Email Id" required> <span
 							class="focus-input100" data-symbol="&#9993"></span>
 					</div>
-					<div class="wrap-input100 validate-input m-b-23"
-						data-validate="Password is required">
-						<span class="label-input100">Password</span> <input
-							class="input100" type="password" name="password"
-							placeholder="Type your password"> <span
-							class="focus-input100" data-symbol="&#xf190;"></span>
-					</div>
-
+					
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -128,7 +127,7 @@ body, h1, h2, h3, h4, h5, h6 {
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
-				</form>
+				</form:form>
 				<div class="flex-col-c p-t-15">
 					<span class="txt1 p-b-17"> Already a member? <a
 						href="/login" class="txt2">Login now</a>

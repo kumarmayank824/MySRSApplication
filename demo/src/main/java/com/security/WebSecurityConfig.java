@@ -16,8 +16,8 @@ import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
-	@Autowired
-    private UserDetailsService userDetailsService;
+	/*@Autowired
+    private UserDetailsService userDetailsService;*/
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
