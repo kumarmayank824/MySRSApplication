@@ -1,9 +1,12 @@
 package com.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import com.domain.Registration;
+import com.domain.User;
 
-public interface RegistrationRepository extends JpaRepository<Registration, String>{
-
+@Repository
+public interface RegistrationRepository extends CrudRepository<User, Long> {
+    User findByEmail(String email);
+    User findByConfirmationToken(Object object);
 }

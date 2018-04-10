@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -40,7 +41,7 @@ public class CommonUtil {
 			returnJson.put("data", finalLst);
 			
 			return returnJson;
-		}
+	}
 	
 	
 	public String fileSizeToMb(Long byteSize){
@@ -59,4 +60,20 @@ public class CommonUtil {
 		System.out.println(format.format(fechaNueva));
 		return format.format(fechaNueva);
 	}
+	
+	public String encoder(String value) {
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        // This is a required password for Jasypt. You will have to use the same password to
+        // retrieve decrypted password later. T
+        // This password is not the password we are trying to encrypt taken from properties file.
+        encryptor.setPassword("This password is not the password we are trying to encrypt taken from properties file.");
+        return encryptor.encrypt(value);
+	}
+	
+	public String decoder(String value) {
+	       StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+	       encryptor.setPassword("This password is not the password we are trying to encrypt taken from properties file.");
+	       return encryptor.decrypt(value);
+	}
+	
 }
