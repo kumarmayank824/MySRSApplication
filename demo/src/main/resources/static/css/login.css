@@ -140,6 +140,8 @@ iframe {
   font-size: 14px;
   line-height: 1.5;
   color: #666666;
+  padding-top: 5px;
+  padding-bottom: 12px;
 }
 
 .txt2 {
@@ -180,12 +182,17 @@ iframe {
   background-size: cover;
 }
 
+.wrap-logo{
+  width:100%
+}
 .wrap-login100 {
-  width: 500px;
-  background: #fff;
-  border-radius: 10px;
+  width: 400px;
+  background: white;
+  /* border-radius: 10px; */
   overflow: hidden;
-  margin-top: 50px;
+ /*  margin-top: 50px; */
+  padding: 35px 30px;
+  box-shadow: 0px 1px 10px -3px #060606;
 }
 
 
@@ -215,10 +222,21 @@ iframe {
   position: relative;
   border-bottom: 2px solid #d9d9d9;
 }
+.app-logo{
+	width:60px;
+}
+
+.login-upper-div{
+	text-align: center;
+}
+.signin-text{
+	color: white;
+    font-size: 29px;
+}
 
 .label-input100 {
   font-family: Poppins-Regular;
-  font-size: 14px;
+  font-size: 16px;
   color: #333333;
   line-height: 1.5;
   padding-left: 7px;
@@ -229,10 +247,9 @@ iframe {
   font-size: 16px;
   color: #333333;
   line-height: 1.2;
-
   display: block;
   width: 100%;
-  height: 55px;
+  height: 44px;
   background: transparent;
   padding: 0 7px 0 43px;
 }
@@ -445,7 +462,7 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Social item ]*/
 .login100-social-item {
-  font-size: 25px;
+  font-size: 19px;
   color: #fff;
 
   display: -webkit-box;
@@ -455,8 +472,8 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin: 5px;
 }
