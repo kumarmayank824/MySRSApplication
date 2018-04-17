@@ -5,98 +5,85 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html ng-app="mainApp">
-<head>
-<title>Login</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Montserrat">
-<!-- <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-
-<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet" />
-<link rel="stylesheet"
-	href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="fonts/iconic/css/material-design-iconic-font.min.css">
-<link rel="stylesheet" href="vendor/animate/animate.css">
-<link rel="stylesheet" href="vendor/css-hamburgers/hamburgers.min.css">
-<link rel="stylesheet" href="vendor/animsition/css/animsition.min.css">
-<link rel="stylesheet" href="vendor/select2/select2.min.css">
-<link rel="stylesheet" href="vendor/daterangepicker/daterangepicker.css">
-<link rel="stylesheet" href="css/util.css">
-<link rel="stylesheet" href="css/login.css">
-
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="vendor/animsition/js/animsition.min.js"></script>
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="vendor/select2/select2.min.js"></script>
-<script src="vendor/daterangepicker/moment.min.js"></script>
-<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<script src="vendor/countdowntime/countdowntime.js"></script>
-<script src="vendor/jquery/main.js"></script>
-
-<script src="js/angular.min.js"></script>
-<script src="js/mainController.js"></script>
-<script src="js/mainService.js"></script>
-
-</head>
-<style>
-body, h1, h2, h3, h4, h5, h6 {
-	font-family: "Lato", sans-serif
-}
-
-.w3-bar, h1, button {
-	font-family: "Montserrat", sans-serif
-}
-
-.fa-anchor, .fa-coffee {
-	font-size: 200px
-}
-</style>
-<body data-ng-controller="mainController">
+	<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" href="vendor/animate/animate.css">
+	<link rel="stylesheet" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" href="css/util.css">
+	<link rel="stylesheet" href="css/login.css">
+	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<script src="vendor/jquery/main.js"></script>
+	
+	<script src="js/angular.min.js"></script>
+	<script src="js/mainController.js"></script>
+	<script src="js/mainService.js"></script>
+	
+	</head>
+	<style>
+	body, h1, h2, h3, h4, h5, h6 {
+		font-family: "Lato", sans-serif
+	}
+	
+	.w3-bar, h1, button {
+		font-family: "Montserrat", sans-serif
+	}
+	
+	.fa-anchor, .fa-coffee {
+		font-size: 200px
+	}
+	</style>
+	<body data-ng-controller="mainController">
 
 	<!-- Navbar -->
 	<div class="w3-top">
 		<div class="w3-bar w3-red w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
-				href="javascript:void(0);" ng-click="myFunction()"
-				title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a> <a
-				href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-			<a href="#"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How
-				To Upload</a> <a href="#"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How
-				To Download</a> <a href="#"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About
-				Us</a> <a href="#"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact
-				Us</a>
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a> 
+			<a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
+			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
 		</div>
 
 		<!-- Navbar on small screens -->
 		<div id="navDemo"
 			class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-			<a href="#" class="w3-bar-item w3-button w3-padding-large">How To
-				Upload</a> <a href="#" class="w3-bar-item w3-button w3-padding-large">How
-				To Download</a> <a href="#"
-				class="w3-bar-item w3-button w3-padding-large">About Us</a> <a
-				href="#" class="w3-bar-item w3-button w3-padding-large">Contact
-				Us</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a> 
+			<a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
 		</div>
 	</div>
 
 	<div class="limiter">
-		<div class="container-login100" style="background-color: #f44336;">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+		<div class="container-login100" style="padding:75px">
+	        <div class="wrap-logo">
+			  <div class="login-upper-div">
+			  	<img class="app-logo" alt="" src="images/logo/logo.png">
+			  	<div class="signin-text">Sign up to app</div>
+			  </div>
+			</div>
+			<div class="wrap-login100">
 				<form:form action="/registerUser" method="post" modelAttribute="user">
 
-					<span class="login100-form-title p-b-30" style="font-size: 30px;"> Sign up in seconds </span>
 					<c:if test="${confirmationMessage ne null}">
 					        <span "class="alert alert-success">${confirmationMessage}</span>
 				    </c:if>
@@ -138,8 +125,8 @@ body, h1, h2, h3, h4, h5, h6 {
 	</div>
 
 	<!-- Footer -->
-	<footer class="w3-container w3-padding-64 w3-center w3-opacity">
-		<div class="w3-xlarge w3-padding-32">
+	<footer class="w3-container w3-center">
+		<!-- <div class="w3-xlarge w3-padding-32">
 			<i class="fa fa-facebook-official w3-hover-opacity"></i> <i
 				class="fa fa-instagram w3-hover-opacity"></i> <i
 				class="fa fa-snapchat w3-hover-opacity"></i> <i
@@ -150,7 +137,8 @@ body, h1, h2, h3, h4, h5, h6 {
 		<p>
 			Powered by <a href="https://www.w3schools.com/w3css/default.asp"
 				target="_blank">w3.css</a>
-		</p>
+		</p> -->
+		<p> &copy;2018 MyApplication </p>
 	</footer>
 
 </body>

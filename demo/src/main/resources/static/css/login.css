@@ -74,7 +74,7 @@ p {
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
-	margin: 0px;
+	margin: -25px;
 }
 
 ul, li {
@@ -176,7 +176,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 50px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -192,7 +192,7 @@ iframe {
   overflow: hidden;
  /*  margin-top: 50px; */
   padding: 35px 30px;
-  box-shadow: 0px 1px 10px -3px #060606;
+  box-shadow: 1px 0px 10px -2px #060606;
 }
 
 
@@ -206,7 +206,7 @@ iframe {
 .login100-form-title {
   display: block;
   font-family: Poppins-Bold;
-  font-size: 39px;
+  font-size: 35px;
   color: #333333;
   line-height: 0.4;
   text-align: center;
@@ -224,14 +224,13 @@ iframe {
 }
 .app-logo{
 	width:60px;
-	margin-top: 35px;
 }
 
 .login-upper-div{
 	text-align: center;
 }
 .signin-text{
-	color: white;
+	color: #ea4335;
     font-size: 29px;
 }
 

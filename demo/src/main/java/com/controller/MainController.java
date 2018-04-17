@@ -201,7 +201,7 @@ public class MainController {
 			User user = (User) auth.getPrincipal();
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
-		return "loginSuccess";
+		return "uploadDetails";
 	}
 	
 	@RequestMapping(value="/to-upload-pdf-page", method = RequestMethod.GET) 

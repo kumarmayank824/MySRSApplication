@@ -95,8 +95,8 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Upload</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Download</a>
+<!-- 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Upload</a>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Download</a> -->
 		    <a href="/to-upload-details" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Uploaded Details</a>
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
@@ -120,16 +120,16 @@
 		</div>
 		
 		<!-- Header -->
-		<header class="w3-container w3-red w3-center" style="padding:60px">
-		  <h5 class="w3-margin w3-jumbo">We are eagerly looking for your contribution</h5>
+		<header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
+		  <h5 class="w3-margin w3-jumbo">Make Your Work Count</h5>
 		  <!-- <i class="fa fa-upload w3-text-black" style="font-size:80px;"></i> -->
 		</header>
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-padding-64 w3-container" style="padding-top:50px!important;">
+		<div class="w3-row-padding w3-padding-64 w3-container" style="padding-top:20px!important;">
 		  <div class="w3-content">
 		    <div class="w3-twothird">
-		      <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1>
+		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
 		        <form action="/tofileUpload" method="post" enctype="multipart/form-data">
 		            <div class="row">
 		                <div class="col-sm-6 form-group">
@@ -182,15 +182,16 @@
 		
 		<!-- Footer -->
 		<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
-		  <div class="w3-xlarge w3-padding-32">
+		  <!-- <div class="w3-xlarge w3-padding-32">
 		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
 		    <i class="fa fa-instagram w3-hover-opacity"></i>
 		    <i class="fa fa-snapchat w3-hover-opacity"></i>
 		    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
 		    <i class="fa fa-twitter w3-hover-opacity"></i>
 		    <i class="fa fa-linkedin w3-hover-opacity"></i>
-		 </div>
-		 <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+		 </div> -->
+		 <!-- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p> -->
+		 <p> &copy;2018 MyApplication </p>
 		</footer>
 		
 	</body>
