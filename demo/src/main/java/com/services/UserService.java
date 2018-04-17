@@ -4,27 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.domain.User;
-import com.repository.RegistrationRepository;
+import com.repository.UserRepository;
 
 @Service
 public class UserService {
    
-    private RegistrationRepository registrationRepository;
+    private UserRepository userRepository;
 	
     @Autowired
-    public UserService(RegistrationRepository registrationRepository) { 
-      this.registrationRepository = registrationRepository;
+    public UserService(UserRepository registrationRepository) { 
+      this.userRepository = registrationRepository;
     }
     
 	public User findByEmail(String email) {
-		return registrationRepository.findByEmail(email);
+		return userRepository.findByEmail(email);
 	}
 	
 	public User findByConfirmationToken(Object object) {
-		return registrationRepository.findByConfirmationToken(object);
+		return userRepository.findByConfirmationToken(object);
 	}
 	
 	public void saveUser(User user) {
-		registrationRepository.save(user);
+		userRepository.save(user);
 	}
 }

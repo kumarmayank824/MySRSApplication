@@ -96,7 +96,7 @@ body, h1, h2, h3, h4, h5, h6 {
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 				<form:form action="/registerUser" method="post" modelAttribute="user">
 
-					<span class="login100-form-title p-b-30"> Sign up in seconds </span>
+					<span class="login100-form-title p-b-30" style="font-size: 30px;"> Sign up in seconds </span>
 					<c:if test="${confirmationMessage ne null}">
 					        <span "class="alert alert-success">${confirmationMessage}</span>
 				    </c:if>

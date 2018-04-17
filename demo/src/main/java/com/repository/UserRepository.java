@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.domain.User;
 
 @Repository
-public interface RegistrationRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
     User findByConfirmationToken(Object object);
 }

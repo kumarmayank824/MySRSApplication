@@ -1,10 +1,17 @@
 package com.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -13,13 +20,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 @Entity
-@Table(name="user")
-public class User {
+@Table(name="users")
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private int id;
+	@Column(name = "userId")
+	private int userId;
 	
 	@NotBlank
 	private String username;
@@ -36,13 +45,29 @@ public class User {
 	
 	@Column(name = "confirmation_token")
 	private String confirmationToken;
-
-	public int getId() {
-		return id;
+    
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
+    private List<UserRole> userRoles = new ArrayList<UserRole>();
+	
+	public User(){
+			
+	}
+	
+	public User(User user) {
+		this.userId = user.userId;
+		this.username = user.username;
+		this.email = user.email;
+		this.password = user.password;
+		this.enabled = user.enabled;
+		this.confirmationToken = user.confirmationToken;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -85,5 +110,14 @@ public class User {
 		this.confirmationToken = confirmationToken;
 	}
 
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+    
+	
 	
 }

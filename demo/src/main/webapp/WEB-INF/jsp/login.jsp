@@ -10,9 +10,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    
-   <link rel="stylesheet"  href="https://www.w3schools.com/w3css/4/w3.css">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Lato">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Montserrat">
+   <link rel="stylesheet" href="css/w3.css">
    <!-- <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
    
    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
@@ -50,7 +48,7 @@
    <body data-ng-controller="mainController"> 
    
         <!-- Navbar -->
-		<!-- <div class="w3-top">
+		<div class="w3-top">
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
@@ -60,14 +58,14 @@
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
 		  </div>
 		
-		  Navbar on small screens
+		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Upload</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
 		  </div>
-		</div> -->
+		</div>
         
 		<div class="limiter">
 			<div class="container-login100" style="background-color: #f44336;">
@@ -91,13 +89,13 @@
 						</c:if>
 						<div class="wrap-input100 validate-input m-b-15 " data-validate = "Username is reauired">
 							<span class="label-input100">Email</span>
-							<input class="input100" type="text" name="Email" placeholder="Type your email">
+							<input class="input100" type="text" name="email" placeholder="Type your email" required>
 							<span class="focus-input100" data-symbol="&#9993"></span>
 						</div>
 	
 						<div class="wrap-input100 validate-input" data-validate="Password is required">
 							<span class="label-input100">Password</span>
-							<input class="input100" type="password" name="password" placeholder="Type your password">
+							<input class="input100" type="password" name="password" placeholder="Type your password" required>
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						

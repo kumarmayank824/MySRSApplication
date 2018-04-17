@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,6 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.domain.Attachment;
 import com.domain.User;
+import com.domain.UserRole;
 import com.repository.AttachmentRepository;
 import com.services.EmailService;
 import com.services.UserService;
@@ -172,6 +174,12 @@ public class MainController {
 		// Set user to enabled
 		user.setEnabled(true);
 		
+		//Set user role
+		UserRole userRole = new UserRole();
+		userRole.setUser(user);
+		userRole.setRole("ROLE_USER");
+		user.getUserRoles().add(userRole);
+		
 		// Save user
 		userService.saveUser(user);
 		modelAndView.addObject("successMemberMessage", "Congrats you are our memeber now!");
@@ -190,7 +198,8 @@ public class MainController {
 	public String  loadLoginSuccessPage(Model model,HttpServletRequest request,HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
+			User user = (User) auth.getPrincipal();
+			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
 		return "loginSuccess";
 	}
@@ -199,7 +208,8 @@ public class MainController {
 	public String loadUploadPdfPage(Model model,HttpServletRequest request,HttpServletResponse response) {		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
+			User user = (User) auth.getPrincipal();
+			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
 		return "upload";
 	}
@@ -217,10 +227,10 @@ public class MainController {
 			   if (!file.isEmpty()) {
                     
 				    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				    String author = auth.getName(); 
+				    User user = (User) auth.getPrincipal();
 			       
 				    Attachment attachment = new Attachment();
-				    attachment.setAuthor(author);
+				    attachment.setAuthor(user.getUsername());
 	                attachment.setTitle(title);
 	                attachment.setCategory(category);
 	                attachment.setDescription(description);
@@ -273,7 +283,8 @@ public class MainController {
 	public String showUploadDetails(Model model,HttpServletRequest request,HttpServletResponse response) {		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if( null != auth){
-			model.addAttribute("loggedInUser", auth.getName()); 
+			User user = (User) auth.getPrincipal();
+			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
 		return "uploadDetails";
 	}
