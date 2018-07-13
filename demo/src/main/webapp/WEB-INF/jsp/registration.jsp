@@ -11,12 +11,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
 	<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
 	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" href="vendor/animate/animate.css">
 	<link rel="stylesheet" href="vendor/css-hamburgers/hamburgers.min.css">
@@ -25,6 +23,7 @@
 	<link rel="stylesheet" href="vendor/daterangepicker/daterangepicker.css">
 	<link rel="stylesheet" href="css/util.css">
 	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/animsition/js/animsition.min.js"></script>
@@ -39,6 +38,7 @@
 	<script src="js/angular.min.js"></script>
 	<script src="js/mainController.js"></script>
 	<script src="js/mainService.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 	
 	</head>
 	<style>
@@ -88,7 +88,18 @@
 					        <span "class="alert alert-success">${confirmationMessage}</span>
 				    </c:if>
 				    <c:if test="${alreadyRegisteredMessage ne null}">
-					        <span "class="alert alert-success">${alreadyRegisteredMessage}</span>
+				       <script>
+					       $.alert({
+					    	    title: 'Sorry !',
+					    	    icon: 'fas fa-ban',
+					    	    content: 'There is already a user registered with the email provided.Please try with a different email.',
+					    	    type: 'red',
+					    	    boxWidth: '35%',
+					    	    useBootstrap: false,
+					    	    typeAnimated: true
+					    	});
+				       </script>
+					        <%-- <span "class="alert alert-success">${alreadyRegisteredMessage}</span> --%>
 				    </c:if>
 					<div class="wrap-input100 validate-input m-b-23"
 						data-validate="Username is reauired">
@@ -97,7 +108,7 @@
 							placeholder="Type your username" required> <span
 							class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
-					<div class="wrap-input100 validate-input m-b-23"
+					<div class="wrap-input100 validate-input m-b-23" style="margin-bottom: 10px;"
 						data-validate="Email is required">
 						<span class="label-input100">Email Id</span> <input
 							class="input100" type="email" name="email"

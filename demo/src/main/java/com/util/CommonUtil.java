@@ -44,6 +44,30 @@ public class CommonUtil {
 	}
 	
 	
+	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson) throws JSONException, ParseException{
+		
+		List<JSONObject> lst = new ArrayList<JSONObject>();
+		
+		for (Attachment attachment : attachmentLst) {
+			
+			JSONObject json = new JSONObject();
+			json.put("id",attachment.getId());
+			json.put("fileName",attachment.getFileName());
+			json.put("author",attachment.getAuthor());
+			json.put("title",attachment.getTitle());
+			json.put("description",attachment.getDescription());
+			json.put("category",attachment.getCategory());
+			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
+			json.put("uploadedDate",(attachment.getUploadedDate()));
+			
+			lst.add(json);
+		}	
+			
+		returnJson.put("attachmentLst", lst);
+		
+		return returnJson;
+     }
+	
 	public String fileSizeToMb(Long byteSize){
 		
 		long sizeInMB = byteSize / (1024 * 1024);

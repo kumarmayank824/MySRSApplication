@@ -1,0 +1,89 @@
+<div class="panel panel-default">
+  <div class="panel-heading" style="background-color:#f44336;color:white;">{{ attachment.fileName | limitTo: 50 }}{{attachment.fileName.length > 50 ? '&hellip;' : ''}}
+    <div style="float:right;font-size:18px;"> 
+     <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/toAttachmentDownload/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
+     <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/toAttachmentDownload/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
+    </div>
+  </div>
+  <div class="panel-body">
+	    <div class="row">
+	       <div class="col-sm-4"><strong>Author</strong></div>
+	       <div class="col-sm-7">{{attachment.author}}</div>
+	    </div>
+	    
+	    <div class="row">
+	       <div class="col-sm-4"><strong>Category</strong></div>
+	       <div class="col-sm-7">{{attachment.category}}</div>
+	    </div>
+	    
+	    <div class="row">
+	       <div class="col-sm-4"><strong>Size</strong></div>
+	       <div class="col-sm-7">{{attachment.fileSize}}</div>
+	    </div>
+	    
+	    <div class="row">
+	       <div class="col-sm-4"><strong>Uploaded Date</strong></div>
+	       <div class="col-sm-7">{{attachment.uploadedDate}}</div>
+	    </div>
+	    
+	    <!--Model Link Code  -->
+	    <!-- <button href="#myModal{{attachment.id}}" id="openBtn" data-toggle="modal" class="btn btn-default">Modal</button> -->
+	    <a href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" style="text-decoration:none;color:#f44336;font-size:16px" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;More Details</a>
+	    <div class="modal fade" id="myModal{{attachment.id}}">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+			        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i style="color:#f44336" class="fa fa-window-close" aria-hidden="true"></i></button>
+				          <h3 style="color: #f44336;" class="modal-title">More Details</h3>
+			        </div>
+		            <div class="modal-body">
+		            
+		                 <div class="row">
+					       <div class="col-sm-4"><strong>FileName</strong></div>
+					       <div class="col-sm-7">{{attachment.fileName}}</div>
+					     </div>
+					     <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Author</strong></div>
+					       <div class="col-sm-7">{{attachment.author}}</div>
+					     </div>
+					     <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Category</strong></div>
+					       <div class="col-sm-7">{{attachment.category}}</div>
+					     </div>
+					     <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Size</strong></div>
+					       <div class="col-sm-7">{{attachment.fileSize}}</div>
+					     </div>
+					    <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Uploaded Date</strong></div>
+					       <div class="col-sm-7">{{attachment.uploadedDate}}</div>
+					     </div>
+					     <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Title</strong></div>
+					       <div class="col-sm-7" style="word-wrap: break-word;">
+                               <!-- <div class='comments-space' ng-bind-html = "attachment.title | moreOrLessFilter" ></div> -->
+                               {{attachment.title}}
+                           </div>  
+					     </div>
+					     <br>
+					     <div class="row">
+					       <div class="col-sm-4"><strong>Description</strong></div>
+					       <div class="col-sm-7" style="word-wrap: break-word;">
+					          <!-- <div class='comments-space' ng-bind-html = "attachment.description | moreOrLessFilter" ></div> -->
+					          {{attachment.description}}
+					       </div>
+					     </div>
+				    </div>
+			        <div class="modal-footer">
+			         	 <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+			        </div>
+		      </div>
+		  </div>
+	    </div>
+  </div>
+</div>

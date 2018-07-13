@@ -190,7 +190,7 @@ iframe {
   background: white;
   /* border-radius: 10px; */
   overflow: hidden;
- /*  margin-top: 50px; */
+  margin-top: 20px; 
   padding: 35px 30px;
   box-shadow: 1px 0px 10px -2px #060606;
 }
@@ -219,6 +219,7 @@ iframe {
 
 .wrap-input100 {
   width: 100%;
+  margin-bottom: 5px;
   position: relative;
   border-bottom: 2px solid #d9d9d9;
 }

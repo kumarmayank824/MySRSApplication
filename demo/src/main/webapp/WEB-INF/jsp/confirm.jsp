@@ -11,9 +11,6 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    
    <link rel="stylesheet"  href="https://www.w3schools.com/w3css/4/w3.css">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Lato">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Montserrat">
-   <!-- <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
    
    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
@@ -40,12 +37,14 @@
    <script src="js/angular.min.js" ></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.3.0/zxcvbn.js"></script>
    
   </head>
   <style>
 	body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 	.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 	.fa-anchor,.fa-coffee {font-size:200px}
+	.password-progress {margin-top: 10px;margin-bottom: 0;}
    </style>
    <body data-ng-controller="mainController"> 
    
@@ -54,47 +53,49 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Upload</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Download</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
 		  </div>
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Upload</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
 		  </div>
 		</div>
         
 		<div class="limiter">
-			<div class="container-login100" style="background-color: #f44336;">
-				<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+			<div class="container-login100">
+			    <div class="wrap-logo">
+				  <div class="login-upper-div">
+				  	<img class="app-logo" alt="" src="images/logo/logo.png">
+				  	<div class="signin-text">Choose Password</div>
+				  </div>
+				</div>
+				<div class="wrap-login100" style="margin-bottom: 25px;padding: 40px 30px;">
 					<form action="/confirm" method="post">
 					        
-				        <span class="login100-form-title p-b-30">
+				        <!-- <span class="login100-form-title p-b-30">
 						   Set Your Password
-					    </span>
+					    </span> -->
 					    <c:if test="${invalidToken ne null}">
 					        <span style="color:red;margin-left:31%;font-size: 15px;">${invalidToken}</span>
 						</c:if>
 	                   
-						<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
 							<span class="label-input100">Password</span>
-							<input class="input100" type="password" name="password" placeholder="Type your password">
+							<input class="input100" style="height:55px;" type="password" name="password" placeholder="Type your password">
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
-						<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
 							<span class="label-input100">Confirm Password</span>
-							<input class="input100" type="password" name="confirmPassword" placeholder="Type your confirm password">
+							<input class="input100" style="height:55px;" type="password" name="confirmPassword" placeholder="Type your confirm password">
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 												
 						<div class="container-login100-form-btn">
-							<div class="wrap-login100-form-btn">
+							<div class="wrap-login100-form-btn" style="margin: 5px auto;">
 								<div class="login100-form-bgbtn"></div>
 								<button type="submit" class="login100-form-btn">
 									Save
@@ -112,17 +113,21 @@
 			</div>
 		</div>
 		
-		<!-- Footer -->
-		<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
-		  <div class="w3-xlarge w3-padding-32">
+		<footer class="w3-container w3-center">  
+		  <!-- <div class="w3-xlarge " style="    color: white;">
 		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
 		    <i class="fa fa-instagram w3-hover-opacity"></i>
 		    <i class="fa fa-snapchat w3-hover-opacity"></i>
 		    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
 		    <i class="fa fa-twitter w3-hover-opacity"></i>
 		    <i class="fa fa-linkedin w3-hover-opacity"></i>
+		    <ul class="list-inline" style="font-size:16px ">
+		    	<li>&copy; abc</li>
+		    	<li>&copy; abc</li>
+		    </ul>
 		 </div>
-		 <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+		 <p style="color:white">&copy; abc</p> -->
+		 <p> &copy;2018 MyApplication </p>
 		</footer>
 		
    </body> 

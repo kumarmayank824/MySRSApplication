@@ -201,7 +201,7 @@ public class MainController {
 			User user = (User) auth.getPrincipal();
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
-		return "uploadDetails";
+		return "uploadDetailNew";
 	}
 	
 	@RequestMapping(value="/to-upload-pdf-page", method = RequestMethod.GET) 
@@ -220,7 +220,7 @@ public class MainController {
 			@RequestParam("title") String title,@RequestParam("category") String category,
 			@RequestParam("description") String description){
 		
-		String returnString = "uploadDetails";
+		String returnString = "uploadDetailNew";
 		
 		try {
 			   
@@ -286,10 +286,10 @@ public class MainController {
 			User user = (User) auth.getPrincipal();
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
-		return "uploadDetails";
+		return "uploadDetailNew";
 	}
 	
-	@RequestMapping(value="/to-apiAttachment", method = RequestMethod.GET) 
+	/*@RequestMapping(value="/to-apiAttachment", method = RequestMethod.GET) 
 	public void getAllAttachmentDetail(HttpServletResponse response) {		
 		
 		JSONObject returnJson = null;
@@ -314,7 +314,65 @@ public class MainController {
 			e.printStackTrace();
 		}
 		
+	}*/
+	
+	
+	//Added for pagination With Server Call Each Time On Each Click
+	/*@RequestMapping(value="/to-apiAttachment/{itemsPerPage}/{pagenumber}", method = RequestMethod.GET) 
+	public void getAllAttachmentDetail(@PathVariable("itemsPerPage") Integer itemsPerPage,
+		      @PathVariable("pagenumber") Integer pagenumber,HttpServletResponse response) {		
+		
+		JSONObject returnJson = null;
+		
+		try {
+			Integer offset = (pagenumber-1)*itemsPerPage;
+			List<Attachment> attachmentLst = attachmentRepository.findAll(offset,itemsPerPage);
+			if( null != attachmentLst){
+				returnJson = new JSONObject();
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson);
+				returnJson.put("totalCount", attachmentRepository.count());
+			}
+			response.getWriter().write(returnJson.toString());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}*/
+	
+	@RequestMapping(value="/to-apiAttachment", method = RequestMethod.GET) 
+	public void getAllAttachmentDetail(HttpServletResponse response) {		
+		
+		JSONObject returnJson = null;
+		
+		try {
+			List<Attachment> attachmentLst = attachmentRepository.findAll();
+			if( null != attachmentLst){
+				returnJson = new JSONObject();
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson);
+			}
+			response.getWriter().write(returnJson.toString());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
+	
 	
 	@RequestMapping(value="/toAttachmentDownload/{type}/{attachmentId}", method = RequestMethod.GET) 
 	public @ResponseBody void downloadAttachment(@PathVariable("attachmentId") Long attachmentId,
