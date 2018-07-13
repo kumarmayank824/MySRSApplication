@@ -14,9 +14,13 @@
 		<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
 		<link href="css/fileDragAndDrop.css" rel="stylesheet"/>
+		<link href="css/pdf-viewer/pdf.css" rel="stylesheet"/>
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 		<script src="vendor/bootstrap/js/popper.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/pdf-viewer/pdf.js"></script>
+		<script src="js/pdf-viewer/pdf.worker.js"></script>
+		<script src="js/pdf-viewer/pdf-script.js"></script>
 		<script src="js/angular.min.js" ></script>
 		<script src="js/uploadController.js" ></script>
 		<script src="js/uploadService.js" ></script> 
@@ -126,8 +130,8 @@
 		</header>
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-padding-64 w3-container" style="padding-top:20px!important;">
-		  <div class="w3-content">
+		<div class="w3-row-padding w3-container" style="padding-top:20px!important;padding-right: 200px;">
+		  <div class="w3-content" style="max-width:1020px!important;">
 		    <div class="w3-twothird">
 		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
 		        <form action="/tofileUpload" method="post" enctype="multipart/form-data">
@@ -161,7 +165,7 @@
 		                    <div class="form-group files">
 				                <label for="name">
 				                    Upload Your Work (only .pdf documents are allowed) : </label>
-				                <input type="file" name="myfile" class="form-control" multiple="" accept="application/pdf,application/msword">
+				                <input type="file" id="file-to-upload" name="myfile" class="form-control" multiple="" accept="application/pdf,application/msword">
 			              </div>
 		                 </div>
 		            </div>
@@ -175,13 +179,34 @@
 	           </form>  
 			</div>
 		    <div class="w3-third w3-center">
-		      <i class="fa fa-upload w3-padding-64 w3-text-red" style="margin-top: 50%;"></i>
+		      <!-- <i class="fa fa-upload w3-padding-64 w3-text-red" style="margin-top: 50%;"></i> -->
+		      
+		      <!-- <button id="upload-button">Select PDF</button> 
+			  <input type="file" id="file-to-upload" accept="application/pdf" /> -->
+			
+				  <div id="pdf-main-container">
+					    <div id="pdf-loader">Loading document ...</div>
+					    <div id="pdf-contents">
+					        <div id="pdf-meta">
+					            <!-- <div id="pdf-buttons">
+					                <button id="pdf-prev">Previous</button>
+					                <button id="pdf-next">Next</button>
+					            </div> -->
+					            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+					        </div>
+					        
+					        <canvas id="pdf-canvas" width="400"></canvas>
+					        <div id="page-loader">Loading page ...</div>
+					    </div>
+				 </div>
+		      
 		    </div>
 		  </div>
 		</div>
 		
 		<!-- Footer -->
-		<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+		<!-- <footer class="w3-container w3-padding-64 w3-center w3-opacity">   -->
+		<footer class="w3-container w3-center w3-opacity">
 		  <!-- <div class="w3-xlarge w3-padding-32">
 		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
 		    <i class="fa fa-instagram w3-hover-opacity"></i>
