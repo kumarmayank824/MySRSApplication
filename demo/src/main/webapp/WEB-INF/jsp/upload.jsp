@@ -130,8 +130,8 @@
 		</header>
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-container" style="padding-top:20px!important;padding-right: 200px;">
-		  <div class="w3-content" style="max-width:1020px!important;">
+		<div class="w3-row-padding w3-container" style="padding-top:40px!important;padding-right: 200px;">
+		  <div class="w3-content">
 		    <div class="w3-twothird">
 		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
 		        <form action="/tofileUpload" method="post" enctype="multipart/form-data">
@@ -183,23 +183,23 @@
 		      
 		      <!-- <button id="upload-button">Select PDF</button> 
 			  <input type="file" id="file-to-upload" accept="application/pdf" /> -->
-			
-				  <div id="pdf-main-container">
-					    <div id="pdf-loader">Loading document ...</div>
-					    <div id="pdf-contents">
-					        <div id="pdf-meta">
-					            <!-- <div id="pdf-buttons">
-					                <button id="pdf-prev">Previous</button>
-					                <button id="pdf-next">Next</button>
-					            </div> -->
-					            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
-					        </div>
-					        
-					        <canvas id="pdf-canvas" width="400"></canvas>
-					        <div id="page-loader">Loading page ...</div>
-					    </div>
-				 </div>
-		      
+					  <div id="pdf-main-container">
+						    <div id="pdf-loader">Loading document ...</div>
+						    <div id="nopreview"><img alt="" src="images/No_image_available.jpg"></div>
+						    <div id="pdf-contents">
+						        <div id="pdf-meta">
+						            <!-- <div id="pdf-buttons">
+						                <button id="pdf-prev">Previous</button>
+						                <button id="pdf-next">Next</button>
+						            </div> -->
+						            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+						        </div>
+						        
+					            <canvas id="pdf-canvas" width="400" height="500"></canvas>
+						        
+						        <div id="page-loader">Loading page ...</div>
+						    </div>
+					 </div>
 		    </div>
 		  </div>
 		</div>

@@ -5,8 +5,8 @@
 }
 
 #pdf-main-container {
-	width: 400px;
-	margin: 25px auto;
+	/* width: 400px;
+	margin: 25px auto; */
     padding-left: 60px;
 }
 
@@ -34,7 +34,7 @@
 
 #pdf-meta {
 	overflow: hidden;
-	margin: 0 0 20px 0;
+	margin: 0 0 -25px 25px;
 }
 
 #pdf-buttons {
@@ -54,9 +54,12 @@
 }
 
 #pdf-canvas {
-	border: 1px solid rgba(0,0,0,0.2);
+	/* border: 1px solid rgba(0,0,0,0.2); */
+	outline: 1px dashed #f44336;
 	box-sizing: border-box;
-	height:500px;
+	height: 600px;
+    width: 500px;
+    padding-top: 22px;
 }
 
 #page-loader {
@@ -66,4 +69,8 @@
 	display: none;
 	color: #999999;
 	font-size: 13px;
+}
+
+#nopreview{
+    padding: 100px;
 }

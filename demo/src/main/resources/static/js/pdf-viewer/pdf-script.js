@@ -12,12 +12,13 @@ $( document ).ready(function() {
 	    // Show the pdf loader
 	    $("#pdf-loader").show();
 	
-	    PDFJS.getDocument({ url: pdf_url }).then(function(pdf_doc) {
+	    pdfjsLib.getDocument({ url: pdf_url }).then(function(pdf_doc) {
 	        __PDF_DOC = pdf_doc;
 	        __TOTAL_PAGES = __PDF_DOC.numPages;
 	        
 	        // Hide the pdf loader and show pdf container in HTML
 	        $("#pdf-loader").hide();
+	        $("#nopreview").hide();
 	        $("#pdf-contents").show();
 	        $("#pdf-total-pages").text(__TOTAL_PAGES);
 	
@@ -49,13 +50,15 @@ $( document ).ready(function() {
 	    // Fetch the page
 	    __PDF_DOC.getPage(page_no).then(function(page) {
 	        // As the canvas is of a fixed width we need to set the scale of the viewport accordingly
-	        var scale_required = __CANVAS.width / page.getViewport(1).width;
-	
+	        //var scale_required = __CANVAS.width / page.getViewport(1).width;
+	        var scale_required = 1;
+	    	
 	        // Get viewport of the page at required scale
 	        var viewport = page.getViewport(scale_required);
 	
 	        // Set canvas height
 	        __CANVAS.height = viewport.height;
+	        __CANVAS.width = viewport.width;
 	
 	        var renderContext = {
 	            canvasContext: __CANVAS_CTX,
@@ -72,6 +75,7 @@ $( document ).ready(function() {
 	            // Show the canvas and hide the page loader
 	            $("#pdf-canvas").show();
 	            $("#page-loader").hide();
+	            $("#nopreview").hide();
 	        });
 	    });
 	}
