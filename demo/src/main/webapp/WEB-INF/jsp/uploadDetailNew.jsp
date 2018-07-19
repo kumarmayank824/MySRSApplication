@@ -15,6 +15,7 @@
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"> 
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
+		<link rel="stylesheet" href="css/ratings.css">
 		
 		<script src="js/angular.min.js"></script>
 		<script src="js/table/jquery-2.2.4.min.js"></script>

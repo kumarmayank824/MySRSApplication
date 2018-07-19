@@ -31,7 +31,13 @@
 		uploadDetailService.getAttachmentLst(function(result){
 	        $scope.attachmentLst = result.attachmentLst; 
 		});
-	   	
+		
+		$scope.user = {rating:1,comment:""}; 
+	    $scope.saveRatings = function(){
+		   alert($scope.user.rating);
+		   alert($scope.user.comment);
+	    }
+	    
 	}]);
 	
 	uploadDetailApp.directive('attachmentDetails', function(){
@@ -40,22 +46,43 @@
 		}
 	});
 	
-	/*uploadDetailApp.filter('moreOrLessFilter', function () {
-		  return function (item) {
-			  
-			  var newStr = '';
-			  if(item.length > 40){
-				  for (var i = 0; i < item.length; i++) {
-			    	  if(i != 0 && i%40 == 0){
-			    		 newStr += item.charAt(i) + '<br>'; 
-			    	  }else{
-			    		  newStr += item.charAt(i); 
-			    	  }
-			      }  
-			  }
-			  return newStr;
-		  }	  
-	});*/
+	
+	uploadDetailApp.directive("starRating", function() {
+		  
+		return {
+			    restrict : "EA",
+			    template : "<ul class='rating' ng-class='{readonly: readonly}'>" +
+			               "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle($index)'>" +
+			               "    <i class='fa fa-star'></i>" + //&#9733
+			               "  </li>" +
+			               "</ul>",
+			    scope : {
+				      ratingValue : "=ngModel",
+				      max : "=?", //optional: default is 5
+				      onRatingSelected : "&?",
+				      readonly: "=?"
+			    },
+			    link : function(scope, elem, attrs) {
+				      if (scope.max == undefined) { scope.max = 5; }
+				      function updateStars() {
+				        scope.stars = [];
+				        for (var i = 0; i < scope.max; i++) {
+				          scope.stars.push({
+				            filled : (i < scope.ratingValue.rating)
+				          });
+				        }
+				      };
+				      scope.toggle = function(index) {
+				        if (scope.readonly == undefined || scope.readonly == false){
+				          scope.ratingValue.rating = index + 1;
+				        }
+				      };
+				      scope.$watch("ratingValue.rating", function(oldVal, newVal) {
+				        if (newVal) { updateStars(); }
+				      });
+		         }
+		  };  
+	});
 	
 })();
 
