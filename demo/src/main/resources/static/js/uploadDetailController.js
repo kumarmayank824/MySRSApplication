@@ -32,10 +32,20 @@
 	        $scope.attachmentLst = result.attachmentLst; 
 		});
 		
-		$scope.user = {rating:1,comment:""}; 
-	    $scope.saveRatings = function(){
-		   alert($scope.user.rating);
-		   alert($scope.user.comment);
+		$scope.user = {rating:1}; 
+		
+		$scope.saveRatings = function(attachmentId){
+		   var csrf_token = $('input[name="_csrf"]').attr('value');
+	       var rating = $('#rating'+attachmentId).text();
+	       var comment = $('#comment'+attachmentId).val();
+	       uploadDetailService.saveRatingAndComment(csrf_token,attachmentId,rating,comment,function(result){
+		        if(!result.showRatingLink){
+		        	$scope.user = {rating:1};
+		        	$('#ratingModalBtn'+attachmentId).click(function () {return false;});
+		        	$('#ratingModalBtn'+attachmentId).removeAttr("href");
+		        } 
+		   });
+		  
 	    }
 	    
 	}]);

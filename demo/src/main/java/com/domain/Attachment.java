@@ -52,7 +52,6 @@ public class Attachment {
     @NotBlank
 	private String contentType;
 	
-
 	public Long getId() {
 		return id;
 	}

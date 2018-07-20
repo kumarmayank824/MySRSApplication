@@ -92,12 +92,51 @@
 	    </div>
 	    
 	    <div class="row">
+	       <div class="col-sm-6">
+	            <!--Previous Rating Model Link Code -->
+			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
+			    <a href="#previousRatingModal{{attachment.id}}" data-toggle="modal"  id="previousRatingModal" style="text-decoration:none;color:#4f6a82;font-size:16px" title="Click To See What Others Think About This ">&nbsp;Reviews Trends</a>
+			    <!-- Modal -->
+				<div class="modal fade" id="previousRatingModal{{attachment.id}}" role="dialog">
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				            <!-- Modal Header -->
+				            <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i style="color:#f44336" class="fa fa-window-close" aria-hidden="true"></i></button>
+						          <h3 style="color: #f44336;" class="modal-title">Reviews</h3>
+					        </div>
+				            
+				            <!-- Modal Body -->
+				            <div class="modal-body">
+				                <p class="statusMsg"></p>
+				               <!--  <form role="form">
+				                    <div class="form-group">
+				                        Select Rating <star-rating ng-model="user"></star-rating><br/><br/>
+				                        <div id="rating{{attachment.id}}" style="display:none">{{user.rating}}</div>
+				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment"></textarea>
+				                    </div>
+				                </form> -->
+				            </div>
+				            
+				            <!-- Modal Footer -->
+				            <div class="modal-footer">
+				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">SUBMIT</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				<!--Previous Rating Model Link Code Ends -->
+	      	 </div>
+	    </div>
+	    
+	    
+	    <div class="row">
 	       <div class="col-sm-4">
 	            <!--Rating Model Link Code -->
 			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
-			    <a href="#ratingModal{{attachment.id}}" data-toggle="modal" id="ratingModalBtn" style="text-decoration:none;color:#fd0;font-size:16px" title="Click Here to rate this effort "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>&nbsp;<strong>Rate it</strong></a>
+			    <a href="#ratingModal{{attachment.id}}" data-toggle="modal"  id="ratingModalBtn{{attachment.id}}" style="text-decoration:none;color:#fd0;font-size:16px" title="Click Here To Rate This Effort "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>&nbsp;Rate it</a>
 			    <!-- Modal -->
-			    <input type="hidden" name="" value="{{attachment.id}}" />
 				<div class="modal fade" id="ratingModal{{attachment.id}}" role="dialog">
 				    <div class="modal-dialog">
 				        <div class="modal-content">
@@ -113,7 +152,8 @@
 				                <form role="form">
 				                    <div class="form-group">
 				                        Select Rating <star-rating ng-model="user"></star-rating><br/><br/>
-				                        <textarea style="line-height: 40px!important;" class="form-control" ng-model="user.comment" placeholder="Enter your comment"></textarea>
+				                        <div id="rating{{attachment.id}}" style="display:none">{{user.rating}}</div>
+				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment"></textarea>
 				                    </div>
 				                </form>
 				            </div>
@@ -121,7 +161,7 @@
 				            <!-- Modal Footer -->
 				            <div class="modal-footer">
 				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
-				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal" ng-click="saveRatings()">SUBMIT</button>
+				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal" ng-click="saveRatings(attachment.id)">SUBMIT</button>
 				            </div>
 				        </div>
 				    </div>
@@ -129,6 +169,8 @@
 				<!--Rating Model Link Code Ends -->
 	      	 </div>
 	    </div>   
+	    
+	    
 	    
   </div>
 </div>

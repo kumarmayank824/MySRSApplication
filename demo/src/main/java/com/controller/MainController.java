@@ -41,9 +41,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.domain.Attachment;
+import com.domain.Rating;
 import com.domain.User;
 import com.domain.UserRole;
 import com.repository.AttachmentRepository;
+import com.repository.RatingRepository;
 import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -54,6 +56,9 @@ public class MainController {
 	
 	@Autowired
     AttachmentRepository attachmentRepository;
+	
+	@Autowired
+	RatingRepository ratingRepository;
 	
 	@Autowired
 	CommonUtil commonUtil;
@@ -422,6 +427,38 @@ public class MainController {
 	    }
 	         
 	}	
+	
+	@RequestMapping(value="/to-saveRatingAndComment", method = RequestMethod.POST) 
+	public void saveRatingAndComment(@RequestParam("attachmentId") Long attachmentId ,@RequestParam("rating") Long rating,
+			@RequestParam("comment") String comment,HttpServletResponse response) {		
+		
+		JSONObject returnJson = null;
+		
+		try {
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    User user = (User) auth.getPrincipal();
+		    
+			Rating ratingObj = new Rating();
+			ratingObj.setAttachmentId(attachmentId);
+			ratingObj.setAuthor(user.getUsername());
+			ratingObj.setComment(comment);
+			ratingObj.setRating(rating);
+			ratingRepository.save(ratingObj);
+			returnJson = new JSONObject();
+			returnJson.put("showRatingLink",false);
+			response.getWriter().write(returnJson.toString());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	@RequestMapping(value="/tologout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
