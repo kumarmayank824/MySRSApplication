@@ -192,7 +192,7 @@
 						                <button id="pdf-prev">Previous</button>
 						                <button id="pdf-next">Next</button>
 						            </div> -->
-						            <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+						            <!-- <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div> -->
 						        </div>
 						        
 					            <canvas id="pdf-canvas" width="400" height="500"></canvas>

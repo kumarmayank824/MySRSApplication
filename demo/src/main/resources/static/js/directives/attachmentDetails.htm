@@ -23,7 +23,7 @@
 	    
 	    <div class="row">
 	       <div class="col-sm-4"><strong>Uploaded Date</strong></div>
-	       <div class="col-sm-7">{{attachment.uploadedDate}}</div>
+	       <div class="col-sm-7">{{attachment.uploadedDate | asDate | date:'MMM d, y h:mm a'}}</div>
 	    </div>
 	    
 	    <!--Model Link Code  -->
@@ -62,7 +62,7 @@
 							    <br>
 							     <div class="row">
 							       <div class="col-sm-4"><strong>Uploaded Date</strong></div>
-							       <div class="col-sm-7">{{attachment.uploadedDate}}</div>
+							       <div class="col-sm-7">{{attachment.uploadedDate | asDate | date:'MMM d, y h:mm a'}}</div>
 							     </div>
 							     <br>
 							     <div class="row">
@@ -153,7 +153,7 @@
 				                    <div class="form-group">
 				                        Select Rating <star-rating ng-model="user"></star-rating><br/><br/>
 				                        <div id="rating{{attachment.id}}" style="display:none">{{user.rating}}</div>
-				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment"></textarea>
+				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment" maxlength="500" required></textarea>
 				                    </div>
 				                </form>
 				            </div>
@@ -169,8 +169,5 @@
 				<!--Rating Model Link Code Ends -->
 	      	 </div>
 	    </div>   
-	    
-	    
-	    
   </div>
 </div>

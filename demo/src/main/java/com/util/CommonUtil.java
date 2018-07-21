@@ -61,14 +61,14 @@ public class CommonUtil {
 			json.put("description",attachment.getDescription());
 			json.put("category",attachment.getCategory());
 			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
-			json.put("uploadedDate",(attachment.getUploadedDate()));
+			json.put("uploadedDate",dateFormatter(attachment.getUploadedDate()));
 			List<Rating> ratingLst = ratingRepository.findRatingByAttachmentId(attachment.getId());
 			if(null != ratingLst && !ratingLst.isEmpty()){
 				json.put("ratingExists",true);
 				for (Rating rating : ratingLst) {
 					JSONObject ratingJson = new JSONObject();
 					ratingJson.put("authorName",rating.getAuthor());
-					ratingJson.put("commentTime",rating.getCommentTime());
+					ratingJson.put("commentTime",dateFormatter(rating.getCommentTime()));
 					ratingJson.put("comment",rating.getComment());
 					ratingJson.put("rating",rating.getRating());
 					ratinglst.add(ratingJson);
@@ -98,7 +98,6 @@ public class CommonUtil {
 	public String dateFormatter(Date dbDate) throws ParseException{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date fechaNueva = format.parse(dbDate.toString());
-		System.out.println(format.format(fechaNueva));
 		return format.format(fechaNueva);
 	}
 	

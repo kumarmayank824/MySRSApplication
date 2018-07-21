@@ -1,6 +1,6 @@
 (function(){
 
-	var uploadDetailApp = angular.module("uploadDetailApp",['angularUtils.directives.dirPagination','ionic-letter-avatar']);  
+	var uploadDetailApp = angular.module("uploadDetailApp",['ionic-letter-avatar','angularUtils.directives.dirPagination']);  
 	
 	
 	uploadDetailApp.controller('uploadDetailController',['$scope', 'uploadDetailService',function ($scope,uploadDetailService) {
@@ -67,7 +67,7 @@
 		return {
 			    restrict : "EA",
 			    template : "<ul class='rating' ng-class='{readonly: readonly}'>" +
-			               "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle($index)'>" +
+			               "  <li style='font-size: 20px;text-shadow: .05em .05em #aaa;' ng-repeat='star in stars' ng-class='star' ng-click='toggle($index)'>" +
 			               "    <i class='fa fa-star'></i>" + //&#9733
 			               "  </li>" +
 			               "</ul>",
@@ -107,6 +107,23 @@
 		    return input;
 		  };
 	});
+	
+	uploadDetailApp.filter("asDate", function () {
+	    return function (input) {
+	        return new Date(input);
+	    }
+	});
+	
+	uploadDetailApp.filter('camelCase', function (){
+        var camelCaseFilter = function ( input ){
+            var words = input.split( ' ' );
+            for ( var i = 0, len = words.length; i < len; i++ )
+                words[i] = words[i].charAt( 0 ).toUpperCase() + words[i].slice( 1 );
+            return words.join( ' ' );
+        };
+        return camelCaseFilter;
+    });
+
 	
 })();
 

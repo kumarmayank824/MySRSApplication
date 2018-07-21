@@ -9,7 +9,7 @@
 		   </ion-item> 
 	 </div>
   </ion-content>
-  {{rating.authorName|uppercase}}, {{rating.commentTime}}</div>
+  <strong>{{rating.authorName|camelCase}}</strong><i> commented on <b>{{rating.commentTime | asDate | date:'MMM d, y'}}</b> at <b>{{rating.commentTime | asDate | date:'h:mm a'}}</b></i></div>
 </div>
 
 <div class="row" style="padding-left:40px;">
@@ -19,8 +19,8 @@
 <div class="row">  
   <div class="col-sm-4">
      <ul style="padding-left:37px;">
-        <li ng-repeat="n in [] | range:5"><i ng-if="($index+1)<=rating.rating" class="fa fa-star" style="color:#fd0;"></i>
-        <i ng-if="($index+1)>rating.rating" class="fa fa-star-o" style="color:#ddd;"></i></li>
+        <li ng-repeat="n in [] | range:5"><i ng-if="($index+1)<=rating.rating" class="fa fa-star" style="color:#fd0;font-size:17px;"></i>
+        <i ng-if="($index+1)>rating.rating" class="fa fa-star-o" style="color:#ddd;font-size:17px;"></i></li>
      </ul>
   </div>
 </div>

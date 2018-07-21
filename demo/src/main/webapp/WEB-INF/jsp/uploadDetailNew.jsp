@@ -12,8 +12,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/w3.css">
 	    <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"> 
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
+		<link href="css/bootstrap-glyphicons-3.0.0.css" rel="stylesheet"> 
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
 		<link rel="stylesheet" href="css/ratings.css">
       
@@ -23,11 +23,11 @@
 		<script src="js/table/bootbox.min.js"></script>
 		<script src="js/table/jquery-ui.js"></script>
 		<script src="js/table/datatables-bs-3.3.6.min.js"></script>
-		<script src="js/dirPagination-0.11.1.min.js"></script>
 		<script src="js/uploadDetailController.js"></script>
 		<script src="js/uploadDetailService.js"></script>
 		<script src="js/preview.js"></script>
 		<script src="js/avatar/ionic-letter-avatar.js"></script>
+		<script src="js/dirPagination-0.11.1.min.js"></script>
 		
 		
 	</head>
