@@ -361,7 +361,7 @@ public class MainController {
 			List<Attachment> attachmentLst = attachmentRepository.findAll();
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
-				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson);
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,ratingRepository);
 			}
 			response.getWriter().write(returnJson.toString());
 			

@@ -1,6 +1,6 @@
 (function(){
 
-	var uploadDetailApp = angular.module("uploadDetailApp",['angularUtils.directives.dirPagination']);  
+	var uploadDetailApp = angular.module("uploadDetailApp",['angularUtils.directives.dirPagination','ionic-letter-avatar']);  
 	
 	
 	uploadDetailApp.controller('uploadDetailController',['$scope', 'uploadDetailService',function ($scope,uploadDetailService) {
@@ -29,7 +29,7 @@
 	   */
 	    
 		uploadDetailService.getAttachmentLst(function(result){
-	        $scope.attachmentLst = result.attachmentLst; 
+	        $scope.attachmentLst = result.attachmentLst;
 		});
 		
 		$scope.user = {rating:1}; 
@@ -56,6 +56,11 @@
 		}
 	});
 	
+	uploadDetailApp.directive('ratingDetails', function(){
+		return { 
+			templateUrl : 'js/directives/ratingDetails.htm'
+		}
+	});
 	
 	uploadDetailApp.directive("starRating", function() {
 		  
@@ -92,6 +97,15 @@
 				      });
 		         }
 		  };  
+	});
+	
+	uploadDetailApp.filter('range', function() {
+		  return function(input, total) {
+		    total = parseInt(total);
+		    for (var i=0; i<total; i++)
+		      input.push(i);
+		    return input;
+		  };
 	});
 	
 })();

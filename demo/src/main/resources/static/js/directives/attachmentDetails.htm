@@ -107,21 +107,21 @@
 					        </div>
 				            
 				            <!-- Modal Body -->
-				            <div class="modal-body">
+				            <div class="modal-body" ng-if="!attachment.ratingExists" >
 				                <p class="statusMsg"></p>
-				               <!--  <form role="form">
-				                    <div class="form-group">
-				                        Select Rating <star-rating ng-model="user"></star-rating><br/><br/>
-				                        <div id="rating{{attachment.id}}" style="display:none">{{user.rating}}</div>
-				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment"></textarea>
-				                    </div>
-				                </form> -->
+				                No Review Available
+				            </div>
+				            
+				            <div class="modal-body" ng-if="attachment.ratingExists" >
+				                <p class="statusMsg"></p>
+				                <div ng-repeat="rating in attachment.ratinglst"> 
+							         <div rating-details></div>
+							    </div> 
 				            </div>
 				            
 				            <!-- Modal Footer -->
 				            <div class="modal-footer">
 				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
-				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">SUBMIT</button>
 				            </div>
 				        </div>
 				    </div>

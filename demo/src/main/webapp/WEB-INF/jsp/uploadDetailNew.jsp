@@ -16,7 +16,7 @@
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
 		<link rel="stylesheet" href="css/ratings.css">
-		
+      
 		<script src="js/angular.min.js"></script>
 		<script src="js/table/jquery-2.2.4.min.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -27,6 +27,7 @@
 		<script src="js/uploadDetailController.js"></script>
 		<script src="js/uploadDetailService.js"></script>
 		<script src="js/preview.js"></script>
+		<script src="js/avatar/ionic-letter-avatar.js"></script>
 		
 		
 	</head>

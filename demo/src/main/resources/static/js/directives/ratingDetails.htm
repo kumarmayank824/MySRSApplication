@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-sm-7">
+  <ion-content>
+	 <div class="list">
+		   <ion-item>
+			  <div style="float:left;padding-right: 10px;">
+				 <ionic-letter-avatar data="{{rating.authorName}}" shape="round" charcount="2"></ionic-letter-avatar>
+			  </div>
+		   </ion-item> 
+	 </div>
+  </ion-content>
+  {{rating.authorName|uppercase}}, {{rating.commentTime}}</div>
+</div>
+
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11" style="word-wrap: break-word;">{{rating.comment}}</div>
+</div>
+
+<div class="row">  
+  <div class="col-sm-4">
+     <ul style="padding-left:37px;">
+        <li ng-repeat="n in [] | range:5"><i ng-if="($index+1)<=rating.rating" class="fa fa-star" style="color:#fd0;"></i>
+        <i ng-if="($index+1)>rating.rating" class="fa fa-star-o" style="color:#ddd;"></i></li>
+     </ul>
+  </div>
+</div>
+<br>

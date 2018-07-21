@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.domain.Attachment;
+import com.domain.Rating;
+import com.repository.RatingRepository;
 
 @Component
 public class CommonUtil {
@@ -44,9 +46,10 @@ public class CommonUtil {
 	}
 	
 	
-	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson) throws JSONException, ParseException{
+	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson, RatingRepository ratingRepository) throws JSONException, ParseException{
 		
 		List<JSONObject> lst = new ArrayList<JSONObject>();
+		List<JSONObject> ratinglst = new ArrayList<JSONObject>();
 		
 		for (Attachment attachment : attachmentLst) {
 			
@@ -59,7 +62,21 @@ public class CommonUtil {
 			json.put("category",attachment.getCategory());
 			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
 			json.put("uploadedDate",(attachment.getUploadedDate()));
-			
+			List<Rating> ratingLst = ratingRepository.findRatingByAttachmentId(attachment.getId());
+			if(null != ratingLst && !ratingLst.isEmpty()){
+				json.put("ratingExists",true);
+				for (Rating rating : ratingLst) {
+					JSONObject ratingJson = new JSONObject();
+					ratingJson.put("authorName",rating.getAuthor());
+					ratingJson.put("commentTime",rating.getCommentTime());
+					ratingJson.put("comment",rating.getComment());
+					ratingJson.put("rating",rating.getRating());
+					ratinglst.add(ratingJson);
+				}
+				json.put("ratinglst",ratinglst);
+			}else{
+				json.put("ratingExists",false);
+			}
 			lst.add(json);
 		}	
 			
