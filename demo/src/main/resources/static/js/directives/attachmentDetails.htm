@@ -1,6 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading" style="background-color:#f44336;color:white;">{{ attachment.fileName | limitTo: 50 }}{{attachment.fileName.length > 50 ? '&hellip;' : ''}}
     <div style="float:right;font-size:18px;"> 
+     <a style="text-decoration:none;color:white;" href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i></a>&nbsp;
      <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/toAttachmentDownload/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
      <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/toAttachmentDownload/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
     </div>
@@ -28,9 +29,9 @@
 	    
 	    <!--Model Link Code  -->
 	    <!-- <button href="#myModal{{attachment.id}}" id="openBtn" data-toggle="modal" class="btn btn-default">Modal</button> -->
-	    <div class="row">
-	       <div class="col-sm-6">
-	           <a href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" style="text-decoration:none;color:#f44336;font-size:16px" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;More Details</a>
+	    <!-- <div class="row">
+	       <div class="col-sm-6"> -->
+	          <!--  <a href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" style="text-decoration:none;color:#f44336;font-size:16px" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;More Details</a> -->
 			   <div class="modal fade" id="myModal{{attachment.id}}">
 				   <div class="modal-dialog">
 				      <div class="modal-content">
@@ -68,7 +69,6 @@
 							     <div class="row">
 							       <div class="col-sm-4"><strong>Title</strong></div>
 							       <div class="col-sm-7" style="word-wrap: break-word;">
-		                               <!-- <div class='comments-space' ng-bind-html = "attachment.title | moreOrLessFilter" ></div> -->
 		                               {{attachment.title}}
 		                           </div>  
 							     </div>
@@ -76,7 +76,6 @@
 							     <div class="row">
 							       <div class="col-sm-4"><strong>Description</strong></div>
 							       <div class="col-sm-7" style="word-wrap: break-word;">
-							          <!-- <div class='comments-space' ng-bind-html = "attachment.description | moreOrLessFilter" ></div> -->
 							          {{attachment.description}}
 							       </div>
 							     </div>
@@ -87,15 +86,25 @@
 				      </div>
 				  </div>
 			    </div>
-			    <!--Model Link Code Ends -->
-	       </div>
-	    </div>
+			    <!-- Model Link Code Ends -->
+	       <!-- </div>
+	    </div> -->
 	    
+	    <br/>
 	    <div class="row">
-	       <div class="col-sm-6">
+	       <div class="col-sm-5">
+	            <ion-content>
+					 <div class="list">
+						   <ion-item>
+							  <div style="float:left;margin-top: -6px;">
+								 <ionic-letter-avatar data="{{attachment.averageRating}}" shape="round" charcount="3"></ionic-letter-avatar>
+							  </div>
+						   </ion-item> 
+					 </div>
+			    </ion-content>
 	            <!--Previous Rating Model Link Code -->
 			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
-			    <a href="#previousRatingModal{{attachment.id}}" data-toggle="modal"  id="previousRatingModal" style="text-decoration:none;color:#4f6a82;font-size:16px" title="Click To See What Others Think About This ">&nbsp;Reviews Trends</a>
+			    <a href="#previousRatingModal{{attachment.id}}" data-toggle="modal"  id="previousRatingModal" style="text-decoration:none;color:#4f6a82;font-size:12px" title="Click To See What Others Think About This ">&nbsp;{{attachment.noOfRating}} Reviews</a>
 			    <!-- Modal -->
 				<div class="modal fade" id="previousRatingModal{{attachment.id}}" role="dialog">
 				    <div class="modal-dialog">
@@ -128,14 +137,10 @@
 				</div>
 				<!--Previous Rating Model Link Code Ends -->
 	      	 </div>
-	    </div>
-	    
-	    
-	    <div class="row">
-	       <div class="col-sm-4">
-	            <!--Rating Model Link Code -->
+	      	 <div class="col-sm-4" style="margin-top:-2px;">
+	            <!-- Rating Model Link Code -->
 			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
-			    <a href="#ratingModal{{attachment.id}}" data-toggle="modal"  id="ratingModalBtn{{attachment.id}}" style="text-decoration:none;color:#fd0;font-size:16px" title="Click Here To Rate This Effort "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>&nbsp;Rate it</a>
+			    <a href="#ratingModal{{attachment.id}}" data-toggle="modal"  id="ratingModalBtn{{attachment.id}}" style="text-decoration:none;color:#fd0;font-size:15px" title="Click Here To Rate This Effort "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>&nbsp;Rate it</a>
 			    <!-- Modal -->
 				<div class="modal fade" id="ratingModal{{attachment.id}}" role="dialog">
 				    <div class="modal-dialog">
@@ -166,8 +171,9 @@
 				        </div>
 				    </div>
 				</div>
-				<!--Rating Model Link Code Ends -->
+				<!-- Rating Model Link Code Ends -->
 	      	 </div>
-	    </div>   
+	    </div>
+	      
   </div>
 </div>

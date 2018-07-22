@@ -49,10 +49,11 @@ public class CommonUtil {
 	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson, RatingRepository ratingRepository) throws JSONException, ParseException{
 		
 		List<JSONObject> lst = new ArrayList<JSONObject>();
-		List<JSONObject> ratinglst = new ArrayList<JSONObject>();
-		
+		List<JSONObject> ratinglst = null;
+		double totalRating = 0.0;
 		for (Attachment attachment : attachmentLst) {
-			
+			totalRating = 0.0;
+			ratinglst = new ArrayList<JSONObject>();
 			JSONObject json = new JSONObject();
 			json.put("id",attachment.getId());
 			json.put("fileName",attachment.getFileName());
@@ -71,11 +72,16 @@ public class CommonUtil {
 					ratingJson.put("commentTime",dateFormatter(rating.getCommentTime()));
 					ratingJson.put("comment",rating.getComment());
 					ratingJson.put("rating",rating.getRating());
+					totalRating += rating.getRating();
 					ratinglst.add(ratingJson);
 				}
+				json.put("averageRating",Math.round((totalRating/ratingLst.size()) * 10.0) / 10.0);
 				json.put("ratinglst",ratinglst);
+				json.put("noOfRating", ratingLst.size());
 			}else{
+				json.put("averageRating","N/A");
 				json.put("ratingExists",false);
+				json.put("noOfRating", 0);
 			}
 			lst.add(json);
 		}	
