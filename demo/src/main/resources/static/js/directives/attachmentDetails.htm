@@ -2,8 +2,8 @@
   <div class="panel-heading" style="background-color:#f44336;color:white;">{{ attachment.fileName | limitTo: 50 }}{{attachment.fileName.length > 50 ? '&hellip;' : ''}}
     <div style="float:right;font-size:18px;"> 
      <a style="text-decoration:none;color:white;" href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i></a>&nbsp;
-     <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/toAttachmentDownload/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
-     <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/toAttachmentDownload/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
+     <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/std-attachment-download/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
+     <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/std-attachment-download/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
     </div>
   </div>
   <div class="panel-body">

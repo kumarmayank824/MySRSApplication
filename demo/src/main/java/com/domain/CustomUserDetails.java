@@ -3,7 +3,6 @@ package com.domain;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +16,6 @@ public class CustomUserDetails extends User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private List<String> userRoles;
 	
-
 	public CustomUserDetails(User user,List<String> userRoles){
 		super(user);
 		this.userRoles=userRoles;

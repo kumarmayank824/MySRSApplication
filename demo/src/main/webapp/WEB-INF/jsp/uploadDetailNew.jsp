@@ -116,7 +116,7 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-		    <a href="/to-upload-pdf-page" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload Your Work Here</a>
+		    <a href="/std-upload-pdf-page" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload Your Work Here</a>
 		    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Download others Work</a> -->
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
@@ -124,29 +124,29 @@
 			    </button>
 			    <div class="dropdown-content">
 			      <a href="#"><i class="fa fa-user-o"> Profile</i></a>
-			      <a href="/tologout"><i class="fa fa-sign-out"></i> Logout</a>
+			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
 		  </div>
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-		    <a href="/to-upload-pdf-page" class="w3-bar-item w3-button w3-padding-large">Upload Your Work Here</a>
+		    <a href="/std-upload-pdf-page" class="w3-bar-item w3-button w3-padding-large">Upload Your Work Here</a>
 		    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Profile</a>
-		    <a href="/tologout" class="w3-bar-item w3-button w3-padding-large">Logout</a> -->
+		    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a> -->
 		  </div>
 		</div>
 		
 		<!-- Header -->
-		<header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
+		<!-- <header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
 		  <h5 class="w3-margin w3-jumbo">We really appreciate these efforts</h5>
-		  <!-- <a href="/to-upload-pdf-page" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Click To Contribute</a> -->
-		</header>
+		  <a href="/std-upload-pdf-page" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Click To Contribute</a>
+		</header> -->
 		
 		<!-- First Grid -->
 		<!-- <div id = "test" class="w3-row-padding w3-padding-64 w3-container" style="padding-top:10px!important;"> -->
-		<div id = "test" class="w3-row-padding w3-container" style="padding-top:10px!important;">
+		<div id = "test" class="w3-row-padding w3-container" style="padding-top:65px!important;">
 		  <!--<div class="w3-content">  -->
 		  <div>
 		      <form class="form-inline">
@@ -154,7 +154,7 @@
 		            <label >Search</label>
 		            <input type="text" ng-model="search" class="form-control" placeholder="Search">
 		        </div>
-		        <div style="float:right;margin-right: 15px;">
+		        <div style="float:right;margin-right: 30px;">
 					<!-- <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="getData(newPageNumber,6)" /> -->
 					<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" />
 		   		</div>

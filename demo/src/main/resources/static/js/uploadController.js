@@ -11,7 +11,7 @@
 		     var fileObj = $scope.file;
 		     console.log('file is ' );
 		     console.dir(fileObj);
-		      var uploadUrl = "/tofileUpload";
+		      var uploadUrl = "/std-file-Upload";
 		      uploadService.uploadFileToUrl(fileObj, uploadUrl).then(function(result){
 			       $scope.errors = uploadService.getResponse();
 			       console.log($scope.errors);

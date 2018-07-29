@@ -101,14 +101,14 @@
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
 <!-- 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Upload</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">How To Download</a> -->
-		    <a href="/to-upload-details" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Uploaded Details</a>
+		    <a href="/std-upload-details" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Uploaded Details</a>
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
 			      <i class="fa fa-caret-down"></i>
 			    </button>
 			    <div class="dropdown-content">
 			      <a href="#"><i class="fa fa-user-o"> Profile</i></a>
-			      <a href="/tologout"><i class="fa fa-sign-out"></i> Logout</a>
+			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
 		    
@@ -119,7 +119,7 @@
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Upload</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Profile</a>
-		    <a href="/tologout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+		    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
 		  </div>
 		</div>
 		
@@ -134,7 +134,7 @@
 		  <div class="w3-content">
 		    <div class="w3-twothird">
 		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
-		        <form action="/tofileUpload" method="post" enctype="multipart/form-data">
+		        <form action="/std-file-upload" method="post" enctype="multipart/form-data">
 		            <div class="row">
 		                <div class="col-sm-6 form-group">
 		                    <label for="name">

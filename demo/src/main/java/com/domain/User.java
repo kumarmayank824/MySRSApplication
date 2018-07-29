@@ -46,7 +46,7 @@ public class User implements Serializable {
 	@Column(name = "confirmation_token")
 	private String confirmationToken;
     
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
 	public User(){
@@ -60,6 +60,7 @@ public class User implements Serializable {
 		this.password = user.password;
 		this.enabled = user.enabled;
 		this.confirmationToken = user.confirmationToken;
+		this.userRoles = user.userRoles;
 	}
 
 	public int getUserId() {
