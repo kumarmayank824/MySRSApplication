@@ -70,7 +70,7 @@ public class StudentController {
 			@RequestParam("title") String title,@RequestParam("category") String category,
 			@RequestParam("description") String description){
 		
-		String returnString = "uploadDetailNew";
+		String returnString = "uploadDetailForStudents";
 		
 		try {
 			   
@@ -137,7 +137,7 @@ public class StudentController {
 			User user = (User) auth.getPrincipal();
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
-		return "uploadDetailNew";
+		return "uploadDetailForStudents";
 	}
 	
 	

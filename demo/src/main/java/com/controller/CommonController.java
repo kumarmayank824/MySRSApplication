@@ -124,11 +124,11 @@ public class CommonController {
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET) 
 	public String  loadLoginSuccessPage(Model model,HttpServletRequest request,HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String view = "uploadDetailNew"; 
+		String view = "uploadDetailForStudents"; 
 		if( null != auth){
 			User user = (User) auth.getPrincipal();
 			if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("ROLE_TEACHER")){
-				view = "adminUploadDetailNew";
+				view = "uploadDetailForTeachers";
 			}
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}

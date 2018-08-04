@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" href="css/util.css">
 	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/toggle-button.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -103,10 +104,17 @@
 							class="focus-input100" data-symbol="&#9993"></span>
 					</div>
 					
-					<div class="checkbox" style="margin-bottom:15px;margin-top: 15px;">
-						<input id="signInType" name="signInType" ng-model="isChecked" ng-change="checkSignInType(isChecked)" value="{{signInType}}" type="checkbox" style="margin-left: 10px;">
-					    <span class="mySignUpCheckbox">{{signInType}} Sign In</span> 					  
-					</div>
+					<div class="myradio" style="margin-top: 15px;">
+					    <input id="radio-1" name="signInType" type="radio" value="Student" checked>
+					    <label for="radio-1" class="myradio-label" style="font-weight:600;font-family: Poppins-Regular;margin-left:7px;">Student</label>
+					    <input id="radio-2" name="signInType" type="radio" value="Teacher">
+					    <label  for="radio-2" class="myradio-label" style="font-weight:600;font-family: Poppins-Regular;margin-left:10px;">Teacher</label>
+				    </div>
+					
+					<!-- <span class="mySignUpCheckbox">Student Sign In</span><label class="switch" style="margin-bottom:15px;margin-top: 15px;">
+					  <input id="flag" type="checkbox" checked><span class="slider round"></span>
+					  <span class="mySignUpCheckbox">Student Sign In</span> 	
+					</label> -->
 					
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
