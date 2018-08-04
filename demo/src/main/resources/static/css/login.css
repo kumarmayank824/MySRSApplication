@@ -233,6 +233,7 @@ iframe {
 .signin-text{
 	color: #ea4335;
     font-size: 29px;
+    margin-top: 25px;
 }
 
 .label-input100 {
@@ -483,6 +484,19 @@ iframe {
   color: #fff;
   background-color: #333333;
 }
+
+.mySignUpCheckbox {
+	
+	padding-left: 28px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Poppins-Regular;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333333;
+    font-weight: 600;
+}
+
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/

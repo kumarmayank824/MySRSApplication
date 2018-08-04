@@ -49,6 +49,8 @@ public class User implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
+	private String signInType;
+	
 	public User(){
 			
 	}
@@ -61,6 +63,7 @@ public class User implements Serializable {
 		this.enabled = user.enabled;
 		this.confirmationToken = user.confirmationToken;
 		this.userRoles = user.userRoles;
+		this.signInType = user.signInType;
 	}
 
 	public int getUserId() {
@@ -118,7 +121,13 @@ public class User implements Serializable {
 	public void setUserRoles(List<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
+
+	public String getSignInType() {
+		return signInType;
+	}
+
+	public void setSignInType(String signInType) {
+		this.signInType = signInType;
+	}
     
-	
-	
 }

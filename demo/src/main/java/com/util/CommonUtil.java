@@ -5,19 +5,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.constant.Constant;
 import com.domain.Attachment;
 import com.domain.Rating;
+import com.domain.SecretCode;
 import com.repository.RatingRepository;
+import com.repository.SecretCodeRepository;
 
 @Component
 public class CommonUtil {
     
+	@Autowired
+	SecretCode secretCodeObj;
+	
+	@Autowired
+	SecretCodeRepository secretCodeRepository;
 	
 	public JSONObject getDetailsForTable(List<Attachment> attachmentLst, JSONObject returnJson) throws JSONException, ParseException{
 			
@@ -107,19 +118,30 @@ public class CommonUtil {
 		return format.format(fechaNueva);
 	}
 	
-	public String encoder(String value) {
+	public static String encoder(String value) {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         // This is a required password for Jasypt. You will have to use the same password to
         // retrieve decrypted password later. T
         // This password is not the password we are trying to encrypt taken from properties file.
-        encryptor.setPassword("This password is not the password we are trying to encrypt taken from properties file.");
+        encryptor.setPassword(Constant.encrpytorPassWord);
         return encryptor.encrypt(value);
 	}
 	
-	public String decoder(String value) {
+	public static String decoder(String value) {
 	       StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-	       encryptor.setPassword("This password is not the password we are trying to encrypt taken from properties file.");
+	       encryptor.setPassword(Constant.encrpytorPassWord);
 	       return encryptor.decrypt(value);
 	}
+	
+	
+	@Scheduled(cron = "0 0 */6 ? * *")
+	public void scheduleFixedDelayTask() {
+		String secretCode = Constant.secretCodeInitial+UUID.randomUUID().toString();
+		secretCodeObj.setSecretCode(CommonUtil.encoder(secretCode));
+		secretCodeRepository.deleteAll();
+		secretCodeRepository.save(secretCodeObj);
+	}
+	
+    
 	
 }

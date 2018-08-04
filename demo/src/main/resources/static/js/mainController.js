@@ -39,6 +39,15 @@
 	        }
 	    }
 		
+		$scope.signInType = "Student";
+		$scope.isChecked = true;
+	    $scope.checkSignInType = function(isChecked) {
+	      if (isChecked) {
+	    	  $scope.signInType = "Student";
+	      }else{
+	    	  $scope.signInType = "Teacher";
+	      }
+	    };
 		
 	}]);
 	

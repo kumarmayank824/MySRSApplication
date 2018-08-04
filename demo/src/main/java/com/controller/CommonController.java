@@ -20,11 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.domain.User;
-import com.domain.UserRole;
 import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -69,13 +66,10 @@ public class CommonController {
 	        // Lookup user in database by e-mail
 			User userExists = userService.findByEmail(user.getEmail());
 			
-			System.out.println(userExists);
-			
 			if (userExists != null) {
 				model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
 				bindingResult.reject("email");
 				return "registration";
-				
 			}
 				
 			if (bindingResult.hasErrors()) { 
@@ -96,7 +90,7 @@ public class CommonController {
 				registrationEmail.setTo(user.getEmail());
 				registrationEmail.setSubject("Registration Confirmation");
 				registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
-						+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken());
+						+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType());
 				registrationEmail.setFrom("noreply@domain.com");
 				
 				emailService.sendEmail(registrationEmail);
@@ -106,71 +100,26 @@ public class CommonController {
 			}
     }
 	
-	
     // Process confirmation link
 	@RequestMapping(value="/confirm", method = RequestMethod.GET)
-	public String showConfirmationPage(Model model, @RequestParam("token") String token) {
+	public String showConfirmationPage(Model model, @RequestParam("token") String token
+			,@RequestParam("signInType") String signInType) throws Exception {
 			
 		User user = userService.findByConfirmationToken(token);
-			
+		String returnPageName = "studentConfirmPage";
 		if (user == null) { // No token found in DB
 			model.addAttribute("invalidToken", "Oops!  This is an invalid confirmation link.");
-		} else { // Token found
+		}else if( null != user.getSignInType() && !user.getSignInType().equals(signInType)){
+			model.addAttribute("signInTypeError", "Not Allowed! As your signed in type changed");
+		}else { // Token found
 			model.addAttribute("confirmationToken", user.getConfirmationToken());
+			if(user.getSignInType().equals("Teacher")){
+				returnPageName =  "teacherConfirmPage";		
+			}
 		}
 			
-		return "confirm";		
+		return returnPageName;		
 	}
-	
-	// Process confirmation link
-	@RequestMapping(value="/confirm", method = RequestMethod.POST)
-	public ModelAndView processConfirmationForm(ModelAndView modelAndView, BindingResult bindingResult,
-			@RequestParam Map requestParams, RedirectAttributes redir) {
-		
-		modelAndView.setViewName("login");
-		
-		//Zxcvbn passwordCheck = new Zxcvbn();
-		
-		//Strength strength = passwordCheck.measure(requestParams.get("password"));
-		
-		/*if (strength.getScore() < 3) {
-			bindingResult.reject("password");
-			
-			redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
-
-			modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-			System.out.println(requestParams.get("token"));
-			return modelAndView;
-		}*/
-	
-		// Find the user associated with the reset token
-		User user = userService.findByConfirmationToken(requestParams.get("token"));
-
-		// Set new password
-		user.setPassword(commonUtil.encoder((String)requestParams.get("password")));
-
-		// Set user to enabled
-		user.setEnabled(true);
-		
-		//Set user role
-		UserRole userRole = new UserRole();
-		userRole.setUser(user);
-		userRole.setRole("ROLE_STUDENT");
-		user.getUserRoles().add(userRole);
-		
-		// Save user
-		userService.saveUser(user);
-		modelAndView.addObject("successMemberMessage", "Congrats you are our memeber now!");
-		
-		User user2 = userService.findByEmail(user.getEmail());
-		
-		String orginalPassword = commonUtil.decoder(user2.getPassword());
-		System.out.println(orginalPassword+orginalPassword);
-		
-		return modelAndView;		
-	}
-	
-	
 	
 	@RequestMapping(value="/loginSuccess", method = RequestMethod.GET) 
 	public String  loadLoginSuccessPage(Model model,HttpServletRequest request,HttpServletResponse response) {
@@ -178,7 +127,7 @@ public class CommonController {
 		String view = "uploadDetailNew"; 
 		if( null != auth){
 			User user = (User) auth.getPrincipal();
-			if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("TEACHER")){
+			if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("ROLE_TEACHER")){
 				view = "adminUploadDetailNew";
 			}
 			model.addAttribute("loggedInUser", user.getUsername()); 
@@ -206,7 +155,7 @@ public class CommonController {
 	
 	@ExceptionHandler(Exception.class)
 	public String handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
-	    return "error";
+		return "error";
 	}
 	
 } 

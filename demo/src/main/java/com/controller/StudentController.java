@@ -100,7 +100,7 @@ public class StudentController {
 	                
 	                //Creating the directory to store file
 					//String rootPath = System.getProperty("catalina.home");
-                    String rootPath = "F:\\my-srs-boot\\uploadedFile\\"+category+"\\"+attachment1.getId();
+                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
                     
                     //Saving the file path to database
 	                attachment.setFilePath(rootPath+"\\");
@@ -126,7 +126,8 @@ public class StudentController {
 		 } catch (Exception e) {
 		        e.printStackTrace();
 		 }
-		return returnString;
+		//return returnString;
+		return "redirect:/loginSuccess";
 	}
 	
 	@RequestMapping(value="/std-upload-details", method = RequestMethod.GET) 
