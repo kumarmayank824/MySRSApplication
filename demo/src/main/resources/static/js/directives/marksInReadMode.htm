@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-sm-12">
+  <ion-content>
+	 <div class="list">
+		   <ion-item>
+			  <div style="float:left;padding-right: 10px;">
+				 <ionic-letter-avatar data="{{attachment.authorName}}" shape="round" charcount="2"></ionic-letter-avatar>
+			  </div>
+		   </ion-item> 
+	 </div>
+  </ion-content>
+  <strong>{{attachment.authorName|camelCase}}</strong><i> evaluated on <b>{{attachment.commentTime | asDate | date:'MMM d, y'}}</b> at <b>{{attachment.commentTime | asDate | date:'h:mm a'}}</b></i></div>
+</div>
+
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11" style="word-wrap: break-word;">{{attachment.remarks}}</div>
+</div>
+
+<div class="row">  
+  <div class="col-sm-4">
+     Marks : {{attachment.marks}}
+  </div>
+</div>
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+</div>

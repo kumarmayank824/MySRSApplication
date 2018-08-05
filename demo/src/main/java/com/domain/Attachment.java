@@ -52,6 +52,12 @@ public class Attachment {
     @NotBlank
 	private String contentType;
 	
+    private String semester;
+    
+    private String batch;
+    
+    private String course;
+    
 	public Long getId() {
 		return id;
 	}
@@ -114,6 +120,24 @@ public class Attachment {
 	}
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	public String getSemester() {
+		return semester;
+	}
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
+	public String getBatch() {
+		return batch;
+	}
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+	public String getCourse() {
+		return course;
+	}
+	public void setCourse(String course) {
+		this.course = course;
 	}
 	
 	

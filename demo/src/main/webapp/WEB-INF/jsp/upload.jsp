@@ -22,8 +22,8 @@
 		<script src="js/pdf-viewer/pdf.worker.js"></script>
 		<script src="js/pdf-viewer/pdf-script.js"></script>
 		<script src="js/angular.min.js" ></script>
-		<script src="js/uploadController.js" ></script>
-		<script src="js/uploadService.js" ></script> 
+		<script src="js/student/uploadControllerForStudents.js" ></script>
+		<script src="js/student/uploadServiceForStudents.js" ></script> 
 	</head>
 	<style>
 		body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}

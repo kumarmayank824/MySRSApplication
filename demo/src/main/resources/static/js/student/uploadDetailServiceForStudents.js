@@ -18,7 +18,7 @@
     	
     	this.getAttachmentLst = function(cb){
 	       	 $http({
-	       		 url : 'http://localhost:9099/std-api-attachment',
+	       		 url : '/std-api-attachment',
 	       	     method : 'GET'		 
 	       	 }).then(function(response){
 	       		 cb(response.data);
@@ -30,7 +30,7 @@
     	this.saveRatingAndComment = function(csrf_token,attachmentId,rating,comment,cb){
     		
 	       	 $http({
-	       		 url : 'http://localhost:9099/std-save-rating-and-comment',
+	       		 url : '/std-save-rating-and-comment',
 	       	     method : 'POST',
 		       	 headers: {
 		       		'X-CSRF-Token': csrf_token

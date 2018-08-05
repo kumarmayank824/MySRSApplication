@@ -1,8 +1,17 @@
 package com.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.constant.Constant;
+import com.domain.Attachment;
+import com.domain.Rating;
 import com.domain.User;
 import com.domain.UserRole;
+import com.repository.AttachmentRepository;
 import com.repository.SecretCodeRepository;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -28,6 +41,9 @@ public class TeacherController {
 	
 	@Autowired
 	SecretCodeRepository secretCodeRepository;
+	
+	@Autowired
+	AttachmentRepository attachmentRepository;
 	
 	// Process confirmation link
 	@RequestMapping(value="/teacherConfirm", method = RequestMethod.POST)
@@ -83,6 +99,34 @@ public class TeacherController {
 			
 		}
 		return modelAndView;		
+	}
+	
+	
+	@RequestMapping(value="/tch-search-details", method = RequestMethod.POST) 
+	public void saveRatingAndComment(@RequestParam("semester") String semester ,@RequestParam("batch") String batch,
+			@RequestParam("course") String course,HttpServletResponse response) {		
+		
+		JSONObject returnJson = null;
+		
+		try {
+			
+			List<Attachment> attachmentLst = attachmentRepository.findAttachmentForTeacher(semester,batch,course);
+			if( null != attachmentLst){
+				returnJson = new JSONObject();
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.markObjectType);
+			}
+			response.getWriter().write(returnJson.toString());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

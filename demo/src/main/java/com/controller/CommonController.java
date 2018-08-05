@@ -1,5 +1,12 @@
 package com.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,14 +21,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.domain.Attachment;
 import com.domain.User;
+import com.repository.AttachmentRepository;
 import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -39,6 +51,9 @@ public class CommonController {
 	@Autowired
 	EmailService emailService;
 	
+	@Autowired
+    AttachmentRepository attachmentRepository;
+	
 	@RequestMapping(value={"/", "/home"}, method = RequestMethod.GET) 
 	public String showHomePage(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
 		return "home";
@@ -54,7 +69,7 @@ public class CommonController {
         return "login";
     }
 	
-	@RequestMapping(value="/registerRequest", method = RequestMethod.GET) 
+	@RequestMapping(value="/registerUser", method = RequestMethod.GET) 
 	public String handleRegistrationRequest(Model model, String error, String logout) {
         return "registration";
     }
@@ -134,6 +149,56 @@ public class CommonController {
 		}
 		return view;
 	}
+	
+	
+	@RequestMapping(value="/attachment-download/{type}/{attachmentId}", method = RequestMethod.GET) 
+	public @ResponseBody void downloadAttachment(@PathVariable("attachmentId") Long attachmentId,
+			      @PathVariable("type") String type,
+			      HttpServletRequest request,HttpServletResponse response) {	
+		
+		try {
+		
+			Attachment attachment =  attachmentRepository.findOne(attachmentId);
+			File file = new File(attachment.getFilePath() + attachment.getFileName());
+		    if (file.exists()) {
+		        //get the mimetype
+		        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+		        if (mimeType == null) {
+		            //unknown mimetype so set the mimetype to application/octet-stream
+		            mimeType = "application/octet-stream";
+		        }
+		        response.setContentType(mimeType);
+		        /**
+		         * In a regular HTTP response, the Content-Disposition response header is a
+		         * header indicating if the content is expected to be displayed inline in the
+		         * browser, that is, as a Web page or as part of a Web page, or as an
+		         * attachment, that is downloaded and saved locally.
+		         * 
+		         */
+	
+		        /**
+		         * Here we have mentioned it to show inline
+		         */
+		        if(type.equalsIgnoreCase("preview")){
+	        	    response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+	        	}else if(type.equalsIgnoreCase("download")){
+	        	    //Here we have mentioned it to show as attachment
+	        	    response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+	        	}
+		        response.setContentLength((int) file.length());
+		        InputStream inputStream;
+				inputStream = new BufferedInputStream(new FileInputStream(file));
+				FileCopyUtils.copy(inputStream, response.getOutputStream());
+				
+			 } 
+		    
+		}catch (FileNotFoundException e) {
+		  e.printStackTrace();
+		}catch (IOException e){
+			e.printStackTrace();
+	    }
+	         
+	}	
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {

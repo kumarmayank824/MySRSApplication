@@ -1,16 +1,12 @@
 package com.controller;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,17 +18,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.constant.Constant;
 import com.domain.Attachment;
 import com.domain.Rating;
 import com.domain.User;
+import com.domain.UserRole;
 import com.repository.AttachmentRepository;
 import com.repository.RatingRepository;
 import com.services.UserService;
@@ -53,6 +51,66 @@ public class StudentController {
 	
 	@Autowired
 	UserService userService;
+	
+	
+	// Process confirmation link
+	@RequestMapping(value="/studentConfirm", method = RequestMethod.POST)
+	public ModelAndView processConfirmationForm(ModelAndView modelAndView, BindingResult bindingResult,
+			@RequestParam Map requestParams, RedirectAttributes redir) {
+		
+		modelAndView.setViewName("login");
+		
+		//Zxcvbn passwordCheck = new Zxcvbn();
+		
+		//Strength strength = passwordCheck.measure(requestParams.get("password"));
+		
+		/*if (strength.getScore() < 3) {
+			bindingResult.reject("password");
+			
+			redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
+
+			modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
+			System.out.println(requestParams.get("token"));
+			return modelAndView;
+		}*/
+	
+		// Find the user associated with the reset token
+		User user = userService.findByConfirmationToken(requestParams.get("token"));
+
+		// Set new password
+		user.setPassword(CommonUtil.encoder((String)requestParams.get("password")));
+		
+		// Set new semester
+		user.setSemester((String)requestParams.get("semester"));
+		
+		// Set new batch
+		user.setBatch((String)requestParams.get("batch"));
+				
+		// Set new course
+		user.setCourse((String)requestParams.get("course"));		
+
+		// Set user to enabled
+		user.setEnabled(true);
+		
+		//Set user role
+		UserRole userRole = new UserRole();
+		userRole.setUser(user);
+		userRole.setRole("ROLE_STUDENT");
+		user.getUserRoles().add(userRole);
+		
+		// Save user
+		userService.saveUser(user);
+		modelAndView.addObject("successMemberMessage", "Congrats you have been successfully register!");
+		
+		User user2 = userService.findByEmail(user.getEmail());
+		
+		String orginalPassword = CommonUtil.decoder(user2.getPassword());
+		System.out.println(orginalPassword+orginalPassword);
+			
+		
+		return modelAndView;		
+	}
+	
 	
 	@RequestMapping(value="/std-upload-pdf-page", method = RequestMethod.GET) 
 	public String loadUploadPdfPage(Model model,HttpServletRequest request,HttpServletResponse response) {		
@@ -81,6 +139,9 @@ public class StudentController {
 			       
 				    Attachment attachment = new Attachment();
 				    attachment.setAuthor(user.getUsername());
+				    attachment.setSemester(user.getSemester());
+				    attachment.setBatch(user.getBatch());
+				    attachment.setCourse(user.getCourse());
 	                attachment.setTitle(title);
 	                attachment.setCategory(category);
 	                attachment.setDescription(description);
@@ -92,7 +153,6 @@ public class StudentController {
 	                }else{
 	                	attachment.setContentType("Word Document");
 	                }
-	                		
 	                
 	                attachment.setFilePath("Path will be updated later");
 	                
@@ -180,7 +240,7 @@ public class StudentController {
 			List<Attachment> attachmentLst = attachmentRepository.findAll();
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
-				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,ratingRepository);
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.ratingObjectType);
 			}
 			response.getWriter().write(returnJson.toString());
 			
@@ -197,55 +257,6 @@ public class StudentController {
 		
 	}
 	
-	
-	@RequestMapping(value="/std-attachment-download/{type}/{attachmentId}", method = RequestMethod.GET) 
-	public @ResponseBody void downloadAttachment(@PathVariable("attachmentId") Long attachmentId,
-			      @PathVariable("type") String type,
-			      HttpServletRequest request,HttpServletResponse response) {	
-		
-		try {
-		
-			Attachment attachment =  attachmentRepository.findOne(attachmentId);
-			File file = new File(attachment.getFilePath() + attachment.getFileName());
-		    if (file.exists()) {
-		        //get the mimetype
-		        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-		        if (mimeType == null) {
-		            //unknown mimetype so set the mimetype to application/octet-stream
-		            mimeType = "application/octet-stream";
-		        }
-		        response.setContentType(mimeType);
-		        /**
-		         * In a regular HTTP response, the Content-Disposition response header is a
-		         * header indicating if the content is expected to be displayed inline in the
-		         * browser, that is, as a Web page or as part of a Web page, or as an
-		         * attachment, that is downloaded and saved locally.
-		         * 
-		         */
-	
-		        /**
-		         * Here we have mentioned it to show inline
-		         */
-		        if(type.equalsIgnoreCase("preview")){
-	        	    response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
-	        	}else if(type.equalsIgnoreCase("download")){
-	        	    //Here we have mentioned it to show as attachment
-	        	    response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
-	        	}
-		        response.setContentLength((int) file.length());
-		        InputStream inputStream;
-				inputStream = new BufferedInputStream(new FileInputStream(file));
-				FileCopyUtils.copy(inputStream, response.getOutputStream());
-				
-			 } 
-		    
-		}catch (FileNotFoundException e) {
-		  e.printStackTrace();
-		}catch (IOException e){
-			e.printStackTrace();
-	    }
-	         
-	}	
 	
 	@RequestMapping(value="/std-save-rating-and-comment", method = RequestMethod.POST) 
 	public void saveRatingAndComment(@RequestParam("attachmentId") Long attachmentId ,@RequestParam("rating") Long rating,

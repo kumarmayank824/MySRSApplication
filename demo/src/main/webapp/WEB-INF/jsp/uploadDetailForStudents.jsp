@@ -16,98 +16,22 @@
 		<link href="css/bootstrap-glyphicons-3.0.0.css" rel="stylesheet"> 
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
 		<link rel="stylesheet" href="css/ratings.css">
-      
+        <link rel="stylesheet" href="css/common.css">
+        
 		<script src="js/angular.min.js"></script>
 		<script src="js/table/jquery-2.2.4.min.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script src="js/table/bootbox.min.js"></script>
 		<script src="js/table/jquery-ui.js"></script>
 		<script src="js/table/datatables-bs-3.3.6.min.js"></script>
-		<script src="js/uploadDetailController.js"></script>
-		<script src="js/uploadDetailService.js"></script>
+		<script src="js/student/uploadDetailControllerForStudents.js"></script>
+		<script src="js/student/uploadDetailServiceForStudents.js"></script>
 		<script src="js/preview.js"></script>
 		<script src="js/avatar/ionic-letter-avatar.js"></script>
 		<script src="js/dirPagination-0.11.1.min.js"></script>
 		
 		
 	</head>
-	<style>
-		body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-		.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-		.fa-anchor,.fa-coffee,.fa-upload {font-size:200px}
-		.text-wrap{
-		    white-space:normal;
-		    word-break: break-all;
-		}
-		.width-200{
-		    width:360px;
-		}
-		.navbar {
-		    overflow: hidden;
-		    font-family: Arial, Helvetica, sans-serif;
-          }
-
-		.navbar a {
-		    float: left;
-		    font-size: 16px;
-		    color: white;
-		    text-align: center;
-		    padding: 14px 16px;
-		    text-decoration: none;
-		}
-		
-		.dropdown {
-		    float: right;
-		    overflow: hidden;
-		    position: inherit !important;
-		}
-		
-		.dropdown .dropbtn {
-		    font-size: 18px;    
-		    border: none;
-		    outline: none;
-		    color: white;
-		    padding: 12px 20px;
-		    background-color: inherit;
-		    font-family: inherit;
-		    margin: 0;
-		}
-		
-		.navbar a:hover, .dropdown:hover .dropbtn {
-		    background-color: red;
-		}
-		
-		.dropdown-content {
-		    display: none;
-		    position: absolute;
-		    background-color: #f9f9f9;
-		    min-width: 210px;
-		    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-		    z-index: 1;
-		}
-		
-		.dropdown-content a {
-		    float: none;
-		    color: black;
-		    padding: 12px 16px;
-		    text-decoration: none;
-		    display: block;
-		    text-align: left;
-		}
-		
-		.dropdown-content a:hover {
-		    background-color: #ddd;
-		}
-		
-		.dropdown:hover .dropdown-content {
-		    display: block;
-		}
-		
-		.modal-dialog{
-			width: 700px;
-	    } 
-		
-	</style>
 	
 	<body ng-controller="uploadDetailController">
 	

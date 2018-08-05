@@ -1,9 +1,9 @@
 (function(){
 
-	var uploadDetailApp = angular.module("uploadDetailApp",['ionic-letter-avatar','angularUtils.directives.dirPagination']);  
+	var teacherUploadDetailApp = angular.module("teacherUploadDetailApp",['ionic-letter-avatar','angularUtils.directives.dirPagination']);  
 	
 	
-	uploadDetailApp.controller('uploadDetailController',['$scope', 'uploadDetailService',function ($scope,uploadDetailService) {
+	teacherUploadDetailApp.controller('teacherUploadDetailController',['$scope', 'teacherUploadDetailService',function ($scope,teacherUploadDetailService) {
 	    
 		$scope.myFunction = function(){
 			var x = document.getElementById("navDemo");
@@ -27,18 +27,24 @@
 	    };
 	    $scope.getData($scope.pageno,$scope.itemsPerPage); // Call the function to fetch initial data on page load.
 	   */
-	    
-		uploadDetailService.getAttachmentLst(function(result){
-	        $scope.attachmentLst = result.attachmentLst;
-		});
+		$scope.semester = "V";
+		$scope.batch = "Batch 1";
+		$scope.course = "M.Tech (IT)";
+		$scope.searchDetails = function(semester,batch,course){
+			var csrf_token = $('input[name="_csrf"]').attr('value');
+			teacherUploadDetailService.searchDetails(csrf_token,semester,batch,course,function(result){
+			  $scope.attachmentLst = result.attachmentLst; 
+		   });
+		}
 		
+	
 		$scope.user = {rating:1}; 
 		
 		$scope.saveRatings = function(attachmentId){
 		   var csrf_token = $('input[name="_csrf"]').attr('value');
 	       var rating = $('#rating'+attachmentId).text();
 	       var comment = $('#comment'+attachmentId).val();
-	       uploadDetailService.saveRatingAndComment(csrf_token,attachmentId,rating,comment,function(result){
+	       teacherUploadDetailService.saveRatingAndComment(csrf_token,attachmentId,rating,comment,function(result){
 		        if(!result.showRatingLink){
 		        	$scope.user = {rating:1};
 		        	$('#ratingModalBtn'+attachmentId).click(function () {return false;});
@@ -47,59 +53,41 @@
 		   });
 		  
 	    }
-	    
+		 
 	}]);
 	
-	uploadDetailApp.directive('attachmentDetails', function(){
+	teacherUploadDetailApp.directive('searchDetails', function(){
+		return { 
+			templateUrl : 'js/directives/searchDetails.htm'
+		}
+	});
+	
+	teacherUploadDetailApp.directive('attachmentDetails', function(){
 		return { 
 			templateUrl : 'js/directives/attachmentDetails.htm'
 		}
 	});
 	
-	uploadDetailApp.directive('ratingDetails', function(){
+	teacherUploadDetailApp.directive('marksDetails', function(){
 		return { 
-			templateUrl : 'js/directives/ratingDetails.htm'
+			templateUrl : 'js/directives/marksDetails.htm'
 		}
 	});
 	
-	uploadDetailApp.directive("starRating", function() {
-		  
-		return {
-			    restrict : "EA",
-			    template : "<ul class='rating' ng-class='{readonly: readonly}'>" +
-			               "  <li style='font-size: 20px;text-shadow: .05em .05em #aaa;' ng-repeat='star in stars' ng-class='star' ng-click='toggle($index)'>" +
-			               "    <i class='fa fa-star'></i>" + //&#9733
-			               "  </li>" +
-			               "</ul>",
-			    scope : {
-				      ratingValue : "=ngModel",
-				      max : "=?", //optional: default is 5
-				      onRatingSelected : "&?",
-				      readonly: "=?"
-			    },
-			    link : function(scope, elem, attrs) {
-				      if (scope.max == undefined) { scope.max = 5; }
-				      function updateStars() {
-				        scope.stars = [];
-				        for (var i = 0; i < scope.max; i++) {
-				          scope.stars.push({
-				            filled : (i < scope.ratingValue.rating)
-				          });
-				        }
-				      };
-				      scope.toggle = function(index) {
-				        if (scope.readonly == undefined || scope.readonly == false){
-				          scope.ratingValue.rating = index + 1;
-				        }
-				      };
-				      scope.$watch("ratingValue.rating", function(oldVal, newVal) {
-				        if (newVal) { updateStars(); }
-				      });
-		         }
-		  };  
+	teacherUploadDetailApp.directive('marksInEditMode', function(){
+		return { 
+			templateUrl : 'js/directives/marksInEditMode.htm'
+		}
 	});
 	
-	uploadDetailApp.filter('range', function() {
+	teacherUploadDetailApp.directive('marksInReadMode', function(){
+		return { 
+			templateUrl : 'js/directives/marksInReadMode.htm'
+		}
+	});
+	
+	
+	teacherUploadDetailApp.filter('range', function() {
 		  return function(input, total) {
 		    total = parseInt(total);
 		    for (var i=0; i<total; i++)
@@ -108,13 +96,13 @@
 		  };
 	});
 	
-	uploadDetailApp.filter("asDate", function () {
+	teacherUploadDetailApp.filter("asDate", function () {
 	    return function (input) {
 	        return new Date(input);
 	    }
 	});
 	
-	uploadDetailApp.filter('camelCase', function (){
+	teacherUploadDetailApp.filter('camelCase', function (){
         var camelCaseFilter = function ( input ){
             var words = input.split( ' ' );
             for ( var i = 0, len = words.length; i < len; i++ )

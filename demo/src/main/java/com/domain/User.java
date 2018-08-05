@@ -51,6 +51,12 @@ public class User implements Serializable {
 	
 	private String signInType;
 	
+	private String semester;
+	
+	private String batch;
+	
+	private String course;
+	
 	public User(){
 			
 	}
@@ -64,6 +70,9 @@ public class User implements Serializable {
 		this.confirmationToken = user.confirmationToken;
 		this.userRoles = user.userRoles;
 		this.signInType = user.signInType;
+		this.semester = user.semester;
+		this.batch = user.batch;
+		this.course = user.course;
 	}
 
 	public int getUserId() {
@@ -129,5 +138,30 @@ public class User implements Serializable {
 	public void setSignInType(String signInType) {
 		this.signInType = signInType;
 	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
+
+	public String getBatch() {
+		return batch;
+	}
+
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+
+	public String getCourse() {
+		return course;
+	}
+
+	public void setCourse(String course) {
+		this.course = course;
+	}
     
+	
 }

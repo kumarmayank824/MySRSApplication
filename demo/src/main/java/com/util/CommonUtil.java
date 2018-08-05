@@ -16,8 +16,10 @@ import org.springframework.stereotype.Component;
 
 import com.constant.Constant;
 import com.domain.Attachment;
+import com.domain.Marks;
 import com.domain.Rating;
 import com.domain.SecretCode;
+import com.repository.MarksRepository;
 import com.repository.RatingRepository;
 import com.repository.SecretCodeRepository;
 
@@ -29,6 +31,12 @@ public class CommonUtil {
 	
 	@Autowired
 	SecretCodeRepository secretCodeRepository;
+	
+	@Autowired
+	RatingRepository ratingRepository;
+	
+	@Autowired
+	MarksRepository marksRepository;
 	
 	public JSONObject getDetailsForTable(List<Attachment> attachmentLst, JSONObject returnJson) throws JSONException, ParseException{
 			
@@ -57,15 +65,16 @@ public class CommonUtil {
 	}
 	
 	
-	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson, RatingRepository ratingRepository) throws JSONException, ParseException{
+	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson,
+			String ObjectType) throws JSONException, ParseException{
 		
 		List<JSONObject> lst = new ArrayList<JSONObject>();
 		List<JSONObject> ratinglst = null;
 		double totalRating = 0.0;
 		for (Attachment attachment : attachmentLst) {
-			totalRating = 0.0;
-			ratinglst = new ArrayList<JSONObject>();
+			
 			JSONObject json = new JSONObject();
+			json.put("objectType",ObjectType);
 			json.put("id",attachment.getId());
 			json.put("fileName",attachment.getFileName());
 			json.put("author",attachment.getAuthor());
@@ -74,25 +83,14 @@ public class CommonUtil {
 			json.put("category",attachment.getCategory());
 			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
 			json.put("uploadedDate",dateFormatter(attachment.getUploadedDate()));
-			List<Rating> ratingLst = ratingRepository.findRatingByAttachmentId(attachment.getId());
-			if(null != ratingLst && !ratingLst.isEmpty()){
-				json.put("ratingExists",true);
-				for (Rating rating : ratingLst) {
-					JSONObject ratingJson = new JSONObject();
-					ratingJson.put("authorName",rating.getAuthor());
-					ratingJson.put("commentTime",dateFormatter(rating.getCommentTime()));
-					ratingJson.put("comment",rating.getComment());
-					ratingJson.put("rating",rating.getRating());
-					totalRating += rating.getRating();
-					ratinglst.add(ratingJson);
-				}
-				json.put("averageRating",Math.round((totalRating/ratingLst.size()) * 10.0) / 10.0);
-				json.put("ratinglst",ratinglst);
-				json.put("noOfRating", ratingLst.size());
+			if(ObjectType.equals(Constant.ratingObjectType)){
+				totalRating = 0.0;
+				ratinglst = new ArrayList<JSONObject>();
+				List<Rating> ratingLst = ratingRepository.findRatingByAttachmentId(attachment.getId());
+				json = processRatings(ratingLst,ratinglst,totalRating,json);
 			}else{
-				json.put("averageRating","N/A");
-				json.put("ratingExists",false);
-				json.put("noOfRating", 0);
+				Marks marks = marksRepository.getMarksByAttachmentId(attachment.getId());
+				json = processMarks(marks,json);
 			}
 			lst.add(json);
 		}	
@@ -101,6 +99,49 @@ public class CommonUtil {
 		
 		return returnJson;
      }
+	
+	
+	private JSONObject processRatings(List<Rating> ratingLst,List<JSONObject> ratinglst,
+			double totalRating,JSONObject json) throws JSONException, ParseException{
+		
+		if(null != ratingLst && !ratingLst.isEmpty()){
+			json.put("ratingExists",true);
+			for (Rating rating : ratingLst) {
+				JSONObject ratingJson = new JSONObject();
+				ratingJson.put("authorName",rating.getAuthor());
+				ratingJson.put("commentTime",dateFormatter(rating.getCommentTime()));
+				ratingJson.put("comment",rating.getComment());
+				ratingJson.put("rating",rating.getRating());
+				totalRating += rating.getRating();
+				ratinglst.add(ratingJson);
+			}
+			json.put("averageRating",Math.round((totalRating/ratingLst.size()) * 10.0) / 10.0);
+			json.put("ratinglst",ratinglst);
+			json.put("noOfRating", ratingLst.size());
+		}else{
+			json.put("averageRating","N/A");
+			json.put("ratingExists",false);
+			json.put("noOfRating", 0);
+		}
+		
+		return json;
+	}
+	
+	private JSONObject processMarks(Marks marks,JSONObject json) 
+			throws JSONException, ParseException{
+		
+		if(null != marks){
+			json.put("marksExists",true);
+			json.put("authorName",marks.getAuthor());
+			json.put("commentTime",dateFormatter(marks.getCommentTime()));
+			json.put("remarks",marks.getRemarks());
+			json.put("marks",marks.getMarks());
+		}else{
+			json.put("marksExists",false);
+		}
+		
+		return json;
+	}
 	
 	public String fileSizeToMb(Long byteSize){
 		

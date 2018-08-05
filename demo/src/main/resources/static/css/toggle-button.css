@@ -70,7 +70,7 @@ input:checked + .slider:before {
 .myradio input[type=radio] + .myradio-label:before {
   content: "";
     background: white;
-    border-radius: 100%;
+    border-radius: 22%;
     border: 1px solid #72c3cc;
     display: inline-block;
     width: 1em;
@@ -99,3 +99,24 @@ input:checked + .slider:before {
 .myradio input[type=radio] + .myradio-label:empty:before {
   margin-right: 0;
 }
+
+
+
+/* Scroll bar customization for later use  */
+
+/* .scrollable-menu {
+    height: auto;
+    max-height: 180px;
+    overflow-x: hidden;
+}
+
+.scrollable-menu::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 4px;        
+ }    
+.scrollable-menu::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: lightgray;
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.75);        
+} */
+		

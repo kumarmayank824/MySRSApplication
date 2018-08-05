@@ -61,7 +61,7 @@
 				  </div>
 				</div>
 				<div class="wrap-login100" style="margin-bottom: 25px;padding: 40px 30px;">
-					<form action="/confirm" method="post">
+					<form action="/studentConfirm" method="post">
 					        
 				        <!-- <span class="login100-form-title p-b-30">
 						   Set Your Password
@@ -72,14 +72,60 @@
 	                   
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
 							<span class="label-input100">Password</span>
-							<input class="input100" style="height:55px;" type="password" name="password" placeholder="Type your password">
+							<input class="input100" style="height:55px;" type="password" name="password" placeholder="Type your password" required>
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
-						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
+						<!-- <div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
 							<span class="label-input100">Confirm Password</span>
 							<input class="input100" style="height:55px;" type="password" name="confirmPassword" placeholder="Type your confirm password">
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
+						</div> -->
+						
+						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Semester is required">
+							<span class="label-input100">Semester</span>
+							<input class="input100" list="semesterList" style="height:55px;" type="text" name="semester" placeholder="Choose your semester" required>
+							<span class="focus-input100" data-symbol="&#xf11b;"></span>
+							<datalist id="semesterList">
+							  <select>
+								  <option value="V"/>
+								  <option value="VI"/>
+								  <option value="VII"/>
+							  </select>
+							</datalist>
+						</div>
+						
+						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Batch is required">
+							<span class="label-input100">Batch</span>
+							<input class="input100" list="batchList" style="height:55px;" type="text" name="batch" placeholder="Choose your batch" required>
+							<span class="focus-input100" data-symbol="&#xf3e9;"></span>
+							<datalist id="batchList">
+							  <select>
+								  <option value="Batch 1"/>
+								  <option value="Batch 2"/>
+								  <option value="Batch 3"/>
+								  <option value="Batch 4"/>
+								  <option value="Batch 5"/>
+								  <option value="Batch 6"/>
+								  <option value="Batch 7"/>
+								  <option value="Batch 8"/>
+								  <option value="Batch 9"/>
+								  <option value="Batch 10"/>
+							  </select>
+							</datalist>
+						</div>
+						
+						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Semester is required">
+							<span class="label-input100">Course</span>
+							<input class="input100" list="courseList" style="height:55px;" type="text" name="course" placeholder="Choose your course" required>
+							<span class="focus-input100" data-symbol="&#xf174;"></span>
+							<datalist id="courseList">
+							  <select>
+								  <option value="M.Tech (IT)"/>
+								  <option value="M.Tech (VLSI)"/>
+								  <option value="M.Tech (EDS)"/>
+							  </select>
+							</datalist>
 						</div>
 												
 						<div class="container-login100-form-btn">

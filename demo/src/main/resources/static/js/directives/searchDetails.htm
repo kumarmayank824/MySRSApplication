@@ -1,0 +1,29 @@
+<label style="margin-left:20px;" >Semester</label>
+<select ng-model="semester" style="width:180px;margin-left: 5px;" class="form-control">
+	 <option value="V"/>V</option>
+	 <option value="VI"/>VI</option>
+	 <option value="VII"/>VII</option>
+</select>
+
+<label style="margin-left:20px;">Batch</label>
+<select ng-model="batch" style="width:180px;margin-left:5px;" class="form-control">
+	 <option value="Batch 1"/>Batch 1</option>
+	 <option value="Batch 2"/>Batch 2</option>
+	 <option value="Batch 3"/>Batch 3</option>
+	 <option value="Batch 4"/>Batch 4</option>
+	 <option value="Batch 5"/>Batch 5</option>
+	 <option value="Batch 6"/>Batch 6</option>
+	 <option value="Batch 7"/>Batch 7</option>
+	 <option value="Batch 8"/>Batch 8</option>
+	 <option value="Batch 9"/>Batch 9</option>
+	 <option value="Batch 10"/>Batch 10</option>
+</select>
+
+<label style="margin-left:20px;">Course</label>
+<select ng-model="course" style="width:180px;margin-left: 5px;" class="form-control">
+	 <option value="M.Tech (IT)"/>M.Tech (IT)</option>
+	 <option value="M.Tech (VLSI)"/>M.Tech (VLSI)</option>
+	 <option value="M.Tech (EDS)"/>M.Tech (EDS)</option>
+</select>
+
+<button style="margin-left:20px;background-color:#222323c4;color: white" type="button" class="btn btn-default" data-ng-click="searchDetails(semester,batch,course)" >Search</button>

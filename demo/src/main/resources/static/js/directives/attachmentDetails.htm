@@ -2,8 +2,8 @@
   <div class="panel-heading" style="background-color:#f44336;color:white;">{{ attachment.fileName | limitTo: 50 }}{{attachment.fileName.length > 50 ? '&hellip;' : ''}}
     <div style="float:right;font-size:18px;"> 
      <a style="text-decoration:none;color:white;" href="#myModal{{attachment.id}}" data-toggle="modal" id="openBtn" title="Click Here For More Information"><i class="fa fa-info-circle" aria-hidden="true"></i></a>&nbsp;
-     <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/std-attachment-download/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
-     <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/std-attachment-download/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
+     <a style="text-decoration:none;color:white;" title="Click Here To Download" href="/attachment-download/download/{{attachment.id}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>&nbsp; 
+     <a style="text-decoration:none;color:white;" title="Click Here To Preview" class='preview-pdf' href="href='javascript:;" data-pdfurl="/attachment-download/preview/{{attachment.id}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
     </div>
   </div>
   <div class="panel-body">
@@ -81,7 +81,7 @@
 							     </div>
 						    </div>
 					        <div class="modal-footer">
-					         	 <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+					         	 <button type="button" style="background-color:#f44336;color:white" class="btn btn-default " data-dismiss="modal">Close</button>
 					        </div>
 				      </div>
 				  </div>
@@ -91,89 +91,14 @@
 	    </div> -->
 	    
 	    <br/>
-	    <div class="row">
-	       <div class="col-sm-5">
-	            <ion-content>
-					 <div class="list">
-						   <ion-item>
-							  <div style="float:left;margin-top: -6px;">
-								 <ionic-letter-avatar data="{{attachment.averageRating}}" shape="round" charcount="3"></ionic-letter-avatar>
-							  </div>
-						   </ion-item> 
-					 </div>
-			    </ion-content>
-	            <!--Previous Rating Model Link Code -->
-			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
-			    <a href="#previousRatingModal{{attachment.id}}" data-toggle="modal"  id="previousRatingModal" style="text-decoration:none;color:#4f6a82;font-size:12px" title="Click To See What Others Think About This ">&nbsp;{{attachment.noOfRating}} Reviews</a>
-			    <!-- Modal -->
-				<div class="modal fade" id="previousRatingModal{{attachment.id}}" role="dialog">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				            <!-- Modal Header -->
-				            <div class="modal-header">
-						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i style="color:#f44336" class="fa fa-window-close" aria-hidden="true"></i></button>
-						          <h3 style="color: #f44336;" class="modal-title">Reviews</h3>
-					        </div>
-				            
-				            <!-- Modal Body -->
-				            <div class="modal-body" ng-if="!attachment.ratingExists" >
-				                <p class="statusMsg"></p>
-				                No Review Available
-				            </div>
-				            
-				            <div class="modal-body" ng-if="attachment.ratingExists" >
-				                <p class="statusMsg"></p>
-				                <div ng-repeat="rating in attachment.ratinglst"> 
-							         <div rating-details></div>
-							    </div> 
-				            </div>
-				            
-				            <!-- Modal Footer -->
-				            <div class="modal-footer">
-				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
-				            </div>
-				        </div>
-				    </div>
-				</div>
-				<!--Previous Rating Model Link Code Ends -->
-	      	 </div>
-	      	 <div class="col-sm-4" style="margin-top:-2px;">
-	            <!-- Rating Model Link Code -->
-			    <!-- <button href="#ratingModal{{attachment.id}}" id="ratingModalBtn" data-toggle="modal" style="background-color:#f44336;color: white "class="btn btn-default ">Click Here to rate this effort</button> -->
-			    <a href="#ratingModal{{attachment.id}}" data-toggle="modal"  id="ratingModalBtn{{attachment.id}}" style="text-decoration:none;color:#fd0;font-size:15px" title="Click Here To Rate This Effort "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>&nbsp;Rate it</a>
-			    <!-- Modal -->
-				<div class="modal fade" id="ratingModal{{attachment.id}}" role="dialog">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				            <!-- Modal Header -->
-				            <div class="modal-header">
-						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i style="color:#f44336" class="fa fa-window-close" aria-hidden="true"></i></button>
-						          <h3 style="color: #f44336;" class="modal-title">Submit Your Ratings</h3>
-					        </div>
-				            
-				            <!-- Modal Body -->
-				            <div class="modal-body">
-				                <p class="statusMsg"></p>
-				                <form role="form">
-				                    <div class="form-group">
-				                        Select Rating <star-rating ng-model="user"></star-rating><br/><br/>
-				                        <div id="rating{{attachment.id}}" style="display:none">{{user.rating}}</div>
-				                        <textarea style="line-height: 40px!important;" class="form-control" id="comment{{attachment.id}}" placeholder="Enter your comment" maxlength="500" required></textarea>
-				                    </div>
-				                </form>
-				            </div>
-				            
-				            <!-- Modal Footer -->
-				            <div class="modal-footer">
-				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
-				                <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal" ng-click="saveRatings(attachment.id)">SUBMIT</button>
-				            </div>
-				        </div>
-				    </div>
-				</div>
-				<!-- Rating Model Link Code Ends -->
-	      	 </div>
+	    <div ng-if="attachment.objectType == 'ratings' ">
+	       <div rating-details></div>
 	    </div>
+	    
+	    <div ng-if="attachment.objectType == 'marks' ">
+	       <div marks-details></div>
+	    </div>
+	    
 	      
   </div>
 </div>
