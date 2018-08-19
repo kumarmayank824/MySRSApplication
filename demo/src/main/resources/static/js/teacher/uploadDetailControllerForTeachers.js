@@ -40,16 +40,16 @@
 	
 		$scope.user = {rating:1}; 
 		
-		$scope.saveRatings = function(attachmentId){
+		$scope.saveMarks = function(attachmentId){
 		   var csrf_token = $('input[name="_csrf"]').attr('value');
-	       var rating = $('#rating'+attachmentId).text();
-	       var comment = $('#comment'+attachmentId).val();
-	       teacherUploadDetailService.saveRatingAndComment(csrf_token,attachmentId,rating,comment,function(result){
-		        if(!result.showRatingLink){
+	       var marks = $('#marks'+attachmentId).val();
+	       var remarks = $('#remarks'+attachmentId).val();
+	       teacherUploadDetailService.saveMarksAndRemarks(csrf_token,attachmentId,marks,remarks,function(result){
+		        /*if(!result.showRatingLink){
 		        	$scope.user = {rating:1};
 		        	$('#ratingModalBtn'+attachmentId).click(function () {return false;});
 		        	$('#ratingModalBtn'+attachmentId).removeAttr("href");
-		        } 
+		        }*/ 
 		   });
 		  
 	    }

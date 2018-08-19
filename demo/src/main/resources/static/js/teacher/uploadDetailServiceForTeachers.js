@@ -20,15 +20,15 @@
   	    }
     	
     	
-    	this.saveRatingAndComment = function(csrf_token,attachmentId,rating,comment,cb){
+    	this.saveMarksAndRemarks = function(csrf_token,attachmentId,marks,remarks,cb){
     		
 	       	 $http({
-	       		 url : 'http://localhost:9099/std-save-rating-and-comment',
+	       		 url : 'http://localhost:9099/tch-save-marks-and-remarks',
 	       	     method : 'POST',
 		       	 headers: {
 		       		'X-CSRF-Token': csrf_token
 		         },
-	       	     params: { attachmentId:attachmentId ,rating:rating ,comment:comment }
+	       	     params: { attachmentId:attachmentId ,marks:marks ,remarks:remarks }
 	       	 }).then(function(response){
 	       		 cb(response.data);
 	       	 },function(response){

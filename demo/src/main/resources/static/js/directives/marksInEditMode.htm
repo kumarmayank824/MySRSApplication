@@ -1,7 +1,21 @@
 <form role="form">
-    <div class="form-group">
-        Marks <input type="text" class="form-control" id="marks{{attachment.id}}"><br/><br/>
-        <textarea style="line-height: 40px!important;" class="form-control" id="remarks{{attachment.id}}" placeholder="Enter your remarks" maxlength="500" required></textarea>
+    <div class="row">
+       <div class="col-sm-4"><strong>Title</strong></div>
+       <div class="col-sm-7" style="word-wrap: break-word;">
+            {{attachment.title}}
+          </div>  
+    </div>
+    <br>
+    <div class="row">
+       <div class="col-sm-4"><strong>Description</strong></div>
+       <div class="col-sm-7" style="word-wrap: break-word;">
+          {{attachment.description}}
+       </div>
+    </div>
+    <hr>
+	<div class="form-group">    
+        <strong>Marks</strong> <input type="text" class="form-control" id="marks{{attachment.id}}"><br/>
+        <strong>Remarks</strong> <textarea style="line-height: 40px!important;" class="form-control" id="remarks{{attachment.id}}" placeholder="Enter your remarks" maxlength="500" required></textarea>
     </div>
 </form>
 
@@ -9,5 +23,5 @@
 <!-- Modal Footer -->
 <div class="modal-footer">
     <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
-    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal" ng-click="saveRatings(attachment.id)">SUBMIT</button>
+    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal" ng-click="saveMarks(attachment.id)">SUBMIT</button>
 </div>

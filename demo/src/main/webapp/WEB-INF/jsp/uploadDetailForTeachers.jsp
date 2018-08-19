@@ -15,7 +15,7 @@
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
 		<link href="css/bootstrap-glyphicons-3.0.0.css" rel="stylesheet"> 
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
-		<link rel="stylesheet" href="css/ratings.css">
+		<link rel="stylesheet" href="css/toggle-button.css">
 		<link rel="stylesheet" href="css/common.css">
       
 		<script src="js/angular.min.js"></script>
@@ -40,7 +40,6 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-		    <a href="/tch-upload-pdf-page" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload Your Work Here</a>
 		    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Download others Work</a> -->
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
@@ -75,8 +74,19 @@
 		   		</div>
 		     </form>
 		     <hr>
+		     
+		     <div class="myradio" style="margin-top: 15px;">
+		        <label style="margin-left:20px;" > APPLY FILTER <i style="color:#72c3cc;" class="fa fa-filter" aria-hidden="true"></i> : </label> 
+		        <input id="radio-1"  ng-model="filterType.marksExists" type="radio" value="" checked>
+				<label for="radio-1" class="myradio-label myradioApplyFilter" >Show All</label>
+				<input id="radio-2"  ng-model="filterType.marksExists" type="radio" value="true" >
+				<label for="radio-2" class="myradio-label myradioApplyFilter" >Evaluated</label>
+				<input id="radio-3"  ng-model="filterType.marksExists" type="radio" value="false">
+				<label  for="radio-3" class="myradio-label myradioApplyFilter" >Not Yet Evaluated </label>
+			 </div><br>
+		     
 		     <!-- <div dir-paginate="attachment in attachmentLst|filter:search|itemsPerPage:itemsPerPage"  total-items="{{total_count}}" class="col-md-4"> -->
-		     <div dir-paginate="attachment in attachmentLst|filter:search|itemsPerPage:6"  class="col-md-4"> 
+		     <div dir-paginate="attachment in attachmentLst|filter:filterType|itemsPerPage:6"  class="col-md-4"> 
 		         <div attachment-details></div>
 		     </div>  
 		  </div>

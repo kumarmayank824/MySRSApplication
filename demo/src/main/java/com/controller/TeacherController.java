@@ -22,10 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.constant.Constant;
 import com.domain.Attachment;
+import com.domain.Marks;
 import com.domain.Rating;
 import com.domain.User;
 import com.domain.UserRole;
 import com.repository.AttachmentRepository;
+import com.repository.MarksRepository;
+import com.repository.RatingRepository;
 import com.repository.SecretCodeRepository;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -44,6 +47,9 @@ public class TeacherController {
 	
 	@Autowired
 	AttachmentRepository attachmentRepository;
+	
+	@Autowired
+	MarksRepository marksRepository;
 	
 	// Process confirmation link
 	@RequestMapping(value="/teacherConfirm", method = RequestMethod.POST)
@@ -103,8 +109,8 @@ public class TeacherController {
 	
 	
 	@RequestMapping(value="/tch-search-details", method = RequestMethod.POST) 
-	public void saveRatingAndComment(@RequestParam("semester") String semester ,@RequestParam("batch") String batch,
-			@RequestParam("course") String course,HttpServletResponse response) {		
+	public void saveRatingAndComment(@RequestParam(Constant.semester) String semester ,@RequestParam(Constant.batch) String batch,
+			@RequestParam(Constant.course) String course,HttpServletResponse response) {		
 		
 		JSONObject returnJson = null;
 		
@@ -127,6 +133,39 @@ public class TeacherController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	@RequestMapping(value="/tch-save-marks-and-remarks", method = RequestMethod.POST) 
+	public void saveRatingAndComment(@RequestParam(Constant.attachmentId) Long attachmentId ,@RequestParam(Constant.markObjectType) Long marks,
+			@RequestParam(Constant.remarks) String remarks,HttpServletResponse response) {		
+		
+		JSONObject returnJson = null;
+		
+		try {
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    User user = (User) auth.getPrincipal();
+		    
+			Marks marksObj = new Marks();
+			marksObj.setAttachmentId(attachmentId);
+			marksObj.setAuthor(user.getUsername());
+			marksObj.setEmail(user.getEmail());
+			marksObj.setRemarks(remarks);
+			marksObj.setMarks(marks);
+			marksRepository.save(marksObj);
+			returnJson = new JSONObject();
+			returnJson.put("showMarksLink",false);
+			response.getWriter().write(returnJson.toString());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

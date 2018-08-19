@@ -100,7 +100,11 @@ input:checked + .slider:before {
   margin-right: 0;
 }
 
-
+.myradioApplyFilter{
+  margin-left:10px;
+  font-weight:500;
+  cursor: pointer;
+}
 
 /* Scroll bar customization for later use  */
 
