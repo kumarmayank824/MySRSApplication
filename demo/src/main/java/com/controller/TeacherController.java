@@ -109,7 +109,7 @@ public class TeacherController {
 	
 	
 	@RequestMapping(value="/tch-search-details", method = RequestMethod.POST) 
-	public void saveRatingAndComment(@RequestParam(Constant.semester) String semester ,@RequestParam(Constant.batch) String batch,
+	public void getSearchDetails(@RequestParam(Constant.semester) String semester ,@RequestParam(Constant.batch) String batch,
 			@RequestParam(Constant.course) String course,HttpServletResponse response) {		
 		
 		JSONObject returnJson = null;
@@ -137,10 +137,13 @@ public class TeacherController {
 	
 	
 	@RequestMapping(value="/tch-save-marks-and-remarks", method = RequestMethod.POST) 
-	public void saveRatingAndComment(@RequestParam(Constant.attachmentId) Long attachmentId ,@RequestParam(Constant.markObjectType) Long marks,
-			@RequestParam(Constant.remarks) String remarks,HttpServletResponse response) {		
+	public void saveMarks(@RequestParam(Constant.attachmentId) Long attachmentId ,@RequestParam(Constant.markObjectType) Long marks,
+			@RequestParam(Constant.markPara1) String markPara1 ,@RequestParam(Constant.markPara2) String markPara2,
+			@RequestParam(Constant.markPara3) String markPara3 ,@RequestParam(Constant.markPara4) String markPara4,
+			@RequestParam(Constant.markPara5) String markPara5,@RequestParam(Constant.semester) String semester ,@RequestParam(Constant.batch) String batch,
+			@RequestParam(Constant.course) String course, HttpServletResponse response) {		
 		
-		JSONObject returnJson = null;
+		//JSONObject returnJson = null;
 		
 		try {
 			
@@ -151,17 +154,21 @@ public class TeacherController {
 			marksObj.setAttachmentId(attachmentId);
 			marksObj.setAuthor(user.getUsername());
 			marksObj.setEmail(user.getEmail());
-			marksObj.setRemarks(remarks);
+			marksObj.setMarkPara1(markPara1);
+			marksObj.setMarkPara2(markPara2);
+			marksObj.setMarkPara3(markPara3);
+			marksObj.setMarkPara4(markPara4);
+			marksObj.setMarkPara5(markPara5);
+			//marksObj.setRemarks("testing");
 			marksObj.setMarks(marks);
 			marksRepository.save(marksObj);
-			returnJson = new JSONObject();
-			returnJson.put("showMarksLink",false);
-			response.getWriter().write(returnJson.toString());
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
+			getSearchDetails(semester, batch, course, response);
+			//returnJson = new JSONObject();
+			//returnJson.put("showMarksLink",false);
+			//response.getWriter().write(returnJson.toString());
+			
+		}  catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

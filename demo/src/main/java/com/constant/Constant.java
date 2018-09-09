@@ -13,5 +13,11 @@ public class Constant {
 	public static final String semester = "semester"; 
 	public static final String batch = "batch";
 	public static final String course = "course";
+	
+	public static final String markPara1 = "markPara1";
+	public static final String markPara2 = "markPara2";
+	public static final String markPara3 = "markPara3";
+	public static final String markPara4 = "markPara4";
+	public static final String markPara5 = "markPara5";
 	 
 }

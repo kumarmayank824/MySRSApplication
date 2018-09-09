@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="col-sm-5" style="font-size:16px;font-weight:600;">
+          Parameter(s) To Evaluate:
+    </div>
+</div>
+<br>
+<div class="row">
+	    <div ng-if="markPara1 == 0 " class="col-sm-4" style="font-family:Arial;color:red;">*&nbsp;Quality Of the content <i class="fa fa-times" aria-hidden="true"></i></div>
+	    <div ng-if="markPara1 != 0 " class="col-sm-4" style="font-family:Arial;color:#0fa23f;">Quality Of the content <i class="fa fa-check" aria-hidden="true"></i></div>
+	    <div class="col-sm-4">
+			<div class="form-group">  
+                <select ng-model="markPara1" ng-change="calculateTotal1(markPara1,'{{markPara1}}')" class="form-control" ng-init="markPara1='0'">
+                    <option value="0">Provide the Grade</option>
+					<option value="20">Outstanding</option>
+					<option value="18">Excellent</option>
+					<option value="16">Very Good</option>
+					<option value="14">Good</option>
+					<option value="12">Could Be Improved</option>
+					<option value="10">Not Satisfactory</option>
+					<option value="8">Poor</option>
+                </select>
+            </div>    
+		</div>  
+		<div class="col-sm-4">
+		   <div>{{markPara1}}</div>
+		</div>
+</div>
+
+<div class="row">
+	    <div ng-if="markPara2 == 0 " class="col-sm-4" style="font-family:Arial;color:red;">*&nbsp;Uniqueness of the content <i class="fa fa-times" aria-hidden="true"></i></div>
+	    <div ng-if="markPara2 != 0 " class="col-sm-4" style="font-family:Arial;color:#0fa23f;">Uniqueness of the content <i class="fa fa-check" aria-hidden="true"></i></div>
+	    <div class="col-sm-4">
+			<div class="form-group">  
+                <select ng-model="markPara2" ng-change="calculateTotal2(markPara2,'{{markPara2}}')" class="form-control" ng-init="markPara2='0'">
+                    <option value="0">Provide the Grade</option>
+					<option value="20">Outstanding</option>
+					<option value="18">Excellent</option>
+					<option value="16">Very Good</option>
+					<option value="14">Good</option>
+					<option value="12">Could Be Improved</option>
+					<option value="10">Not Satisfactory</option>
+					<option value="8">Poor</option>
+                </select>
+            </div>    
+		</div>  
+		<div class="col-sm-4">
+		   <div>{{markPara2}}</div>
+		</div>
+</div>
+
+<div class="row">
+	    <div ng-if="markPara3 == 0 " class="col-sm-4" style="font-family:Arial;color:red;">*&nbsp;Information Quality <i class="fa fa-times" aria-hidden="true"></i></div>
+	    <div ng-if="markPara3 != 0 " class="col-sm-4" style="font-family:Arial;color:#0fa23f;">Information Quality <i class="fa fa-check" aria-hidden="true"></i></div>
+	    <div class="col-sm-4">
+			<div class="form-group">  
+                <select ng-model="markPara3" ng-change="calculateTotal3(markPara3,'{{markPara3}}')" class="form-control" ng-init="markPara3='0'">
+                    <option value="0">Provide the Grade</option>
+					<option value="20">Outstanding</option>
+					<option value="18">Excellent</option>
+					<option value="16">Very Good</option>
+					<option value="14">Good</option>
+					<option value="12">Could Be Improved</option>
+					<option value="10">Not Satisfactory</option>
+					<option value="8">Poor</option>
+                </select>
+            </div>    
+		</div>  
+		<div class="col-sm-4">
+		   <div>{{markPara3}}</div>
+		</div>
+</div>
+
+<div class="row">
+	    <div ng-if="markPara4 == 0 " class="col-sm-4" style="font-family:Arial;color:red;">*&nbsp;Quality Of the content4 <i class="fa fa-times" aria-hidden="true"></i></div>
+	    <div ng-if="markPara4 != 0 " class="col-sm-4" style="font-family:Arial;color:#0fa23f;">Quality Of the content4 <i class="fa fa-check" aria-hidden="true"></i></div>
+	    <div class="col-sm-4">
+			<div class="form-group">  
+                <select ng-model="markPara4" ng-change="calculateTotal4(markPara4,'{{markPara4}}')" class="form-control" ng-init="markPara4='0'">
+                    <option value="0">Provide the Grade</option>
+					<option value="20">Outstanding</option>
+					<option value="18">Excellent</option>
+					<option value="16">Very Good</option>
+					<option value="14">Good</option>
+					<option value="12">Could Be Improved</option>
+					<option value="10">Not Satisfactory</option>
+					<option value="8">Poor</option>
+                </select>
+            </div>    
+		</div>  
+		<div class="col-sm-4">
+		   <div>{{markPara4}}</div>
+		</div>
+</div>
+
+
+<div class="row">
+	    <div ng-if="markPara5 == 0 " class="col-sm-4" style="font-family:Arial;color:red;">*&nbsp;Quality Of the content5 <i class="fa fa-times" aria-hidden="true"></i></div>
+	    <div ng-if="markPara5 != 0 " class="col-sm-4" style="font-family:Arial;color:#0fa23f;">Quality Of the content5 <i class="fa fa-check" aria-hidden="true"></i></div>
+	    <div class="col-sm-4">
+			<div class="form-group">  
+                <select ng-model="markPara5" ng-change="calculateTotal5(markPara5,'{{markPara5}}')" class="form-control" ng-init="markPara5='0'">
+                    <option value="0">Provide the Grade</option>
+					<option value="20">Outstanding</option>
+					<option value="18">Excellent</option>
+					<option value="16">Very Good</option>
+					<option value="14">Good</option>
+					<option value="12">Could Be Improved</option>
+					<option value="10">Not Satisfactory</option>
+					<option value="8">Poor</option>
+                </select>
+            </div>    
+		</div>  
+		<div class="col-sm-4">
+		   <div>{{markPara5}}</div>
+		</div>
+</div>
+
+<div class="row">
+       <div class="col-sm-6"></div>
+       <div class="col-sm-2"><strong>Total Marks</strong></div>
+       <div class="col-sm-4">{{total}}</div>
+</div>
+
+<!-- <strong>Marks</strong> <input type="text" class="form-control" id="marks{{attachment.id}}"><br/>
+<strong>Remarks</strong> <textarea style="line-height: 40px!important;" class="form-control" id="remarks{{attachment.id}}" placeholder="Enter your remarks" maxlength="500" required></textarea> -->

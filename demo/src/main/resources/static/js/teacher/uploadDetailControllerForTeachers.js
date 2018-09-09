@@ -40,20 +40,6 @@
 	
 		$scope.user = {rating:1}; 
 		
-		$scope.saveMarks = function(attachmentId){
-		   var csrf_token = $('input[name="_csrf"]').attr('value');
-	       var marks = $('#marks'+attachmentId).val();
-	       var remarks = $('#remarks'+attachmentId).val();
-	       teacherUploadDetailService.saveMarksAndRemarks(csrf_token,attachmentId,marks,remarks,function(result){
-		        /*if(!result.showRatingLink){
-		        	$scope.user = {rating:1};
-		        	$('#ratingModalBtn'+attachmentId).click(function () {return false;});
-		        	$('#ratingModalBtn'+attachmentId).removeAttr("href");
-		        }*/ 
-		   });
-		  
-	    }
-		 
 	}]);
 	
 	teacherUploadDetailApp.directive('searchDetails', function(){
@@ -74,11 +60,92 @@
 		}
 	});
 	
-	teacherUploadDetailApp.directive('marksInEditMode', function(){
+	teacherUploadDetailApp.directive('marksInEditMode', ['teacherUploadDetailService', function(teacherUploadDetailService){
 		return { 
+			restrict: "EA",
+	        scope: {},
+	        controller: function ($scope) {
+	        	
+	        	$scope.marksError = false;
+	        	$scope.markPara1 = 0;
+	    		$scope.markPara2 = 0;
+	    		$scope.markPara3 = 0;
+	    		$scope.markPara4 = 0;
+	    		$scope.markPara5 = 0;
+	    		$scope.total = 0;
+	    		$scope.calculateTotal1 = function(updatedValue,oldValue){
+	    			$scope.total = parseInt(updatedValue)+parseInt($scope.markPara2)+parseInt($scope.markPara3)+parseInt($scope.markPara4)+parseInt($scope.markPara5);
+	    		}
+	    		$scope.calculateTotal2 = function(updatedValue,oldValue){
+	    			$scope.total = parseInt($scope.markPara1)+parseInt(updatedValue)+parseInt($scope.markPara3)+parseInt($scope.markPara4)+parseInt($scope.markPara5);
+	    		}
+	    		$scope.calculateTotal3 = function(updatedValue,oldValue){
+	    			$scope.total = parseInt($scope.markPara1)+parseInt($scope.markPara2)+parseInt(updatedValue)+parseInt($scope.markPara4)+parseInt($scope.markPara5);
+	    		}
+	    		$scope.calculateTotal4 = function(updatedValue,oldValue){
+	    			$scope.total = parseInt($scope.markPara1)+parseInt($scope.markPara2)+parseInt($scope.markPara3)+parseInt(updatedValue)+parseInt($scope.markPara5);
+	    		}
+	    		$scope.calculateTotal5 = function(updatedValue,oldValue){
+	    			$scope.total = parseInt($scope.markPara1)+parseInt($scope.markPara2)+parseInt($scope.markPara3)+parseInt($scope.markPara4)+parseInt(updatedValue);
+	    		}
+	    		
+	    		$scope.saveMarks = function(attachmentId){
+	    			
+		    		if($scope.markPara1 == 0 || $scope.markPara2 == 0 || $scope.markPara3 == 0
+		    				|| $scope.markPara4 == 0  || $scope.markPara5 == 0 ){
+		    			$('#previousMarksModal'+attachmentId).modal({'backdrop': 'static'});
+		    			$.alert({
+					    	    title: 'Sorry !',
+					    	    icon: 'fa fa-times-circle',
+					    	    content: 'Please Provide all neccessary information.',
+					    	    type: 'red',
+					    	    boxWidth: '35%',
+					    	    useBootstrap: false,
+					    	    typeAnimated: true
+				    	});
+
+		    		}else{
+		    		   $scope.marksError = false;
+	    			   var csrf_token = $('input[name="_csrf"]').attr('value');
+	    		       var marks = $scope.total;
+	    		       var markPara1 = $scope.markPara1;
+	    		       var markPara2 = $scope.markPara2;
+	    		       var markPara3 = $scope.markPara3;
+	    		       var markPara4 = $scope.markPara4;
+	    		       var markPara5 = $scope.markPara5;
+	    		       var semester = $scope.$parent.semester;
+	    		       var batch = $scope.$parent.batch;
+	    		       var course =  $scope.$parent.course;
+	    		       teacherUploadDetailService.saveMarksAndRemarks(csrf_token,attachmentId,marks,semester,batch,course,markPara1,markPara2,markPara3,markPara4,markPara5,function(result){
+	    		    	    
+	    		    	    $scope.markPara1 = '0';
+	    		    	    $scope.markPara2 = '0';
+	    		    		$scope.markPara3 = '0';
+	    		    		$scope.markPara4 = '0';
+	    		    		$scope.markPara5 = '0';
+	    		    		$scope.total = 0;
+	    		    		$.alert({
+					    	    title: 'Success !',
+					    	    icon: 'fa fa-check-circle-o',
+					    	    content: 'Please Provide all neccessary information.',
+					    	    type: 'green',
+					    	    boxWidth: '35%',
+					    	    useBootstrap: false,
+					    	    typeAnimated: true
+				    	   });
+	    		    		
+    		    		   console.log(JSON.stringify(result.attachmentLst));
+    		    		   $scope.$parent.attachmentLst = result.attachmentLst;
+    		    		   
+    		    		   $('#previousMarksModal'+attachmentId).modal( "hide" );
+	    			   });
+		    		}	
+    			   
+	    	    }
+	        },
 			templateUrl : 'js/directives/marksInEditMode.htm'
 		}
-	});
+	}]);
 	
 	teacherUploadDetailApp.directive('marksInReadMode', function(){
 		return { 
@@ -86,7 +153,12 @@
 		}
 	});
 	
-	
+	teacherUploadDetailApp.directive('marksSelectOptions', function(){
+		return {
+	        templateUrl : 'js/directives/marksSelectOptions.htm'
+	    };
+	});
+
 	teacherUploadDetailApp.filter('range', function() {
 		  return function(input, total) {
 		    total = parseInt(total);

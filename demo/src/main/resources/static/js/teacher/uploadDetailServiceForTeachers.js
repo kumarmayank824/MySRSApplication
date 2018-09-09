@@ -20,7 +20,8 @@
   	    }
     	
     	
-    	this.saveMarksAndRemarks = function(csrf_token,attachmentId,marks,remarks,cb){
+    	this.saveMarksAndRemarks = function(csrf_token,attachmentId,marks,semester,batch,course,
+    			markPara1,markPara2,markPara3,markPara4,markPara5,cb){
     		
 	       	 $http({
 	       		 url : 'http://localhost:9099/tch-save-marks-and-remarks',
@@ -28,7 +29,7 @@
 		       	 headers: {
 		       		'X-CSRF-Token': csrf_token
 		         },
-	       	     params: { attachmentId:attachmentId ,marks:marks ,remarks:remarks }
+	       	     params: { attachmentId:attachmentId ,marks:marks,semester:semester,batch:batch,course:course, markPara1:markPara1, markPara2:markPara2, markPara3:markPara3, markPara4:markPara4, markPara5:markPara5 }
 	       	 }).then(function(response){
 	       		 cb(response.data);
 	       	 },function(response){

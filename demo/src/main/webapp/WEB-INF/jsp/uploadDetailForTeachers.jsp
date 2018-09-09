@@ -17,6 +17,7 @@
 		<link rel="stylesheet" href="css/table/jquery-ui.css">
 		<link rel="stylesheet" href="css/toggle-button.css">
 		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
       
 		<script src="js/angular.min.js"></script>
 		<script src="js/table/jquery-2.2.4.min.js"></script>
@@ -29,11 +30,11 @@
 		<script src="js/preview.js"></script>
 		<script src="js/avatar/ionic-letter-avatar.js"></script>
 		<script src="js/dirPagination-0.11.1.min.js"></script>
-		
+		<script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
 		
 	</head>
 	
-	<body ng-controller="teacherUploadDetailController">
+	<body ng-controller="teacherUploadDetailController" ng-init="searchDetails('V','Batch 1','M.Tech (IT)')">
 	
 		<!-- Navbar -->
 		<div class="w3-top">
@@ -77,7 +78,7 @@
 		     
 		     <div class="myradio" style="margin-top: 15px;">
 		        <label style="margin-left:20px;" > APPLY FILTER <i style="color:#72c3cc;" class="fa fa-filter" aria-hidden="true"></i> : </label> 
-		        <input id="radio-1"  ng-model="filterType.marksExists" type="radio" value="" checked>
+		        <input id="radio-1"  ng-model="filterType.marksExists" type="radio" checked>
 				<label for="radio-1" class="myradio-label myradioApplyFilter" >Show All</label>
 				<input id="radio-2"  ng-model="filterType.marksExists" type="radio" value="true" >
 				<label for="radio-2" class="myradio-label myradioApplyFilter" >Evaluated</label>

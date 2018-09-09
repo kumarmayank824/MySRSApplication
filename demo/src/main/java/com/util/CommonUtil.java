@@ -133,8 +133,14 @@ public class CommonUtil {
 		if(null != marks){
 			json.put("marksExists",true);
 			json.put("authorName",marks.getAuthor());
-			json.put("commentTime",dateFormatter(marks.getCommentTime()));
-			json.put("remarks",marks.getRemarks());
+			json.put("commentTime",marks.getCommentTime());
+			
+			json.put("markPara1",marks.getMarkPara1());
+			json.put("markPara2",marks.getMarkPara2());
+			json.put("markPara3",marks.getMarkPara3());
+			json.put("markPara4",marks.getMarkPara4());
+			json.put("markPara5",marks.getMarkPara5());
+			//json.put("remarks",marks.getRemarks());
 			json.put("marks",marks.getMarks());
 		}else{
 			json.put("marksExists",false);
@@ -174,7 +180,6 @@ public class CommonUtil {
 	       return encryptor.decrypt(value);
 	}
 	
-	
 	@Scheduled(cron = "0 0 */6 ? * *")
 	public void scheduleFixedDelayTask() {
 		String secretCode = Constant.secretCodeInitial+UUID.randomUUID().toString();
@@ -182,7 +187,6 @@ public class CommonUtil {
 		secretCodeRepository.deleteAll();
 		secretCodeRepository.save(secretCodeObj);
 	}
-	
-    
+ 
 	
 }

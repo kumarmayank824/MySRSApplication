@@ -32,7 +32,7 @@ public class Marks {
 	@NotBlank
 	private String author;
 	
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", nullable = false)
 	@Email(message = "Please provide a valid e-mail")
 	@NotEmpty(message = "Please provide an e-mail")
 	private String email;
@@ -41,11 +41,27 @@ public class Marks {
     @CreatedDate
 	private Date commentTime;
 	
+    @NotBlank
+    private String markPara1;
+    
+    @NotBlank
+    private String markPara2;
+    
+    @NotBlank
+    private String markPara3;
+    
+    @NotBlank
+    private String markPara4;
+    
+    @NotBlank
+    private String markPara5;
+    
 	private Long marks;
 	
-    @NotBlank
-    @Column(length=500)
-	private String remarks;
+	
+    //@NotBlank
+    //@Column(length=500)
+	//private String remarks;
 
 	public Long getId() {
 		return id;
@@ -95,13 +111,45 @@ public class Marks {
 		this.marks = marks;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public String getMarkPara1() {
+		return markPara1;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setMarkPara1(String markPara1) {
+		this.markPara1 = markPara1;
 	}
-    
+
+	public String getMarkPara2() {
+		return markPara2;
+	}
+
+	public void setMarkPara2(String markPara2) {
+		this.markPara2 = markPara2;
+	}
+
+	public String getMarkPara3() {
+		return markPara3;
+	}
+
+	public void setMarkPara3(String markPara3) {
+		this.markPara3 = markPara3;
+	}
+
+	public String getMarkPara4() {
+		return markPara4;
+	}
+
+	public void setMarkPara4(String markPara4) {
+		this.markPara4 = markPara4;
+	}
+
+	public String getMarkPara5() {
+		return markPara5;
+	}
+
+	public void setMarkPara5(String markPara5) {
+		this.markPara5 = markPara5;
+	}
+
     
 }
