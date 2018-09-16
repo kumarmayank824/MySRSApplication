@@ -7,10 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +27,7 @@ import com.domain.SecretCode;
 import com.repository.MarksRepository;
 import com.repository.RatingRepository;
 import com.repository.SecretCodeRepository;
+import com.services.EmailService;
 
 @Component
 public class CommonUtil {
@@ -175,9 +181,32 @@ public class CommonUtil {
 	}
 	
 	public static String decoder(String value) {
-	       StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-	       encryptor.setPassword(Constant.encrpytorPassWord);
-	       return encryptor.decrypt(value);
+       StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+       encryptor.setPassword(Constant.encrpytorPassWord);
+       return encryptor.decrypt(value);
+	}
+	
+	public static SimpleMailMessage emailTemplate(String to, String from, String subject
+			, String text) {
+		
+		SimpleMailMessage registrationEmail = new SimpleMailMessage();
+		registrationEmail.setTo(to);
+		registrationEmail.setSubject(subject);
+		registrationEmail.setText(text);
+		registrationEmail.setFrom(from);
+		return registrationEmail;
+		
+	}
+	
+	public static MimeMessage htmlMailMessage(MimeMessage mimeMessage ,String to, String from, String subject
+			, String text) throws MessagingException {
+		
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+		mimeMessage.setContent(text, "text/html");
+		helper.setTo(to);
+		helper.setSubject(subject);
+		helper.setFrom(from);
+		return mimeMessage;
 	}
 	
 	@Scheduled(cron = "0 0 */6 ? * *")
@@ -187,6 +216,5 @@ public class CommonUtil {
 		secretCodeRepository.deleteAll();
 		secretCodeRepository.save(secretCodeObj);
 	}
- 
-	
+
 }

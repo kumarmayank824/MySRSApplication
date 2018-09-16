@@ -84,7 +84,7 @@
 						</div>
 						
 						<div class="text-right p-t-8 p-b-15">
-							<a href="#">
+							<a href="/forgotPassword">
 								Forgot password?
 							</a>
 						</div>

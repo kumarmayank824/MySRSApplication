@@ -10,6 +10,8 @@ import java.net.URLConnection;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -69,6 +71,48 @@ public class CommonController {
         return "login";
     }
 	
+	@RequestMapping(value="/forgotPassword", method = RequestMethod.GET) 
+	public String forgotPassword(Model model, String error, String logout) {
+        return "forgotPassword";
+    }
+	
+	@RequestMapping(value="/forgotPassword", method = RequestMethod.POST) 
+	public String forgotPasswordSave(Model model,  @RequestParam("email") String email
+			,HttpServletRequest request) {
+        
+		try {
+			// Lookup user in database by e-mail
+			User userExists = userService.findByEmail(email);
+			if (userExists == null) {
+				model.addAttribute("noSuchUserError", "no such user error");
+				model.addAttribute("previousEmail", email);
+				return "forgotPassword";
+			}else {
+				//send forgot password email
+				String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+				String text = "<p>This email was sent to you because someone requested a password reset on your account.</p>"
+						      +"<p>Visit the following URL to set a new password:</p>" 
+						      + "<p><a target='_blank' href='"+ appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType()+ "'>" + appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType() + "</a></p>"
+				              +"<p>You can do a regular login at: <a target='_blank' href='" + appUrl + "/login'>" + appUrl + "/login" + "</a></p>";
+				MimeMessage mimeMessage = emailService.getMimeMessageObj();
+				//SimpleMailMessage forgotPasswordEmail = CommonUtil.emailTemplate(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
+				mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
+				emailService.getJavaMailSender().send(mimeMessage);
+				model.addAttribute("forgotPasswordEmailSendSuccessfully", "true");
+				return "forgotPassword";
+			}
+		} catch (MessagingException ex) {
+           
+        }
+		return null;
+    }
+	
+	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.GET) 
+	public String handlePasswordChangeRequest(Model model,@RequestParam("token") String token
+			,@RequestParam("signInType") String signInType, String error, String logout,HttpServletRequest request,HttpServletResponse response) {
+        return "changePassword";
+    }
+	
 	@RequestMapping(value="/registerUser", method = RequestMethod.GET) 
 	public String handleRegistrationRequest(Model model, String error, String logout) {
         return "registration";
@@ -98,19 +142,19 @@ public class CommonController {
 			    user.setConfirmationToken(UUID.randomUUID().toString());
 			        
 			    userService.saveUser(user);
-					
+				
+			    //send registration email
 				String appUrl = request.getScheme() + "://" + request.getServerName();
 				
-				SimpleMailMessage registrationEmail = new SimpleMailMessage();
-				registrationEmail.setTo(user.getEmail());
-				registrationEmail.setSubject("Registration Confirmation");
-				registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
-						+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType());
-				registrationEmail.setFrom("noreply@domain.com");
+				String text = "To confirm your e-mail address, please click the link below:\n"
+						+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType();
+				
+				SimpleMailMessage registrationEmail = CommonUtil.emailTemplate(user.getEmail(), "noreply@domain.com", "Registration Confirmation", text);
 				
 				emailService.sendEmail(registrationEmail);
 				
 				model.addAttribute("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
+				
 				return "registration";
 			}
     }

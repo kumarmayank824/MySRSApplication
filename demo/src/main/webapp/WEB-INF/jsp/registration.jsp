@@ -61,7 +61,7 @@
 		        <div class="wrap-logo">
 				  <div class="login-upper-div">
 				  	<!-- <img class="app-logo" alt="" src="images/logo/logo.png"> -->
-				  	<div class="signin-text">Sign up to app</div>
+				  	<div class="signin-text">Register in to app</div>
 				  </div>
 				</div>
 				<div class="wrap-login100">
@@ -74,7 +74,7 @@
 					       <script>
 						       $.alert({
 						    	    title: 'Sorry !',
-						    	    icon: 'fas fa-ban',
+						    	    icon: 'fa fa-ban',
 						    	    content: 'There is already a user registered with the email provided.Please try with a different email.',
 						    	    type: 'red',
 						    	    boxWidth: '35%',

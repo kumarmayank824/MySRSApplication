@@ -497,6 +497,24 @@ iframe {
     font-weight: 600;
 }
 
+.forgotPassTitle {
+	color: #333333;
+    font-size: 16px;
+    margin: -5px 0 25px;
+    text-align: center;
+}
+
+.forgotParagraph {
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.forgotPassCheckEmailList{
+	margin-bottom: 1em;
+    text-align: left;
+    list-style-type: disc;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/

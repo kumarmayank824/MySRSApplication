@@ -1,5 +1,7 @@
 package com.services;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,4 +22,13 @@ public class EmailService {
 	  public void sendEmail(SimpleMailMessage email) {
 	    mailSender.send(email);
 	  }
+	  
+	  public MimeMessage getMimeMessageObj() {
+		  return mailSender.createMimeMessage();
+	  }
+	  
+	  public JavaMailSender getJavaMailSender() {
+		return mailSender;
+	  }
+	  
 }
