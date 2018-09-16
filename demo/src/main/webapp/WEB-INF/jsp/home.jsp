@@ -5,15 +5,12 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/w3.css">
-		<!-- <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"> -->
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 		<script src="js/chart/highcharts.js"></script>
-		<script src="js/chart/chart.js"></script>
 		<script src="js/angular.min.js" ></script>
 		<script src="js/mainController.js" ></script>
 		<script src="js/mainService.js" ></script>
+		<script src="js/chart/chart.js"></script>
 	</head>
 	<style>
 		body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
@@ -48,7 +45,7 @@
 		</header> -->
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-padding-64 w3-container">
+		<div class="w3-row-padding w3-container" style="padding-top: 64px!important;margin-top:50px">
 		  <div class="w3-content">
 		    <!-- <div class="w3-twothird">
 		      <h1>Lorem Ipsum</h1>
@@ -89,7 +86,7 @@
 		</div> -->
 		
 		<!-- Footer -->
-		<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+		<footer class="w3-container w3-center w3-opacity" style="padding-top:64px!important;">  
 		  <!-- <div class="w3-xlarge w3-padding-32">
 		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
 		    <i class="fa fa-instagram w3-hover-opacity"></i>

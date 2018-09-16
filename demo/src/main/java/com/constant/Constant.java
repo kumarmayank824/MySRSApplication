@@ -19,5 +19,11 @@ public class Constant {
 	public static final String markPara3 = "markPara3";
 	public static final String markPara4 = "markPara4";
 	public static final String markPara5 = "markPara5";
+	
+	//Graph Detail Constant
+	public static final String graphName = "name";
+	public static final String graphY = "y";
+	public static final String graphDrilldown = "drilldown";
+	public static final String graphColor = "color";
 	 
 }

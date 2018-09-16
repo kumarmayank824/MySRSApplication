@@ -6,6 +6,9 @@
 	app.controller('mainController',['$scope', 'mainService','$window',function ($scope,mainService,$window) {
 	    
 		$scope.init = function () {
+			mainService.getGraphDetails(function(result){
+				createChart(result);
+			});
 		};
 		
 		// Used to toggle the menu on small screens when clicking on the menu button
@@ -48,8 +51,68 @@
 	    	  $scope.signInType = "Teacher";
 	      }
 	    };
+	    
+	    
+	    function createChart(result) {
+	    	
+	    	Highcharts.chart('container', {
+	    	    title: {
+	    	        text: 'Proportion chart'
+	    	    },
+	    	    xAxis: {
+	    	        categories: result.categories
+	    	    },
+	    	    labels: {
+	    	        items: [{
+	    	            html: 'Total Upload ' + '<b>' + result.totalCount + '</b>',
+	    	            style: {
+	    	                left: '50px',
+	    	                top: '-42px',
+	    	                color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+	    	            }
+	    	        }]
+	    	    },
+	    	    series: [{
+	    	        type: 'column',
+	    	        name: 'Upload Count',
+	    	        data: result.graphDetails,
+	    	        showInLegend: false,
+	    	        dataLabels: {
+	    	            enabled: false
+	    	        }
+	    	    },{
+	    	        type: 'spline',
+	    	        name: 'Upload Count',
+	    	        data: result.graphDetails,
+	    	        marker: {
+	    	            lineWidth: 2,
+	    	            lineColor: Highcharts.getOptions().colors[3],
+	    	            fillColor: 'white'
+	    	        },
+	    	        showInLegend: false,
+	    	        dataLabels: {
+	    	            enabled: false
+	    	        }
+	    	    }, {
+	    	        type: 'pie',
+	    	        name: 'Upload Count',
+	    	        data: result.graphDetails,
+	    	        center: [815, 50],
+	    	        size: 120,
+	    	        showInLegend: false,
+	    	        dataLabels: {
+	    	            enabled: false
+	    	        }
+	    	    }]
+	    	});
+	    	
+	    	
+	    }
+	    
 		
 	}]);
+	
+	
 	
 	
 })();
