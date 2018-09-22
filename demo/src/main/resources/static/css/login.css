@@ -510,10 +510,34 @@ iframe {
     margin-top: 40px;
 }
 
-.forgotPassCheckEmailList{
+.forgotPassCheck {
 	margin-bottom: 1em;
     text-align: left;
-    list-style-type: disc;
+    font-size:14px;
+    /* list-style-type: disc; */
+}
+
+.forgotPassCheck2 {
+	margin-bottom: 1em;
+    text-align: left;
+    font-size:14px;
+}
+
+.forgotPassErrorFontAwesome {
+	font-size:14px;
+	color:red;
+}
+
+.forgotPassSuccessFontAwesome {
+	font-size:14px;
+	color:#0fa23f;
+}
+
+.buttonDisabledText{
+	font-size:10px;
+	text-align: center;
+    padding-top: 5px;
+	color:#f44336;
 }
 
 /*//////////////////////////////////////////////////////////////////

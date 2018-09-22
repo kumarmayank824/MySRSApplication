@@ -79,38 +79,45 @@
 					    </c:if>
 					    
 				        <h2 class="forgotPassTitle">Please choose a new password</h2>
-				        <form action="/forgotPassword" method="post">
+				        
+				        <form action="/forgot-password-reset" method="post">
 						    
 							<div class="wrap-input100 validate-input" data-validate="Password is required">
 								<span class="label-input100">New Password</span>
-								<input class="input100" type="password" name="password" placeholder="Type your password">
+								<input class="input100" type="password" ng-model="forgotPassword" ng-change="checkPasswordRules(forgotPassword)" name="newPassword" placeholder="Type your password">
 								<span class="focus-input100" data-symbol="&#xf190;"></span>
 						    </div> 
 							
 							<p style="text-align:left;margin:1em 0;font-family:unset;margin-top: 25px;">Password requirements:</p>
-					        <ul style="text-align:left;margin:1em">
-					           <li class="forgotPassCheckEmailList">
-					             must be at least 6 characters 
+					        
+					        <ul style="text-align:left;margin:0.6em">
+					           <li ng-class="forgotPassCheckClass">
+					             <i  class="{{ condition1 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must be at least 8 characters
 					           </li>
-					           <li class="forgotPassCheckEmailList">
-					             must contains a minimum of 1 numeric character [0-9]
+					           <li ng-class="forgotPassCheckClass">
+					             <i class="{{ condition2 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must contains a minimum of 1 numeric character [0-9]
 					           </li>
-					           <li class="forgotPassCheckEmailList">
-					             must contains a minimum of 1 special character [!@#$%^&*, etc.]
+					           <li ng-class="forgotPassCheckClass">
+					             <i class="{{ condition3 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must contains a minimum of 1 special character [!@#$%^&* only.]
 					           </li>
 					        </ul>
 							
 							<div class="container-login100-form-btn">
 								<div class="wrap-login100-form-btn">
 									<div class="login100-form-bgbtn"></div>
-									<button type="submit" class="login100-form-btn">Change password</button>
+									<button type="submit" ng-disabled="isDisabled" class="login100-form-btn">Change password</button>
 								</div>
 							</div>
+							
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
+								
 						</form>
+						
+						<h5 ng-if="isDisabled" class="buttonDisabledText" > * Button is disabled </h5>
+						
 						<div class="flex-col-c p-t-15">
-							<span class="txt1 p-b-17"> Already a member? <a
+							<span class="txt1 p-b-17" style="padding-bottom:4px"> Already a member? <a
 								href="/login" class="txt2">Login now</a>
 							</span>
 						</div>

@@ -109,8 +109,14 @@ public class CommonController {
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.GET) 
 	public String handlePasswordChangeRequest(Model model,@RequestParam("token") String token
-			,@RequestParam("signInType") String signInType, String error, String logout,HttpServletRequest request,HttpServletResponse response) {
+			,@RequestParam("signInType") String signInType) {
         return "changePassword";
+    }
+	
+	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.POST) 
+	public String saveNewPassword(Model model,@RequestParam("newPassword") String newPassword) {
+        System.out.println("Mayank");
+		return "changePassword";
     }
 	
 	@RequestMapping(value="/registerUser", method = RequestMethod.GET) 

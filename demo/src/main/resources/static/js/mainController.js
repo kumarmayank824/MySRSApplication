@@ -109,7 +109,53 @@
 	    	
 	    }
 	    
-		
+	    //To check the forgot password rules
+	    $scope.forgotPassCheckClass = 'forgotPassCheck';
+	    $scope.condition1 = false;
+	    $scope.condition2 = false;
+	    $scope.condition3 = false;
+	    $scope.isDisabled = true;
+	    
+	    $scope.checkPasswordRules = function(forgotPassword) {
+	    	
+	    	var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+	    	var conditionRegex1 = new RegExp("^(?=.{8,})");
+	    	var conditionRegex2 = new RegExp("^(?=.*[0-9])");
+	    	var conditionRegex3 = new RegExp("^(?=.*[!@#\$%\^&\*])");
+	    	if(strongRegex.test(forgotPassword)) {
+	    		$scope.forgotPassCheckClass = 'forgotPassCheck2';
+	    		$scope.condition1 = true;
+	    	    $scope.condition2 = true;
+	    	    $scope.condition3 = true;
+	    	    $scope.isDisabled = false;
+            } else if(!forgotPassword && forgotPassword === ''){
+            	$scope.forgotPassCheckClass = 'forgotPassCheck';
+            	$scope.condition1 = false;
+        	    $scope.condition2 = false;
+        	    $scope.condition3 = false;
+        	    $scope.isDisabled = true;
+            } else {
+                if(conditionRegex1.test(forgotPassword)){
+                	$scope.forgotPassCheckClass = 'forgotPassCheck2';
+                	$scope.condition1 = true;
+                }else{
+                	$scope.condition1 = false;
+                }
+                if(conditionRegex2.test(forgotPassword)){
+                	$scope.forgotPassCheckClass = 'forgotPassCheck2';
+                	$scope.condition2 = true;
+                }else{
+                	$scope.condition2 = false;
+                }
+                if(conditionRegex3.test(forgotPassword)){
+                	$scope.forgotPassCheckClass = 'forgotPassCheck2';
+                	$scope.condition3 = true;
+                }else{
+                	$scope.condition3 = false;
+                }
+            }
+	    }
+	    
 	}]);
 	
 	
