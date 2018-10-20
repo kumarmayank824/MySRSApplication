@@ -25,9 +25,11 @@
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	
 	<script src="js/angular.min.js"></script>
+	<script src="js/avatar/ionic-letter-avatar.js"></script>
 	<script src="js/mainController.js"></script>
 	<script src="js/mainService.js"></script>
     <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+    <script src="js/alert.js"></script>
 	
 	</head>
 	<style>
@@ -68,22 +70,12 @@
 					<form:form action="/registerUser" method="post" modelAttribute="user">
 	
 						<c:if test="${confirmationMessage ne null}">
-						        <span "class="alert alert-success">${confirmationMessage}</span>
+						   <input type="hidden" id="alertSuccessMessage" value="${confirmationMessage}"/>
 					    </c:if>
 					    <c:if test="${alreadyRegisteredMessage ne null}">
-					       <script>
-						       $.alert({
-						    	    title: 'Sorry !',
-						    	    icon: 'fa fa-ban',
-						    	    content: 'There is already a user registered with the email provided.Please try with a different email.',
-						    	    type: 'red',
-						    	    boxWidth: '35%',
-						    	    useBootstrap: false,
-						    	    typeAnimated: true
-						    	});
-					       </script>
-						        <%-- <span "class="alert alert-success">${alreadyRegisteredMessage}</span> --%>
+					       <input type="hidden" id="alertFailureMessage" value="${alreadyRegisteredMessage}"/>
 					    </c:if>
+					    
 						<div class="wrap-input100 validate-input m-b-23"
 							data-validate="Username is reauired">
 							<span class="label-input100">Username</span> <input

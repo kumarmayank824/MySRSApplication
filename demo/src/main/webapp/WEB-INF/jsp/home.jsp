@@ -8,6 +8,7 @@
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 		<script src="js/chart/highcharts.js"></script>
 		<script src="js/angular.min.js" ></script>
+		<script src="js/avatar/ionic-letter-avatar.js"></script>
 		<script src="js/mainController.js" ></script>
 		<script src="js/mainService.js" ></script>
 		<script src="js/chart/chart.js"></script>

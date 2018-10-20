@@ -24,9 +24,11 @@
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	
 	<script src="js/angular.min.js"></script>
+	<script src="js/avatar/ionic-letter-avatar.js"></script>
 	<script src="js/mainController.js"></script>
 	<script src="js/mainService.js"></script>
     <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+    <script src="js/alert.js"></script>
 	
 	</head>
 	<style>
@@ -63,19 +65,9 @@
 				  </div>
 				</div>
 				<div class="wrap-login100" style="width:380px;">
-				    
-					    <c:if test="${noSuchUserError ne null}">
-					       <script>
-						       $.alert({
-						    	    title: 'Sorry !',
-						    	    icon: 'fa fa-ban',
-						    	    content: 'There is no registered user with the email provided.Please try with a correct email.',
-						    	    type: 'red',
-						    	    boxWidth: '35%',
-						    	    useBootstrap: false,
-						    	    typeAnimated: true
-						    	});
-					       </script>
+				        
+				        <c:if test="${noSuchUserError ne null}">
+					      <input type="hidden" id="alertFailureMessage" value="${noSuchUserError}"/>
 					    </c:if>
 					    
 					    <c:if test="${forgotPasswordEmailSendSuccessfully ne true}">
@@ -120,8 +112,8 @@
 					             we offer self-registration. Please go to registration page to register yourself.
 					           </li>
 					        </ul>
-					        <div style="text-align:center;">
-					            <a style="color:#f44336" href="/login">Close</a>
+					        <div style="text-align:center;padding-top: 20px;">
+					            <a style="color:#f44336;" href="/login">Close</a>
 					        </div>
 					   </c:if>
 				</div>

@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="css/w3.css">
 		<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<script src="js/angular.min.js" ></script>
+		<script src="js/avatar/ionic-letter-avatar.js"></script>
 		<script src="js/mainController.js" ></script>
 		<script src="js/mainService.js" ></script>
 	</head>

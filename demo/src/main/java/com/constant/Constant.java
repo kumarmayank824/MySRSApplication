@@ -25,5 +25,8 @@ public class Constant {
 	public static final String graphY = "y";
 	public static final String graphDrilldown = "drilldown";
 	public static final String graphColor = "color";
+	
+	public static final String student = "Student";
+	public static final String teacher = "Teacher";
 	 
 }

@@ -1,6 +1,6 @@
 (function(){
 	 
-	var app = angular.module("mainApp",[]);  
+	var app = angular.module("mainApp",['ionic-letter-avatar']);  
 	
 	
 	app.controller('mainController',['$scope', 'mainService','$window',function ($scope,mainService,$window) {
@@ -156,9 +156,15 @@
             }
 	    }
 	    
+	    $scope.showProfileInEditMode = false;
+	    $scope.loadProfileInEditMode = function() {
+	    	$scope.showProfileInEditMode = true;
+	    }
+	    
+	    $scope.backToReadMode = function() {
+	    	$scope.showProfileInEditMode = false;
+	    }
+	    
 	}]);
-	
-	
-	
 	
 })();

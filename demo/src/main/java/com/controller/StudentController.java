@@ -118,6 +118,7 @@ public class StudentController {
 		if( null != auth){
 			User user = (User) auth.getPrincipal();
 			model.addAttribute("loggedInUser", user.getUsername()); 
+			model.addAttribute("loggedInUserEmail", user.getEmail());
 		}
 		return "upload";
 	}
@@ -139,6 +140,7 @@ public class StudentController {
 			       
 				    Attachment attachment = new Attachment();
 				    attachment.setAuthor(user.getUsername());
+				    attachment.setAuthorEmail(user.getEmail());
 				    attachment.setSemester(user.getSemester());
 				    attachment.setBatch(user.getBatch());
 				    attachment.setCourse(user.getCourse());
@@ -147,6 +149,7 @@ public class StudentController {
 	                attachment.setDescription(description);
 	                attachment.setFileName(file.getOriginalFilename());
 	                attachment.setFileSize(file.getSize());
+	                attachment.setCount(0);
 	                
 	                if(file.getContentType().equalsIgnoreCase("application/pdf")){
 	                	attachment.setContentType("PDF");

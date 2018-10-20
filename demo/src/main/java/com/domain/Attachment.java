@@ -12,7 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,6 +29,11 @@ public class Attachment {
 	
 	@NotBlank
 	private String author;
+	
+	@Column(name = "author_email", nullable = false, unique = true)
+	@Email(message = "Please provide a valid e-mail")
+	@NotEmpty(message = "Please provide an e-mail")
+	private String authorEmail;
 	
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -58,11 +65,19 @@ public class Attachment {
     
     private String course;
     
+    private int count;
+    
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getAuthorEmail() {
+		return authorEmail;
+	}
+	public void setAuthorEmail(String authorEmail) {
+		this.authorEmail = authorEmail;
 	}
 	public String getAuthor() {
 		return author;
@@ -138,6 +153,12 @@ public class Attachment {
 	}
 	public void setCourse(String course) {
 		this.course = course;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 	

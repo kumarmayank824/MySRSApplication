@@ -27,7 +27,6 @@ import com.domain.SecretCode;
 import com.repository.MarksRepository;
 import com.repository.RatingRepository;
 import com.repository.SecretCodeRepository;
-import com.services.EmailService;
 
 @Component
 public class CommonUtil {

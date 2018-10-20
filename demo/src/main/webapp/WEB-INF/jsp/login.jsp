@@ -18,14 +18,19 @@
    <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css">
    <link rel="stylesheet"  href="css/util.css">
    <link rel="stylesheet"  href="css/login.css">
+   <link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
    
    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
    <script src="vendor/select2/select2.min.js"></script>
    
    <script src="js/angular.min.js" ></script>
+   <script src="js/avatar/ionic-letter-avatar.js"></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
+   <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+   <script src="js/alert.js"></script>
+   
    
   </head>
   <style>
@@ -59,6 +64,11 @@
 				  	<div class="signin-text">Sign in to app</div>
 				  </div>
 				</div>
+				
+		        <c:if test="${newPasswordAccepted ne null }">
+			       <input type="hidden" id="alertSuccessMessage" value="${newPasswordAccepted}"/>
+			    </c:if>
+				
 				<div class="wrap-login100">
 					<form action="/login" method="post">
 					        

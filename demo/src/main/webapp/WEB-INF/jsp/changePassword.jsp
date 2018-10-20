@@ -24,9 +24,11 @@
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	
 	<script src="js/angular.min.js"></script>
+	<script src="js/avatar/ionic-letter-avatar.js"></script>
 	<script src="js/mainController.js"></script>
 	<script src="js/mainService.js"></script>
     <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+	<script src="js/alert.js"></script>
 	
 	</head>
 	<style>
@@ -65,17 +67,10 @@
 				<div class="wrap-login100" style="width:430px;">
 				    
 					    <c:if test="${noSuchUserError ne null}">
-					       <script>
-						       $.alert({
-						    	    title: 'Sorry !',
-						    	    icon: 'fa fa-ban',
-						    	    content: 'There is no registered user with the email provided.Please try with a correct email.',
-						    	    type: 'red',
-						    	    boxWidth: '35%',
-						    	    useBootstrap: false,
-						    	    typeAnimated: true
-						    	});
-					       </script>
+					      <input type="hidden" id="alertFailureMessage" value="${noSuchUserError}"/>
+					    </c:if>
+					    <c:if test="${newPasswordRejected ne null }">
+					       <input type="hidden" id="alertFailureMessage" value="${newPasswordRejected}"/>
 					    </c:if>
 					    
 				        <h2 class="forgotPassTitle">Please choose a new password</h2>
@@ -85,6 +80,8 @@
 							<div class="wrap-input100 validate-input" data-validate="Password is required">
 								<span class="label-input100">New Password</span>
 								<input class="input100" type="password" ng-model="forgotPassword" ng-change="checkPasswordRules(forgotPassword)" name="newPassword" placeholder="Type your password">
+								<input type="hidden" name="email" value="${email}">
+								<input type="hidden" name="signInType" value="${signInType}">
 								<span class="focus-input100" data-symbol="&#xf190;"></span>
 						    </div> 
 							

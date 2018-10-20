@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,12 +34,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.constant.Constant;
 import com.domain.Attachment;
+import com.domain.Marks;
 import com.domain.User;
 import com.repository.AttachmentRepository;
+import com.repository.MarksRepository;
 import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
+import com.util.ValidatorUtil;
 
 @Controller
 public class CommonController {
@@ -48,6 +53,9 @@ public class CommonController {
 	CommonUtil commonUtil;
 	
 	@Autowired
+	ValidatorUtil validatorUtil;
+	
+	@Autowired
 	UserService userService;
 	
 	@Autowired
@@ -55,6 +63,9 @@ public class CommonController {
 	
 	@Autowired
     AttachmentRepository attachmentRepository;
+	
+	@Autowired
+	MarksRepository marksRepository;
 	
 	@RequestMapping(value={"/", "/home"}, method = RequestMethod.GET) 
 	public String showHomePage(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
@@ -92,7 +103,7 @@ public class CommonController {
 				String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 				String text = "<p>This email was sent to you because someone requested a password reset on your account.</p>"
 						      +"<p>Visit the following URL to set a new password:</p>" 
-						      + "<p><a target='_blank' href='"+ appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType()+ "'>" + appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType() + "</a></p>"
+						      + "<p><a target='_blank' href='"+ appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType() + "&email="+ userExists.getEmail() + "'>" + appUrl + "/forgot-password-reset?token="+ UUID.randomUUID().toString() + "&signInType="+ userExists.getSignInType() + "&email="+ userExists.getEmail() + "</a></p>"
 				              +"<p>You can do a regular login at: <a target='_blank' href='" + appUrl + "/login'>" + appUrl + "/login" + "</a></p>";
 				MimeMessage mimeMessage = emailService.getMimeMessageObj();
 				//SimpleMailMessage forgotPasswordEmail = CommonUtil.emailTemplate(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
@@ -109,14 +120,28 @@ public class CommonController {
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.GET) 
 	public String handlePasswordChangeRequest(Model model,@RequestParam("token") String token
-			,@RequestParam("signInType") String signInType) {
-        return "changePassword";
+			,@RequestParam("signInType") String signInType, @RequestParam("email") String email) {
+		model.addAttribute("signInType", signInType);
+		model.addAttribute("email", email);
+		return "changePassword";
     }
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.POST) 
-	public String saveNewPassword(Model model,@RequestParam("newPassword") String newPassword) {
-        System.out.println("Mayank");
-		return "changePassword";
+	public String saveNewPassword(Model model,@RequestParam("newPassword") String newPassword,
+			@RequestParam("signInType") String signInType, @RequestParam("email") String email ) {
+		if(validatorUtil.validatorPassword(newPassword)) {
+			model.addAttribute("newPasswordAccepted", "Congratulations! Your password has been changed successfully");
+			User userExists = userService.findByEmail(email);
+			if(userExists != null) {
+				newPassword = CommonUtil.encoder(newPassword);
+				userExists.setPassword(newPassword);
+				userService.saveUser(userExists);
+			}
+			return "login";
+		}else {
+			model.addAttribute("newPasswordRejected", "Sorry! Your password does not meet security requirements");
+			return "changePassword";
+		}
     }
 	
 	@RequestMapping(value="/registerUser", method = RequestMethod.GET) 
@@ -250,6 +275,44 @@ public class CommonController {
 	         
 	}	
 	
+	@RequestMapping(value="/user-profile", method = RequestMethod.GET)
+	public String loadUserProfile (Model model,HttpServletRequest request, 
+			HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String view = "userProfile"; 
+		if( null != auth){
+			User user = (User) auth.getPrincipal();
+		    if(null != user){
+		    	user = userService.findByEmail(user.getEmail());
+		    	model.addAttribute("user", user);
+		    	model.addAttribute("passwordHint", CommonUtil.decoder(user.getPassword()).substring(0, 3));
+		    	if(user.getSignInType().equalsIgnoreCase(Constant.teacher)) {
+		    		List<Marks> marksLst = marksRepository.findMarkedAttachmentByEmailId(user.getEmail());
+		    		if( null != marksLst && !marksLst.isEmpty() ) {
+		    			model.addAttribute("noOfAttachmentMarked", marksLst.size());
+			    	}else {
+		    			model.addAttribute("noOfAttachmentMarked", 0);
+		    		}
+		    	}else if(user.getSignInType().equalsIgnoreCase(Constant.student)) {
+		    		List<Attachment> attachmentLst = attachmentRepository.findAttachmentByEmailId(user.getEmail());
+			    	if( null != attachmentLst && !attachmentLst.isEmpty() ) {
+		    			model.addAttribute("noOfTotalUpload", attachmentLst.size());
+			    	}else {
+		    			model.addAttribute("noOfTotalUpload", 0);
+		    		}	
+		    	}
+		    }else {
+				//later get the referer and do
+		    	//user need to login to see the profile
+				return null;
+			}
+		}else {
+			//later get the referer and do
+			//user need to login to see the profile
+		}
+		return view;
+	}
+	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -261,7 +324,6 @@ public class CommonController {
 	    return "logoutSuccess";
 	    //return "redirect:/tologoutSuccess";
 	}
-	
 	
 	@RequestMapping(value="/access_denied", method = RequestMethod.GET) 
 	public String handleAccessDeniedRequest(Model model, String error, String logout) {

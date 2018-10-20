@@ -72,3 +72,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .modal-dialog{
 	width: 700px;
 } 
+
+.camelCase{
+	text-transform:capitalize
+}
+
+.profileLabelOnlyColor{
+	color:#3770a0;
+}
+.profileLabelColor{
+	color:#3770a0;
+	text-decoration:underline;
+}

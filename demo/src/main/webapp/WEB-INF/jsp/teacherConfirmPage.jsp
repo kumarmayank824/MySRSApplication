@@ -23,6 +23,7 @@
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
    
    <script src="js/angular.min.js" ></script>
+   <script src="js/avatar/ionic-letter-avatar.js"></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.3.0/zxcvbn.js"></script>
