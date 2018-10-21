@@ -3,7 +3,8 @@
     outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    padding: 120px 0px 110px 35%;
+    /* padding: 120px 0px 110px 35%; */
+    padding: 95px 0px 100px 35%;
     text-align: center !important;
     margin: 0;
     width: 100% !important;
@@ -21,7 +22,7 @@
     right: 0;
     height: 56px;
     content: "";
-    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109598.png);
     display: block;
     margin: 0 auto;
     background-size: 100%;

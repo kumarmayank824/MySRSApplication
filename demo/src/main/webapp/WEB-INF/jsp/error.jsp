@@ -22,7 +22,7 @@
 		.fa-anchor,.fa-coffee {font-size:200px}
 	</style>
 	
-	<body data-ng-controller="myController" data-ng-init="init()">
+	<body data-ng-controller="mainController">
 	
 		<!-- Navbar -->
 		<div class="w3-top">

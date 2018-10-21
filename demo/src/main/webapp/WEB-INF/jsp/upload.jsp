@@ -60,12 +60,12 @@
 		</div>
 		
 		<!-- Header -->
-		<header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
+		<!-- <header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
 		  <h5 class="w3-margin w3-jumbo">Make Your Work Count</h5>
-		</header>
+		</header> -->
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-container" style="padding-top:40px!important;padding-right: 200px;">
+		<div class="w3-row-padding w3-container" style="padding-top:75px!important;padding-right: 200px;">
 		  <div class="w3-content">
 		    <div class="w3-twothird">
 		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
@@ -106,7 +106,7 @@
 		            </div>
 	                <div class="row">
 		                <div class="col-sm-12 form-group">
-		                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Post Your Contribution" >
+		                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Upload Document" >
 		                </div>
 	                </div>
 	                <input type="hidden" name="${_csrf.parameterName}"

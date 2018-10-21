@@ -30,7 +30,7 @@ public class Attachment {
 	@NotBlank
 	private String author;
 	
-	@Column(name = "author_email", nullable = false, unique = true)
+	@Column(name = "author_email", nullable = false)
 	@Email(message = "Please provide a valid e-mail")
 	@NotEmpty(message = "Please provide an e-mail")
 	private String authorEmail;

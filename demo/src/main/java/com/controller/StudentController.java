@@ -117,6 +117,7 @@ public class StudentController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if( null != auth){
 			User user = (User) auth.getPrincipal();
+			user = userService.findByEmail(user.getEmail());
 			model.addAttribute("loggedInUser", user.getUsername()); 
 			model.addAttribute("loggedInUserEmail", user.getEmail());
 		}
@@ -137,6 +138,7 @@ public class StudentController {
                     
 				    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				    User user = (User) auth.getPrincipal();
+				    user = userService.findByEmail(user.getEmail());
 			       
 				    Attachment attachment = new Attachment();
 				    attachment.setAuthor(user.getUsername());
@@ -198,6 +200,7 @@ public class StudentController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if( null != auth){
 			User user = (User) auth.getPrincipal();
+			user = userService.findByEmail(user.getEmail());
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
 		return "uploadDetailForStudents";
@@ -271,6 +274,7 @@ public class StudentController {
 			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		    User user = (User) auth.getPrincipal();
+		    user = userService.findByEmail(user.getEmail());
 		    
 			Rating ratingObj = new Rating();
 			ratingObj.setAttachmentId(attachmentId);

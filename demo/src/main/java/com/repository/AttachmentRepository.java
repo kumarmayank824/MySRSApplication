@@ -3,6 +3,7 @@ package com.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,8 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long>{
     
 	@Query(value="select * FROM ATTACHMENT a where a.author_email=?1", nativeQuery = true)
 	List<Attachment> findAttachmentByEmailId(String email);
+    
+	@Modifying
+	@Query(value="UPDATE ATTACHMENT SET author=?1 where author_email=?2", nativeQuery = true)
+	void updateUserNameForAttachment(String username, String userEmail );
 }

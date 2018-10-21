@@ -80,18 +80,24 @@
 	              </div><!--/col-3-->
 	    	      
 	    	      <div ng-if="!showProfileInEditMode">
-	    	         <jsp:include page="profileInReadMode.jsp"/>
+	    	          <c:if test="${showProfileInEditModeWhileError == false}">
+	    	             <jsp:include page="profileInReadMode.jsp"/>
+	    	          </c:if>
 	    	      </div>
 	    	      
 	    	      <div ng-if="showProfileInEditMode">
-	    	         <jsp:include page="profileInEditMode.jsp"/>
+    	             <jsp:include page="profileInEditMode.jsp"/>
 	    	      </div>
+	    	      
+	    	      <c:if test="${showProfileInEditModeWhileError == true}">
+    	             <jsp:include page="profileInEditMode.jsp"/>
+    	          </c:if>
 	    	      
 	           </div><!--/row-->
 	       </div>
        </div>
         
-	   <footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+	   <footer class="w3-container w3-center w3-opacity" style="padding-top: 64px!important;">  
 	   <p> &copy;2018 MyApplication </p>
 	   </footer>
 		

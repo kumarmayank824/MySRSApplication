@@ -286,25 +286,40 @@ public class CommonController {
 		    	user = userService.findByEmail(user.getEmail());
 		    	model.addAttribute("user", user);
 		    	model.addAttribute("passwordHint", CommonUtil.decoder(user.getPassword()).substring(0, 3));
-		    	if(user.getSignInType().equalsIgnoreCase(Constant.teacher)) {
-		    		List<Marks> marksLst = marksRepository.findMarkedAttachmentByEmailId(user.getEmail());
-		    		if( null != marksLst && !marksLst.isEmpty() ) {
-		    			model.addAttribute("noOfAttachmentMarked", marksLst.size());
-			    	}else {
-		    			model.addAttribute("noOfAttachmentMarked", 0);
-		    		}
-		    	}else if(user.getSignInType().equalsIgnoreCase(Constant.student)) {
-		    		List<Attachment> attachmentLst = attachmentRepository.findAttachmentByEmailId(user.getEmail());
-			    	if( null != attachmentLst && !attachmentLst.isEmpty() ) {
-		    			model.addAttribute("noOfTotalUpload", attachmentLst.size());
-			    	}else {
-		    			model.addAttribute("noOfTotalUpload", 0);
-		    		}	
-		    	}
+		    	model = userService.setUserProfileExtraParameter(model,user);
+		    	model.addAttribute("showProfileInEditModeWhileError", false);
 		    }else {
 				//later get the referer and do
 		    	//user need to login to see the profile
 				return null;
+			}
+		}else {
+			//later get the referer and do
+			//user need to login to see the profile
+		}
+		return view;
+	}
+	
+	@RequestMapping(value="/updateProfileDetails", method = RequestMethod.POST)
+	public String updateProfileDetails(@Valid @ModelAttribute("user") User newUser,BindingResult bindingResult,
+			Model model,HttpServletRequest request, HttpServletResponse response) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String view = "userProfile"; 
+		if( null != auth){
+			User oldUser = (User) auth.getPrincipal();
+			if( null != oldUser && null != newUser) {
+				userService.updateUserDetail(newUser, oldUser);
+				newUser = userService.findByEmail(oldUser.getEmail());
+		    	model.addAttribute("user", newUser);
+				model.addAttribute("newDetailsUpdated", "Record updated successfully");
+				model = userService.setUserProfileExtraParameter(model, newUser);
+				model.addAttribute("showProfileInEditModeWhileError", false);
+			}else {
+				model.addAttribute("user", oldUser);
+				model = userService.setUserProfileExtraParameter(model, oldUser);
+				model.addAttribute("newDetailsRejected", "Problem while updating the record");
+				model.addAttribute("showProfileInEditModeWhileError", true);
 			}
 		}else {
 			//later get the referer and do
