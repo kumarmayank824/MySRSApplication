@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,23 +30,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.constant.Constant;
 import com.domain.Attachment;
+import com.domain.Marks;
 import com.domain.Rating;
 import com.domain.User;
 import com.domain.UserRole;
-import com.repository.AttachmentRepository;
-import com.repository.RatingRepository;
+import com.services.AttachmentService;
+import com.services.MarksService;
+import com.services.RatingService;
 import com.services.UserService;
 import com.util.CommonUtil;
 
 @Controller
 public class StudentController {    
     
+	@Autowired
+	AttachmentService attachmentService;
 	
 	@Autowired
-    AttachmentRepository attachmentRepository;
+	MarksService marksService;
 	
 	@Autowired
-	RatingRepository ratingRepository;
+	RatingService ratingService;
 	
 	@Autowired
 	CommonUtil commonUtil;
@@ -107,7 +113,6 @@ public class StudentController {
 		String orginalPassword = CommonUtil.decoder(user2.getPassword());
 		System.out.println(orginalPassword+orginalPassword);
 			
-		
 		return modelAndView;		
 	}
 	
@@ -161,7 +166,7 @@ public class StudentController {
 	                
 	                attachment.setFilePath("Path will be updated later");
 	                
-	                Attachment attachment1 = attachmentRepository.save(attachment);
+	                Attachment attachment1 = attachmentService.saveAttachment(attachment);
 	                
 	                //Creating the directory to store file
 					//String rootPath = System.getProperty("catalina.home");
@@ -169,7 +174,7 @@ public class StudentController {
                     
                     //Saving the file path to database
 	                attachment.setFilePath(rootPath+"\\");
-	                attachmentRepository.save(attachment);
+	                attachmentService.saveAttachment(attachment);
 	                
 					File dir = new File(rootPath);
 					if (!dir.exists())
@@ -243,7 +248,7 @@ public class StudentController {
 		JSONObject returnJson = null;
 		
 		try {
-			List<Attachment> attachmentLst = attachmentRepository.findAll();
+			List<Attachment> attachmentLst = attachmentService.getAllAttachment();
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
 				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.ratingObjectType);
@@ -281,7 +286,7 @@ public class StudentController {
 			ratingObj.setAuthor(user.getUsername());
 			ratingObj.setComment(comment);
 			ratingObj.setRating(rating);
-			ratingRepository.save(ratingObj);
+			ratingService.saveRatingAndComment(ratingObj);
 			returnJson = new JSONObject();
 			returnJson.put("showRatingLink",false);
 			response.getWriter().write(returnJson.toString());
@@ -294,5 +299,32 @@ public class StudentController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@RequestMapping(value="/std-activity-history", method = RequestMethod.GET)
+	public String loadUserHistory(Model model,HttpServletRequest request, 
+			HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String view = "studentActivityHistory"; 
+		if( null != auth){
+			User user = (User) auth.getPrincipal();
+		    if(null != user){
+		    	List<Attachment> attachmentLst = attachmentService.findAttachmentByEmailId(user.getEmail());
+		    	Map<Long,Object> marksMap = new HashMap<Long,Object>();
+		    	if( null != attachmentLst && !attachmentLst.isEmpty()) {
+		    		for (Attachment attachment : attachmentLst) {
+		    			Marks marks = marksService.getMarksByAttachmentId(attachment.getId());
+		    			marksMap.put(attachment.getId(), marks);
+					}
+		    	    model.addAttribute("marksMap", marksMap);
+		    		model.addAttribute("attachmentLst", attachmentLst);
+		    	}else {
+		    		model.addAttribute("attachmentLst", new ArrayList<Attachment>());
+		    		model.addAttribute("marksMap", marksMap);
+		    	}
+		    	model.addAttribute("user", user);
+		    }
+		}    
+		return view;
 	}
 }

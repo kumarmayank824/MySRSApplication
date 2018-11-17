@@ -25,4 +25,12 @@ public class AttachmentService {
 	public void updateUserNameForAttachment(User user) {
 		attachmentRepository.updateUserNameForAttachment(user.getUsername(), user.getEmail());
 	}
+
+	public Attachment saveAttachment(Attachment attachment) {
+		return attachmentRepository.save(attachment);
+	}
+
+	public List<Attachment> getAllAttachment() {
+		return attachmentRepository.findAll();
+	}
 }

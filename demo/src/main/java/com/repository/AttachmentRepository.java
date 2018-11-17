@@ -18,7 +18,7 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long>{
 	@Query(value="select * FROM ATTACHMENT a where a.semester=?1 and a.batch=?2 and a.course=?3", nativeQuery = true)
     List<Attachment> findAttachmentForTeacher(String semester,String batch, String course);
     
-	@Query(value="select * FROM ATTACHMENT a where a.author_email=?1", nativeQuery = true)
+	@Query(value="select * FROM ATTACHMENT a where a.author_email=?1 order by a.uploaded_date desc", nativeQuery = true)
 	List<Attachment> findAttachmentByEmailId(String email);
     
 	@Modifying

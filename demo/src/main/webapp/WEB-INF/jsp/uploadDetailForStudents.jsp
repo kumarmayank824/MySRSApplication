@@ -48,6 +48,7 @@
 			    </button>
 			    <div class="dropdown-content">
 			      <a href="/user-profile"><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/std-activity-history"><i class="fa fa-history"> History</i></a>
 			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
