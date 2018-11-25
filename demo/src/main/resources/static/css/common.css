@@ -84,3 +84,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 	color:#3770a0;
 	text-decoration:underline;
 }
+
+.cursorPointerClass{
+	cursor: pointer;
+}
+

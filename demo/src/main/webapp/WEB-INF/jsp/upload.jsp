@@ -13,8 +13,10 @@
 		<link rel="stylesheet" href="css/w3.css">
 		<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
-		<link href="css/fileDragAndDrop.css" rel="stylesheet"/>
+		<link href="css/file-drag-and-drop.css" rel="stylesheet"/>
 		<link href="css/pdf-viewer/pdf.css" rel="stylesheet"/>
+		<link href="css/custom-checkbox.css" rel="stylesheet"/>
+		
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 		<script src="vendor/bootstrap/js/popper.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -65,10 +67,10 @@
 		</header> -->
 		
 		<!-- First Grid -->
-		<div class="w3-row-padding w3-container" style="padding-top:75px!important;padding-right: 200px;">
+		<div class="w3-row-padding w3-container" style="padding-top:60px!important;padding-right: 200px;">
 		  <div class="w3-content">
 		    <div class="w3-twothird">
-		      <!-- <h1 style="color: #f44336;margin-top:0px;text-align: center;">Make Your Work Count</h1> -->
+		        <h5 class="errorThenShowRed">${missingInformationMessage}</h5>
 		        <form action="/std-file-upload" method="post" enctype="multipart/form-data">
 		            <div class="row">
 		                <div class="col-sm-6 form-group">
@@ -90,8 +92,8 @@
 		            <div class="row">
 		                <div class="col-sm-12 form-group">
 		                    <label for="name">
-		                        Describe Your Contribution Here :</label>
-		                    <textarea class="form-control" type="textarea" id="description" name="description" placeholder="Description about your contribution here..." maxlength="500" rows="5" required></textarea>
+		                        Describe Your Work Here :</label>
+		                    <textarea class="form-control" type="textarea" id="description" name="description" placeholder="Description about your work here..." maxlength="500" rows="5" required></textarea>
 		                </div>
 		            </div>
 		            
@@ -102,6 +104,21 @@
 				                    Upload Your Work (only .pdf documents are allowed) : </label>
 				                <input type="file" id="file-to-upload" name="myfile" class="form-control" multiple="" accept="application/pdf,application/msword">
 			              </div>
+		                 </div>
+		            </div>
+		            <div class = "row">
+		                 <div class="col-sm-12 form-group">
+		                     <c:set var="profileDetailsDeclarationNotDone" value="${profileDetailsDeclarationNotDone}"/>
+		                     <label class="container">
+		                        I agree that my submission adhere to my current profile details and I understand that any inconsistency could lead to discrepancies in marks, and shall not be revert back.
+							  <input type="checkbox" id="profileDetailsDeclarationFlag" name="profileDetailsDeclarationFlag" value="1">
+							  <c:if test="${profileDetailsDeclarationNotDone == 'Yes' }">
+							     <span class="checkmark checkBoxError"></span>
+							  </c:if>
+							  <c:if test="${profileDetailsDeclarationNotDone == 'No' }">
+							     <span class="checkmark"></span>
+							  </c:if>
+							</label>
 		                 </div>
 		            </div>
 	                <div class="row">

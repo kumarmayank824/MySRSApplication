@@ -126,6 +126,7 @@ public class StudentController {
 			model.addAttribute("loggedInUser", user.getUsername()); 
 			model.addAttribute("loggedInUserEmail", user.getEmail());
 		}
+		model.addAttribute("profileDetailsDeclarationNotDone", "No");
 		return "upload";
 	}
 	
@@ -133,70 +134,80 @@ public class StudentController {
 	@RequestMapping(value ="/std-file-upload", method = RequestMethod.POST)
 	public String saveFileObject(Model model,@RequestParam("myfile") MultipartFile file,
 			@RequestParam("title") String title,@RequestParam("category") String category,
-			@RequestParam("description") String description){
+			@RequestParam("description") String description,HttpServletRequest request){
 		
 		String returnString = "uploadDetailForStudents";
-		
 		try {
-			   
-			   if (!file.isEmpty()) {
-                    
-				    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				    User user = (User) auth.getPrincipal();
-				    user = userService.findByEmail(user.getEmail());
-			       
-				    Attachment attachment = new Attachment();
-				    attachment.setAuthor(user.getUsername());
-				    attachment.setAuthorEmail(user.getEmail());
-				    attachment.setSemester(user.getSemester());
-				    attachment.setBatch(user.getBatch());
-				    attachment.setCourse(user.getCourse());
-	                attachment.setTitle(title);
-	                attachment.setCategory(category);
-	                attachment.setDescription(description);
-	                attachment.setFileName(file.getOriginalFilename());
-	                attachment.setFileSize(file.getSize());
-	                attachment.setCount(0);
-	                
-	                if(file.getContentType().equalsIgnoreCase("application/pdf")){
-	                	attachment.setContentType("PDF");
-	                }else{
-	                	attachment.setContentType("Word Document");
-	                }
-	                
-	                attachment.setFilePath("Path will be updated later");
-	                
-	                Attachment attachment1 = attachmentService.saveAttachment(attachment);
-	                
-	                //Creating the directory to store file
-					//String rootPath = System.getProperty("catalina.home");
-                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
-                    
-                    //Saving the file path to database
-	                attachment.setFilePath(rootPath+"\\");
-	                attachmentService.saveAttachment(attachment);
-	                
-					File dir = new File(rootPath);
-					if (!dir.exists())
-						dir.mkdirs();
+			
+			 String[] profileDetailsDeclarationFlag = request.getParameterValues("profileDetailsDeclarationFlag");
+			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			 User user = (User) auth.getPrincipal();
+			 user = userService.findByEmail(user.getEmail());
+			 if( null != profileDetailsDeclarationFlag && null != profileDetailsDeclarationFlag[0] ) {
+				 
+				 if (!file.isEmpty()) {
+				       
+					    Attachment attachment = new Attachment();
+					    attachment.setAuthor(user.getUsername());
+					    attachment.setAuthorEmail(user.getEmail());
+					    attachment.setSemester(user.getSemester());
+					    attachment.setBatch(user.getBatch());
+					    attachment.setCourse(user.getCourse());
+		                attachment.setTitle(title);
+		                attachment.setCategory(category);
+		                attachment.setDescription(description);
+		                attachment.setFileName(file.getOriginalFilename());
+		                attachment.setFileSize(file.getSize());
+		                attachment.setCount(0);
+		                
+		                if(file.getContentType().equalsIgnoreCase("application/pdf")){
+		                	attachment.setContentType("PDF");
+		                }else{
+		                	attachment.setContentType("Word Document");
+		                }
+		                
+		                attachment.setFilePath("Path will be updated later");
+		                
+		                Attachment attachment1 = attachmentService.saveAttachment(attachment);
+		                
+		                //Creating the directory to store file
+						//String rootPath = System.getProperty("catalina.home");
+	                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
+	                    
+	                    //Saving the file path to database
+		                attachment.setFilePath(rootPath+"\\");
+		                attachmentService.saveAttachment(attachment);
+		                
+						File dir = new File(rootPath);
+						if (!dir.exists())
+							dir.mkdirs();
 
-					// Create the file on server
-					File serverFile = new File(dir.getAbsolutePath()
-							+ File.separator + file.getOriginalFilename());
-					BufferedOutputStream stream = new BufferedOutputStream(
-							new FileOutputStream(serverFile));
-					stream.write(file.getBytes());
-					stream.close();
+						// Create the file on server
+						File serverFile = new File(dir.getAbsolutePath()
+								+ File.separator + file.getOriginalFilename());
+						BufferedOutputStream stream = new BufferedOutputStream(
+								new FileOutputStream(serverFile));
+						stream.write(file.getBytes());
+						stream.close();
 
 
-				} else if(file.getSize() > 2097152) {
-					returnString = "upload";
-					 model.addAttribute("maxSizeError", "Bad Upload");
-				}
+					} else if(file.getSize() > 2097152) {
+						returnString = "upload";
+						 model.addAttribute("maxSizeError", "Bad Upload");
+					}
+			 }else {
+				 model.addAttribute("loggedInUser", user.getUsername()); 
+				 model.addAttribute("missingInformationMessage", "** Necessary information missing"); 
+				 model.addAttribute("profileDetailsDeclarationNotDone", "Yes");
+				 returnString = "upload"; 
+			 }
 		 } catch (Exception e) {
 		        e.printStackTrace();
 		 }
 		//return returnString;
+		if(returnString.equals("upload")) {
+			return returnString;
+		}
 		return "redirect:/loginSuccess";
 	}
 	

@@ -86,6 +86,9 @@ public class CommonUtil {
 			json.put("title",attachment.getTitle());
 			json.put("description",attachment.getDescription());
 			json.put("category",attachment.getCategory());
+			json.put("semester",attachment.getSemester());
+			json.put("batch",attachment.getBatch());
+			json.put("course",attachment.getCourse());
 			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
 			json.put("uploadedDate",dateFormatter(attachment.getUploadedDate()));
 			if(ObjectType.equals(Constant.ratingObjectType)){

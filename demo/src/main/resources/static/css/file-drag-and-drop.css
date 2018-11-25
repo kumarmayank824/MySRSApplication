@@ -4,7 +4,8 @@
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
     /* padding: 120px 0px 110px 35%; */
-    padding: 95px 0px 100px 35%;
+    /* padding: 95px 0px 100px 35%; */
+    padding: 84px 0px 96px 35%;
     text-align: center !important;
     margin: 0;
     width: 100% !important;
