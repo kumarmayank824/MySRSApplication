@@ -302,7 +302,7 @@ public class StudentController {
 			returnJson.put("showRatingLink",false);
 			response.getWriter().write(returnJson.toString());
 			
-		} catch (IOException e) {
+		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {

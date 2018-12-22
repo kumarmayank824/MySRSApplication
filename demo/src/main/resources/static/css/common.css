@@ -89,3 +89,60 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 	cursor: pointer;
 }
 
+/* Loading CSS and Fade CSS  */
+.cover {
+	background-color:#EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .5; /* in FireFox */ 
+    filter: alpha(opacity=50); /* in IE */
+}
+
+/* Position text in the middle of the page/image */
+.bg-text {
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #f44336;
+  border-bottom: 16px solid #f44336;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.disablePointerEvents {
+	pointer-events : none;
+}
+
+.startAndEndTimeResponseSuccessMessage{
+	font-family:Arial;color:#0fa23f;padding-top:5px;
+}
+
+.startAndEndTimeResponseErrorMessage{
+	font-family:Arial;color:red;padding-top:5px;
+}

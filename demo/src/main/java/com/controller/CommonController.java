@@ -219,6 +219,8 @@ public class CommonController {
 			User user = (User) auth.getPrincipal();
 			if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("ROLE_TEACHER")){
 				view = "uploadDetailForTeachers";
+			}else if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("ROLE_COORDINATOR")){
+				view = "coordinatorActionsPage";
 			}
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
