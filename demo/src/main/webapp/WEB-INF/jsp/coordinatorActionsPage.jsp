@@ -84,50 +84,59 @@
 	  		         <label for="Select submission start date and end date">Choose Submission Start And End Date</label>
 	  		      </div>
 	  		      <div class="col-sm-3">
-                        <input id="coordinatorDaterange" type="text" class="form-control fa" placeholder="&#xf133 Click To Select Date (MM/DD/YYYY)" name="daterange" ng-model="coordinatorDaterange" />
+                        <input id="coordinatorDaterange" type="text" class="form-control fa" placeholder="&#xf133 Click To Select Date (MM/DD/YYYY)" name="daterange" ng-model="coordinatorDaterange" readonly/>
 	  		      </div>
 	  		      <div class="col-sm-1">
                         <button style="margin-left:20px;background-color:#222323c4;color: white" type="button" class="btn btn-default" ng-click="saveCoordinatorStartAndEndTime()" >Submit</button>
 	  		      </div>
-	  		      <div class="startAndEndTimeResponseErrorMessage col-sm-2" ng-if="isSuccess == false">{{startAndEndTimeResponseMessage}}</div>
-	  		      <div class="startAndEndTimeResponseSuccessMessage col-sm-2" ng-if="isSuccess">{{startAndEndTimeResponseMessage}}</div>
+	  		      <div class="coordinatorActionErrorMessage col-sm-2" ng-if="isStartAndEndTimeResponseSuccess == false">{{startAndEndTimeResponseMessage}}</div>
+	  		      <div class="coordinatorActionSuccessMessage col-sm-2" ng-if="isStartAndEndTimeResponseSuccess">{{startAndEndTimeResponseMessage}}</div>
 	  		   </div>  
 		    </div>
 		    <hr/>
 		    
 		    <div style="padding-top:30px!important;">
-				    <div class="row">
-				       <form name="myForm">
-			  		      <div class="col-sm-2"></div>
-			  		      <div class="col-sm-2">
-			  		         <label for="Generate Secret Code">Generate Secret Code</label>
-			  		      </div>
-			  		      <div class="col-sm-3">
-                                <a href="/getSecretCode" class="w3-button w3-amber w3-large">New Secret Code</a>
-                                <p><b><h6 class="profileLabelOnlyColor"><i>Existing Secret Code : </i></h6></b></p>
-                                <p><h6>QGBEja+aDAiKytLHvaxUDq8/7YMz44XHmPgKhalcKH+RieKMY+whMBrWMXiz2+NWYihGIfmZVnk=</h6></p>
-			  		      </div>
-		  		       </form> 
-		  		   </div>  
+			     <div class="row">
+		  		      <div class="col-sm-2"></div>
+		  		      <div class="col-sm-2">
+		  		         <label for="Generate Secret Code">Generate Secret Code</label>
+		  		      </div>
+		  		      <div class="col-sm-3">
+                            <a href="#" class="w3-button w3-amber w3-large" ng-click="getNewSecretCode()">New Secret Code</a>
+                            <c:if test="${existingSecretCode ne null}">
+						        <div ng-if="!newSecretCode">
+							       <p><b><h6 class="profileLabelOnlyColor"><i>Existing Secret Code : </i></h6></b></p>
+							       <p><h6>${existingSecretCode}</h6></p>
+						        </div>
+						    </c:if>
+						    <div ng-if="newSecretCode">
+						       <p><b><h6 class="profileLabelOnlyColor"><i>New Secret Code : </i></h6></b></p>
+						       <p><h6>{{newSecretCode}}</h6></p>
+					        </div>
+		  		      </div>
+		  		      <div class="coordinatorActionErrorMessage col-sm-2" ng-if="isNewSecretCodeResponseSuccess == false">{{newCodeResponseMessage}}</div>
+  		              <div class="coordinatorActionSuccessMessage col-sm-2" ng-if="isNewSecretCodeResponseSuccess">{{newCodeResponseMessage}}</div>
+	  		     </div>  
 		    </div>
 		    <hr/>
 		    
 		    <div style="padding-top:30px!important;">
-				    <div class="row">
-				       <form id="coordinatorDocument" method="post" enctype="multipart/form-data">
-			  		      <div class="col-sm-2"></div>
-			  		      <div class="col-sm-2">
-			  		         <label for="Upload a document">Upload Document</label>
-			  		      </div>
-			  		      <div class="col-sm-3">
-						      <input type="file" class="w3-button w3-amber form-control-file" id="exampleFormControlFile1" accept="application/pdf">
-			  		      </div>
-			  		      <div class="col-sm-2">
-                                <button style="margin-left:20px;background-color:#222323c4;color: white" type="button" class="btn btn-default" data-ng-click="searchDetails(semester,batch,course)" >Upload</button>
-			  		      </div>
-		  		       </form> 
-		  		   </div>  
+			    <div class="row">
+			       <form id="coordinatorDocument" method="post" enctype="multipart/form-data">
+		  		      <div class="col-sm-2"></div>
+		  		      <div class="col-sm-2">
+		  		         <label for="Upload a document">Upload Document</label>
+		  		      </div>
+		  		      <div class="col-sm-3">
+					      <input type="file" class="w3-button w3-amber form-control-file" id="exampleFormControlFile1" accept="application/pdf">
+		  		      </div>
+		  		      <div class="col-sm-2">
+                          <button style="margin-left:20px;background-color:#222323c4;color: white" type="button" class="btn btn-default" data-ng-click="searchDetails(semester,batch,course)" >Upload</button>
+		  		      </div>
+	  		       </form> 
+	  		    </div>  
 		    </div>
+		    
        </div>        
        <input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />

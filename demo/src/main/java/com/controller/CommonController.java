@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,12 +33,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.constant.Constant;
 import com.domain.Attachment;
-import com.domain.Marks;
 import com.domain.User;
-import com.repository.AttachmentRepository;
-import com.repository.MarksRepository;
+import com.services.AttachmentService;
+import com.services.CoordinatorService;
 import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
@@ -62,15 +59,10 @@ public class CommonController {
 	EmailService emailService;
 	
 	@Autowired
-    AttachmentRepository attachmentRepository;
+	AttachmentService attachmentService;
 	
 	@Autowired
-	MarksRepository marksRepository;
-	
-	@RequestMapping(value={"/", "/home"}, method = RequestMethod.GET) 
-	public String showHomePage(Map<String, Object> model,HttpServletRequest request,HttpServletResponse response) {		
-		return "home";
-	 }  
+	CoordinatorService coordinatorService;
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET) 
 	public String loadLoginPage(Model model, String error, String logout) {
@@ -221,6 +213,7 @@ public class CommonController {
 				view = "uploadDetailForTeachers";
 			}else if(null != user.getUserRoles() && !user.getUserRoles().isEmpty() && user.getUserRoles().get(0).getRole().equals("ROLE_COORDINATOR")){
 				view = "coordinatorActionsPage";
+				model.addAttribute("existingSecretCode", coordinatorService.getSecretCode()); 
 			}
 			model.addAttribute("loggedInUser", user.getUsername()); 
 		}
@@ -235,7 +228,7 @@ public class CommonController {
 		
 		try {
 		
-			Attachment attachment =  attachmentRepository.findOne(attachmentId);
+			Attachment attachment =  attachmentService.findOne(attachmentId);
 			File file = new File(attachment.getFilePath() + attachment.getFileName());
 		    if (file.exists()) {
 		        //get the mimetype

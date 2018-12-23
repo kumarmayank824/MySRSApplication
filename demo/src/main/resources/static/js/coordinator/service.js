@@ -19,6 +19,17 @@
 	       		 $log.error("ERROR Occurred"); 
 	       	 });
    	     }
+    	
+    	this.getNewSecretCode = function(cb){
+    		$http({
+	       		 url : '/coord-get-new-secret-code',
+	       	     method : 'GET'		 
+	       	 }).then(function(response){
+	       		 cb(response.data);
+	       	 },function(response){
+	       		 $log.error("ERROR Occurred"); 
+	       	 });
+  	     }
         
     }]);
     

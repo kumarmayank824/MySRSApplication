@@ -28,5 +28,10 @@ public class Constant {
 	
 	public static final String student = "Student";
 	public static final String teacher = "Teacher";
+	
+	public static final String submissionDateSeparator = "-";
+	
+	public static final String dateFormat1 = "yyyy-MM-dd HH:mm:ss";
+	public static final String dateFormat2 = "MM/dd/yyyy hh:mm a";
 	 
 }

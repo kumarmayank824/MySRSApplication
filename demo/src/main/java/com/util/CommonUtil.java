@@ -58,7 +58,7 @@ public class CommonUtil {
 				lst.add(attachment.getDescription());
 				lst.add(attachment.getCategory());
 				lst.add(fileSizeToMb(attachment.getFileSize()));
-				lst.add(dateFormatter(attachment.getUploadedDate()));
+				lst.add(dateFormatterReturnStringObj(attachment.getUploadedDate().toString(), Constant.dateFormat1));
 				//lst.add(""+attachment.getContentType());
 				
 				finalLst.add(lst);
@@ -90,7 +90,7 @@ public class CommonUtil {
 			json.put("batch",attachment.getBatch());
 			json.put("course",attachment.getCourse());
 			json.put("fileSize",fileSizeToMb(attachment.getFileSize()));
-			json.put("uploadedDate",dateFormatter(attachment.getUploadedDate()));
+			json.put("uploadedDate",dateFormatterReturnStringObj(attachment.getUploadedDate().toString(), Constant.dateFormat1));
 			if(ObjectType.equals(Constant.ratingObjectType)){
 				totalRating = 0.0;
 				ratinglst = new ArrayList<JSONObject>();
@@ -117,7 +117,7 @@ public class CommonUtil {
 			for (Rating rating : ratingLst) {
 				JSONObject ratingJson = new JSONObject();
 				ratingJson.put("authorName",rating.getAuthor());
-				ratingJson.put("commentTime",dateFormatter(rating.getCommentTime()));
+				ratingJson.put("commentTime",dateFormatterReturnStringObj(rating.getCommentTime().toString(), Constant.dateFormat1));
 				ratingJson.put("comment",rating.getComment());
 				ratingJson.put("rating",rating.getRating());
 				totalRating += rating.getRating();
@@ -167,10 +167,15 @@ public class CommonUtil {
 		}
 	}
 	
-	public String dateFormatter(Date dbDate) throws ParseException{
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date fechaNueva = format.parse(dbDate.toString());
+	public String dateFormatterReturnStringObj(String strDate,String dateFormat) throws ParseException{
+		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+		Date fechaNueva = format.parse(strDate);
 		return format.format(fechaNueva);
+	}
+	
+	public Date dateFormatterReturnDateObj(String strDate,String dateFormat) throws ParseException{
+		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+		return format.parse(strDate);
 	}
 	
 	public static String encoder(String value) {

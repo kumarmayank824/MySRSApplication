@@ -35,6 +35,7 @@ import com.domain.Rating;
 import com.domain.User;
 import com.domain.UserRole;
 import com.services.AttachmentService;
+import com.services.CoordinatorService;
 import com.services.MarksService;
 import com.services.RatingService;
 import com.services.UserService;
@@ -58,6 +59,8 @@ public class StudentController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	CoordinatorService coordinatorService;
 	
 	// Process confirmation link
 	@RequestMapping(value="/studentConfirm", method = RequestMethod.POST)
@@ -119,14 +122,22 @@ public class StudentController {
 	
 	@RequestMapping(value="/std-upload-pdf-page", method = RequestMethod.GET) 
 	public String loadUploadPdfPage(Model model,HttpServletRequest request,HttpServletResponse response) {		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if( null != auth){
-			User user = (User) auth.getPrincipal();
-			user = userService.findByEmail(user.getEmail());
-			model.addAttribute("loggedInUser", user.getUsername()); 
-			model.addAttribute("loggedInUserEmail", user.getEmail());
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if( null != auth){
+				User user = (User) auth.getPrincipal();
+				user = userService.findByEmail(user.getEmail());
+				model.addAttribute("isSubmissionAllowed", coordinatorService.isSubmissionAllowed()); 
+				model.addAttribute("loggedInUser", user.getUsername()); 
+				model.addAttribute("loggedInUserEmail", user.getEmail());
+			}
+			model.addAttribute("profileDetailsDeclarationNotDone", "No");
+		}catch(ParseException e) {
+			
+		}catch(Exception e) {
+			
 		}
-		model.addAttribute("profileDetailsDeclarationNotDone", "No");
+		
 		return "upload";
 	}
 	
@@ -138,68 +149,75 @@ public class StudentController {
 		
 		String returnString = "uploadDetailForStudents";
 		try {
-			
 			 String[] profileDetailsDeclarationFlag = request.getParameterValues("profileDetailsDeclarationFlag");
 			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			 User user = (User) auth.getPrincipal();
 			 user = userService.findByEmail(user.getEmail());
-			 if( null != profileDetailsDeclarationFlag && null != profileDetailsDeclarationFlag[0] ) {
-				 
-				 if (!file.isEmpty()) {
-				       
-					    Attachment attachment = new Attachment();
-					    attachment.setAuthor(user.getUsername());
-					    attachment.setAuthorEmail(user.getEmail());
-					    attachment.setSemester(user.getSemester());
-					    attachment.setBatch(user.getBatch());
-					    attachment.setCourse(user.getCourse());
-		                attachment.setTitle(title);
-		                attachment.setCategory(category);
-		                attachment.setDescription(description);
-		                attachment.setFileName(file.getOriginalFilename());
-		                attachment.setFileSize(file.getSize());
-		                attachment.setCount(0);
-		                
-		                if(file.getContentType().equalsIgnoreCase("application/pdf")){
-		                	attachment.setContentType("PDF");
-		                }else{
-		                	attachment.setContentType("Word Document");
-		                }
-		                
-		                attachment.setFilePath("Path will be updated later");
-		                
-		                Attachment attachment1 = attachmentService.saveAttachment(attachment);
-		                
-		                //Creating the directory to store file
-						//String rootPath = System.getProperty("catalina.home");
-	                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
-	                    
-	                    //Saving the file path to database
-		                attachment.setFilePath(rootPath+"\\");
-		                attachmentService.saveAttachment(attachment);
-		                
-						File dir = new File(rootPath);
-						if (!dir.exists())
-							dir.mkdirs();
-
-						// Create the file on server
-						File serverFile = new File(dir.getAbsolutePath()
-								+ File.separator + file.getOriginalFilename());
-						BufferedOutputStream stream = new BufferedOutputStream(
-								new FileOutputStream(serverFile));
-						stream.write(file.getBytes());
-						stream.close();
-
-
-					} else if(file.getSize() > 2097152) {
-						returnString = "upload";
-						 model.addAttribute("maxSizeError", "Bad Upload");
-					}
-			 }else {
+			 boolean isSubmissionAllowed = coordinatorService.isSubmissionAllowed();
+			 if (!isSubmissionAllowed) {
 				 model.addAttribute("loggedInUser", user.getUsername()); 
-				 model.addAttribute("missingInformationMessage", "** Necessary information missing"); 
-				 model.addAttribute("profileDetailsDeclarationNotDone", "Yes");
-				 returnString = "upload"; 
+				 model.addAttribute("submissionNotAllowedMessage", "Sorry! cannot accept it because you are not on time.");
+				 model.addAttribute("isSubmissionAllowed", isSubmissionAllowed); 
+				 returnString = "upload";  
+			 }else {
+				 if( null != profileDetailsDeclarationFlag && null != profileDetailsDeclarationFlag[0] ) {
+					 if (!file.isEmpty()) {
+					       
+						    Attachment attachment = new Attachment();
+						    attachment.setAuthor(user.getUsername());
+						    attachment.setAuthorEmail(user.getEmail());
+						    attachment.setSemester(user.getSemester());
+						    attachment.setBatch(user.getBatch());
+						    attachment.setCourse(user.getCourse());
+			                attachment.setTitle(title);
+			                attachment.setCategory(category);
+			                attachment.setDescription(description);
+			                attachment.setFileName(file.getOriginalFilename());
+			                attachment.setFileSize(file.getSize());
+			                attachment.setCount(0);
+			                
+			                if(file.getContentType().equalsIgnoreCase("application/pdf")){
+			                	attachment.setContentType("PDF");
+			                }else{
+			                	attachment.setContentType("Word Document");
+			                }
+			                
+			                attachment.setFilePath("Path will be updated later");
+			                
+			                Attachment attachment1 = attachmentService.saveAttachment(attachment);
+			                
+			                //Creating the directory to store file
+							//String rootPath = System.getProperty("catalina.home");
+		                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
+		                    
+		                    //Saving the file path to database
+			                attachment.setFilePath(rootPath+"\\");
+			                attachmentService.saveAttachment(attachment);
+			                
+							File dir = new File(rootPath);
+							if (!dir.exists())
+								dir.mkdirs();
+
+							// Create the file on server
+							File serverFile = new File(dir.getAbsolutePath()
+									+ File.separator + file.getOriginalFilename());
+							BufferedOutputStream stream = new BufferedOutputStream(
+									new FileOutputStream(serverFile));
+							stream.write(file.getBytes());
+							stream.close();
+
+
+						} else if(file.getSize() > 2097152) {
+							 returnString = "upload";
+							 model.addAttribute("maxSizeError", "Bad Upload");
+						}
+				 }else {
+					 model.addAttribute("loggedInUser", user.getUsername()); 
+					 model.addAttribute("missingInformationMessage", "** Necessary information missing"); 
+					 model.addAttribute("profileDetailsDeclarationNotDone", "Yes");
+					 model.addAttribute("isSubmissionAllowed", isSubmissionAllowed); 
+					 returnString = "upload"; 
+				 } 
 			 }
 		 } catch (Exception e) {
 		        e.printStackTrace();

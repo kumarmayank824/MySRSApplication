@@ -9,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.domain.Attachment;
 import com.domain.User;
 import com.repository.AttachmentRepository;
-import com.repository.UserRepository;
 
 @Service
 public class AttachmentService {
     
 	@Autowired
 	AttachmentRepository attachmentRepository;
+	
+	public Attachment findOne(Long attachmentId) {
+		return attachmentRepository.findOne(attachmentId);
+	}
 	
 	public List<Attachment> findAttachmentByEmailId(String email) {
 		return attachmentRepository.findAttachmentByEmailId(email);
@@ -32,5 +35,9 @@ public class AttachmentService {
 
 	public List<Attachment> getAllAttachment() {
 		return attachmentRepository.findAll();
+	}
+
+	public List<Attachment> findAttachmentForTeacher(String semester, String batch, String course) {
+		return attachmentRepository.findAttachmentForTeacher(semester,batch,course);
 	}
 }

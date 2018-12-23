@@ -16,11 +16,11 @@
 		
 		$scope.callAtTimeout = function() {
 			$scope.startAndEndTimeResponseMessage = '';
+			$scope.newCodeResponseMessage = '';
 	    }
 
 		$scope.showLoading = false;
-		$scope.isSuccess = undefined;
-		$scope.startAndEndTimeResponseMessage = 'Oops! Failed To Update';
+		$scope.isStartAndEndTimeResponseSuccess = undefined;
 		$scope.saveCoordinatorStartAndEndTime = function(){
 		   $scope.showLoading = true;
 		   var csrf_token = $('input[name="_csrf"]').attr('value');
@@ -28,19 +28,40 @@
 	       coordinatorService.saveCoordinatorStartAndEndTime(csrf_token,coordinatorDaterange,function(result){
 		        if(result.startAndEndTimeResponseMessage){
 		        	$scope.showLoading = false;
-		        	$scope.isSuccess = true;
+		        	$scope.isStartAndEndTimeResponseSuccess = true;
 		        	$scope.coordinatorDaterange = result.coordinatorDaterange;
 		        	$scope.startAndEndTimeResponseMessage = result.startAndEndTimeResponseMessage;
 		        	$timeout( function(){ $scope.callAtTimeout(); }, 5000);
 		        }else{
 		        	$scope.showLoading = false;
-		        	$scope.isSuccess = false;
+		        	$scope.isStartAndEndTimeResponseSuccess = false;
 		        	$scope.coordinatorDaterange = coordinatorDaterange;
+		        	$scope.startAndEndTimeResponseMessage = "Oops! Failed To Submit Submission Dates";
+		        	$timeout( function(){ $scope.callAtTimeout(); }, 5000);
 		        } 
 		   });
-		  
 	    }
-	    
+		
+		$scope.isNewSecretCodeResponseSuccess = undefined;
+		$scope.newCodeResponseMessage = 'Oops! Failed To Generate Secret Code';
+		$scope.getNewSecretCode = function() {
+			$scope.showLoading = true;
+			coordinatorService.getNewSecretCode(function(result){
+				if(result.newSecretCode){
+					$scope.showLoading = false;
+		        	$scope.isNewSecretCodeResponseSuccess = true;
+					$scope.newSecretCode = result.newSecretCode;
+					$scope.newCodeResponseMessage = result.newCodeSuccessMessage;
+					$timeout( function(){ $scope.callAtTimeout(); }, 5000);
+				}else{
+		        	$scope.showLoading = false;
+		        	$scope.isNewSecretCodeResponseSuccess = false;
+		        	$timeout( function(){ $scope.callAtTimeout(); }, 5000);
+		        } 
+		        
+			});
+		}
+		
 	}]);
 	
 })();

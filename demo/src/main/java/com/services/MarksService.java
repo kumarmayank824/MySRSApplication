@@ -22,5 +22,9 @@ public class MarksService {
 	public Marks getMarksByAttachmentId(Long id) {
 		return marksRepository.getMarksByAttachmentId(id);
 	}
+
+	public void save(Marks marksObj) {
+		marksRepository.save(marksObj);
+	}
 	
 }

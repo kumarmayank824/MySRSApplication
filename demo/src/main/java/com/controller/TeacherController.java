@@ -25,9 +25,9 @@ import com.domain.Attachment;
 import com.domain.Marks;
 import com.domain.User;
 import com.domain.UserRole;
-import com.repository.AttachmentRepository;
-import com.repository.MarksRepository;
-import com.repository.SecretCodeRepository;
+import com.services.AttachmentService;
+import com.services.MarksService;
+import com.services.SecretCodeService;
 import com.services.UserService;
 import com.util.CommonUtil;
 
@@ -41,13 +41,13 @@ public class TeacherController {
 	UserService userService;
 	
 	@Autowired
-	SecretCodeRepository secretCodeRepository;
+	SecretCodeService secretCodeService;
 	
 	@Autowired
-	AttachmentRepository attachmentRepository;
+	AttachmentService attachmentService;
 	
 	@Autowired
-	MarksRepository marksRepository;
+	MarksService marksService;
 	
 	// Process confirmation link
 	@RequestMapping(value="/teacherConfirm", method = RequestMethod.POST)
@@ -56,7 +56,7 @@ public class TeacherController {
 		
 		String secretCode = (String)requestParams.get("secretCode");
 		
-		if(!secretCode.equals(secretCodeRepository.findAll().get(0).getSecretCode())){
+		if(!secretCode.equals(secretCodeService.findAll().get(0).getSecretCode())){
 			modelAndView.setViewName("teacherConfirmPage");
 			modelAndView.addObject("secretCodeError", "Wrong Secret Provided!");
 		}else{
@@ -114,7 +114,7 @@ public class TeacherController {
 		
 		try {
 			
-			List<Attachment> attachmentLst = attachmentRepository.findAttachmentForTeacher(semester,batch,course);
+			List<Attachment> attachmentLst = attachmentService.findAttachmentForTeacher(semester,batch,course);
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
 				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.markObjectType);
@@ -159,7 +159,7 @@ public class TeacherController {
 			marksObj.setMarkPara5(markPara5);
 			//marksObj.setRemarks("testing");
 			marksObj.setMarks(marks);
-			marksRepository.save(marksObj);
+			marksService.save(marksObj);
 			
 			getSearchDetails(semester, batch, course, response);
 			//returnJson = new JSONObject();

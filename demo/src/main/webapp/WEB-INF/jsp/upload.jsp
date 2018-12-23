@@ -16,6 +16,7 @@
 		<link href="css/file-drag-and-drop.css" rel="stylesheet"/>
 		<link href="css/pdf-viewer/pdf.css" rel="stylesheet"/>
 		<link href="css/custom-checkbox.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="css/common.css">
 		
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 		<script src="vendor/bootstrap/js/popper.js"></script>
@@ -34,13 +35,24 @@
 	</style>
 	
 	<body data-ng-controller="uploadController">
-	
+	    
+	    <c:if test="${!isSubmissionAllowed}">
+	        <div class="uploadPageCover"></div>	
+		    <div class="bg-text-upload">
+		       <p><i class="fa fa-ban" aria-hidden="true"></i> Currently not available</p>
+			</div>
+	    </c:if>
+	    
 		<!-- Navbar -->
 		<div class="w3-top">
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
 		    <a href="/std-upload-details" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Uploaded Details</a>
+		    <c:if test="${!isSubmissionAllowed}">
+		       <a href="/user-profile" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> Profile</a>
+		       <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> Logout</a>
+		    </c:if>
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
 			      <i class="fa fa-caret-down"></i>
@@ -71,6 +83,7 @@
 		  <div class="w3-content">
 		    <div class="w3-twothird">
 		        <h5 class="errorThenShowRed">${missingInformationMessage}</h5>
+		        <h5 class="errorThenShowRed">${submissionNotAllowedMessage}</h5>
 		        <form action="/std-file-upload" method="post" enctype="multipart/form-data">
 		            <div class="row">
 		                <div class="col-sm-6 form-group">

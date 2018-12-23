@@ -1,5 +1,7 @@
 package com.services;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,12 @@ import org.springframework.ui.Model;
 import com.constant.Constant;
 import com.domain.Attachment;
 import com.domain.Marks;
+import com.domain.SubmissionSchedule;
 import com.domain.User;
 import com.repository.MarksRepository;
+import com.repository.SubmissionScheduleRepository;
 import com.repository.UserRepository;
+import com.util.CommonUtil;
 
 @Service
 public class UserService {
@@ -22,6 +27,12 @@ public class UserService {
 	
 	@Autowired
 	AttachmentService attachmentService;
+	
+	@Autowired
+	SubmissionScheduleRepository submissionScheduleRepository;
+	
+	@Autowired
+	CommonUtil commonUtil;
 	
     private UserRepository userRepository;
 	
@@ -78,5 +89,4 @@ public class UserService {
     	}
 		return model;
 	}
-
 }

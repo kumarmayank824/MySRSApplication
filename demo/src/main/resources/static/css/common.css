@@ -102,11 +102,35 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     filter: alpha(opacity=50); /* in IE */
 }
 
+.uploadPageCover {
+	background-color:black;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    top: 49px;
+    left: 0px;
+    opacity: .7; /* in FireFox */ 
+    filter: alpha(opacity=50); /* in IE */
+}
+
 /* Position text in the middle of the page/image */
 .bg-text {
   color: white;
   font-weight: bold;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+}
+
+.bg-text-upload{
+  color: #f44336;
+  font-weight: bold;
+  position: absolute;
+  font-size:50px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -139,10 +163,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 	pointer-events : none;
 }
 
-.startAndEndTimeResponseSuccessMessage{
+.coordinatorActionSuccessMessage{
 	font-family:Arial;color:#0fa23f;padding-top:5px;
 }
 
-.startAndEndTimeResponseErrorMessage{
-	font-family:Arial;color:red;padding-top:5px;
+.coordinatorActionErrorMessage{
+	font-family:Arial;color:red;padding-top:2px;
 }

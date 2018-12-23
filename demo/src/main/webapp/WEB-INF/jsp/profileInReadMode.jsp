@@ -48,7 +48,7 @@
 	                  <c:if test="${user.signInType == 'Student'}">
 	                     <p>${user.semester}</p>
 	                  </c:if>
-	                  <c:if test="${user.signInType == 'Teacher'}">
+	                  <c:if test="${user.signInType == 'Teacher' || user.signInType == 'Coordinator'}">
 	                     <p>N/A</p>
 	                  </c:if>
 	              </div>
@@ -59,7 +59,7 @@
 	                  <c:if test="${user.signInType == 'Student'}">
 	                     <p>${user.batch}</p>
 	                  </c:if>
-	                  <c:if test="${user.signInType == 'Teacher'}">
+	                  <c:if test="${user.signInType == 'Teacher' || user.signInType == 'Coordinator'}">
 	                     <p>N/A</p>
 	                  </c:if>
 	              </div>
@@ -70,7 +70,7 @@
 	                  <c:if test="${user.signInType == 'Student'}">
 	                     <p>${user.course}</p>
 	                  </c:if>
-	                  <c:if test="${user.signInType == 'Teacher'}">
+	                  <c:if test="${user.signInType == 'Teacher' || user.signInType == 'Coordinator'}">
 	                     <p>N/A</p>
 	                  </c:if>
 	              </div>

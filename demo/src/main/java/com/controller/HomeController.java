@@ -1,27 +1,58 @@
 package com.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.constant.Constant;
 import com.domain.GraphDetail;
+import com.domain.SubmissionSchedule;
 import com.repository.GraphDetailRepository;
+import com.services.CoordinatorService;
 
 @Controller
 public class HomeController {
    
 	@Autowired
 	GraphDetailRepository graphDetailRepository;
+	
+	@Autowired
+	CoordinatorService coordinatorService;
+	
+	@RequestMapping(value={"/", "/home"}, method = RequestMethod.GET) 
+	public String showHomePage(Model model,HttpServletRequest request,HttpServletResponse response) {		
+		boolean isSubmissionAllowed;
+		try {
+			isSubmissionAllowed = coordinatorService.isSubmissionAllowed();
+			if(isSubmissionAllowed) {
+				SubmissionSchedule submissionSchedule = coordinatorService.getSubmissionSchedule();
+				String marqueeMessage = "Kindly make a note of the APD documents submission schedule, started from <b>" 
+				               +  submissionSchedule.getStartDate() + " </b> and ends on <b>" + submissionSchedule.getEndDate()
+				               + ",</b> Please plan accordingly, Also note that there is no after or offline acceptance of documents"
+				               + " once the timelines are missed.";
+				model.addAttribute("marqueeMessage", marqueeMessage); 
+				model.addAttribute("isSubmissionAllowed",isSubmissionAllowed); 
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "home";
+	}
 	
 	@RequestMapping(value="/get-graph-details", method = RequestMethod.GET) 
 	public void  getGraphDetails(HttpServletResponse response) {
