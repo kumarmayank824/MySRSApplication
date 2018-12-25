@@ -33,5 +33,5 @@ public class Constant {
 	
 	public static final String dateFormat1 = "yyyy-MM-dd HH:mm:ss";
 	public static final String dateFormat2 = "MM/dd/yyyy hh:mm a";
-	 
+	
 }

@@ -122,17 +122,19 @@
 		    
 		    <div style="padding-top:30px!important;">
 			    <div class="row">
-			       <form id="coordinatorDocument" method="post" enctype="multipart/form-data">
-		  		      <div class="col-sm-2"></div>
-		  		      <div class="col-sm-2">
-		  		         <label for="Upload a document">Upload Document</label>
-		  		      </div>
-		  		      <div class="col-sm-3">
-					      <input type="file" class="w3-button w3-amber form-control-file" id="exampleFormControlFile1" accept="application/pdf">
-		  		      </div>
-		  		      <div class="col-sm-2">
-                          <button style="margin-left:20px;background-color:#222323c4;color: white" type="button" class="btn btn-default" data-ng-click="searchDetails(semester,batch,course)" >Upload</button>
-		  		      </div>
+			       <form id="coordinatorDocumentUploadForm" method="post" enctype="multipart/form-data">
+			  		      <div class="col-sm-2"></div>
+			  		      <div class="col-sm-2">
+			  		         <label for="Upload a document">Upload Document</label>
+			  		      </div>
+			  		      <div class="col-sm-3">
+						      <input type="file" id="coordinatorFileContent" class="w3-button w3-amber form-control-file" name="coordinatorFile" accept="application/pdf">
+			  		      </div>
+			  		      <div class="col-sm-1">
+	                          <button style="margin-left:20px;background-color:#222323c4;color: white" type="submit" class="btn btn-default" ng-click="uploadFiles()" id=saveCoordinatorDocumentBtn >Upload</button>
+			  		      </div>
+			  		      <div class="coordinatorActionErrorMessage col-sm-2" ng-if="isDocumentUploadResponseSuccess == false">{{documentUploadResponseMessage}}</div>
+  		                  <div class="coordinatorActionSuccessMessage col-sm-2" ng-if="isDocumentUploadResponseSuccess">{{documentUploadResponseMessage}}</div>
 	  		       </form> 
 	  		    </div>  
 		    </div>

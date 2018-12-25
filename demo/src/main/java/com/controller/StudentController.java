@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.constant.Constant;
 import com.domain.Attachment;
+import com.domain.ConfigProperties;
 import com.domain.Marks;
 import com.domain.Rating;
 import com.domain.User;
@@ -62,6 +63,9 @@ public class StudentController {
 	@Autowired
 	CoordinatorService coordinatorService;
 	
+	@Autowired
+	private ConfigProperties configProperties;
+
 	// Process confirmation link
 	@RequestMapping(value="/studentConfirm", method = RequestMethod.POST)
 	public ModelAndView processConfirmationForm(ModelAndView modelAndView, BindingResult bindingResult,
@@ -188,8 +192,8 @@ public class StudentController {
 			                
 			                //Creating the directory to store file
 							//String rootPath = System.getProperty("catalina.home");
-		                    String rootPath = "D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\"+category+"\\"+attachment1.getId();
-		                    
+			                String rootPath = configProperties.getUploadProperties().getFilePath()+category+"\\"+attachment1.getId();
+			                
 		                    //Saving the file path to database
 			                attachment.setFilePath(rootPath+"\\");
 			                attachmentService.saveAttachment(attachment);
@@ -222,7 +226,6 @@ public class StudentController {
 		 } catch (Exception e) {
 		        e.printStackTrace();
 		 }
-		//return returnString;
 		if(returnString.equals("upload")) {
 			return returnString;
 		}

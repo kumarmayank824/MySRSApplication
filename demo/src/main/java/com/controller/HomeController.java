@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.constant.Constant;
+import com.domain.Attachment;
+import com.domain.CoordinatorAttachment;
 import com.domain.GraphDetail;
 import com.domain.SubmissionSchedule;
 import com.repository.GraphDetailRepository;
@@ -100,4 +102,19 @@ public class HomeController {
 		} 
 	}
 	
+	@RequestMapping(value={"/guideline-documents"}, method = RequestMethod.GET) 
+	public String showGuidelineDocuments(Model model,HttpServletRequest request) {
+			try {
+				List<CoordinatorAttachment> attachmentLst = coordinatorService.getAllAttachment();
+				if( null != attachmentLst && !attachmentLst.isEmpty()){
+					model.addAttribute("coordinatorAttachmentList", attachmentLst);  
+				}else {
+					model.addAttribute("noAttachementFoundErrorMessage", "No document available");
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		return "guidelineDocuments";		
+	}
 }

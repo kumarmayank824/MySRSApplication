@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.constant.Constant;
+import com.domain.Attachment;
+import com.domain.CoordinatorAttachment;
 import com.domain.SubmissionSchedule;
+import com.repository.CoordinatorAttachmentRepository;
 import com.repository.SubmissionScheduleRepository;
 import com.repository.UserRepository;
 import com.util.CommonUtil;
@@ -24,6 +28,9 @@ public class CoordinatorService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	CoordinatorAttachmentRepository coordinatorAttachmentRepository;
 	
 	@Autowired
 	CommonUtil commonUtil;
@@ -63,4 +70,20 @@ public class CoordinatorService {
 		}
 		return submissionSchedule;
 	}
+
+	public CoordinatorAttachment saveAttachment(CoordinatorAttachment attachment) {
+		return coordinatorAttachmentRepository.save(attachment);
+	}
+
+	public List<CoordinatorAttachment> getAllAttachment() {
+		return coordinatorAttachmentRepository.findAll(sortByUploadedDateDesc());
+	}
+
+	public CoordinatorAttachment findOne(Long attachmentId) {
+		return coordinatorAttachmentRepository.findOne(attachmentId);
+	}
+	
+	private Sort sortByUploadedDateDesc() {
+        return new Sort(Sort.Direction.DESC, "uploadedDate");
+    }
 }

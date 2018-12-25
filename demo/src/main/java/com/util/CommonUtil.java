@@ -1,5 +1,8 @@
 package com.util;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,9 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -214,6 +221,32 @@ public class CommonUtil {
 		helper.setSubject(subject);
 		helper.setFrom(from);
 		return mimeMessage;
+	}
+	
+	public static void convertPdfFirstPageToImageAndSave(String pdfLocation, String fileName) throws InvalidPasswordException, IOException {
+		  //Loading an existing PDF document
+		  File file = new File(pdfLocation + fileName);
+	      //File file = new File("D:\\Mayank_Work\\setup\\MySRSApplication\\demo\\uploadedFile\\SRS\\16\\My_Project.pdf");
+	      PDDocument document = PDDocument.load(file);
+	       
+	      //Instantiating the PDFRenderer class
+	      PDFRenderer renderer = new PDFRenderer(document);
+
+	      //Rendering an image from the PDF document
+	      BufferedImage image = renderer.renderImage(0);
+          
+	      fileName = changeFileExtensionToPng(fileName);
+	      //Writing the image to a file
+	      ImageIO.write(image, "PNG", new File(pdfLocation+fileName));
+	       
+	      System.out.println("Image created");
+	       
+	      //Closing the document
+	      document.close();
+	}
+	
+	public static String changeFileExtensionToPng(String fileName) {
+		return fileName.substring(0,fileName.indexOf(".")) + ".png";
 	}
 	
 	@Scheduled(cron = "0 0 */6 ? * *")

@@ -30,6 +30,23 @@
 	       		 $log.error("ERROR Occurred"); 
 	       	 });
   	     }
+    	
+    	this.saveCoordinatorDocument = function(csrf_token,formdata,cb){
+   		 
+	       	 $http({
+	       		 url : '/coord-save-document',
+	       	     method : 'POST',
+		       	 headers: {
+		       		'X-CSRF-Token': csrf_token,
+		       		'Content-Type': undefined
+		         },
+	       	     data: formdata
+	       	 }).then(function(response){
+	       		 cb(response.data);
+	       	 },function(response){
+	       		 $log.error("ERROR Occurred"); 
+	       	 });
+  	     }
         
     }]);
     

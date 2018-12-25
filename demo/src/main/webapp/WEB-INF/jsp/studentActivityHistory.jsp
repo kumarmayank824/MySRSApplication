@@ -77,10 +77,10 @@
 	  		          <p><div class="bk-btn"><div class="bk-btn-triangle"></div><div class="bk-btn-bar"></div></div> Go Back</p>
 	  		      </div>
 	  		      <div class="col-sm-9">
-	  		         <h4 class="text-center" style="padding-top:75px!important;"> Activity History </h4>
+	  		         <h3 class="text-center" style="padding-top:50px!important;"> Activity History </h3>
 	  		      </div>
 			</div>  		      
-	        <div class="container bootstrap snippet" style="padding-top:25px!important;">
+	        <div class="container bootstrap snippet" style="padding-top:18px!important;">
 	          <c:if test="${not empty attachmentLst}">
 	             <c:forEach var="attachment" items="${attachmentLst}" varStatus="loopCounter">
 				     <div class="row">
@@ -175,7 +175,7 @@
 	          
            </div>
 	   </div> 
-	   <footer class="w3-container w3-center w3-opacity" style="padding-top: 64px!important;">  
+	   <footer class="w3-container w3-center w3-opacity">  
 	   <p> &copy;2018 MyApplication </p>
 	   </footer>
 		
