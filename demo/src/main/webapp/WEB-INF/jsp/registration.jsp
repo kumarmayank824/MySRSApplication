@@ -67,52 +67,53 @@
 				  </div>
 				</div>
 				<div class="wrap-login100">
+				    <p class="emailErrorMessage" >{{emailErrorMessage}}</p>
 					<form:form action="/registerUser" method="post" modelAttribute="user">
 	
-						<c:if test="${confirmationMessage ne null}">
-						   <input type="hidden" id="alertSuccessMessage" value="${confirmationMessage}"/>
+						<c:if test="${successMessage ne null}">
+						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
 					    </c:if>
-					    <c:if test="${alreadyRegisteredMessage ne null}">
-					       <input type="hidden" id="alertFailureMessage" value="${alreadyRegisteredMessage}"/>
+					    <c:if test="${failureMessage ne null}">
+					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
 					    </c:if>
 					    
 						<div class="wrap-input100 validate-input m-b-23"
 							data-validate="Username is reauired">
 							<span class="label-input100">Username</span> <input
 								class="input100" type="text" name="username"
-								placeholder="Type your username" required> <span
+								placeholder="Type your username" value="${username}" required> <span
 								class="focus-input100" data-symbol="&#xf206;"></span>
 						</div>
 						<div class="wrap-input100 validate-input m-b-23" style="margin-bottom: 10px;"
 							data-validate="Email is required">
-							<span class="label-input100">Email Id</span> <input
-								class="input100" type="email" name="email"
-								placeholder="Type your Email Id" required> <span
-								class="focus-input100" data-symbol="&#9993"></span>
+							<c:choose>
+							    <c:when test="${isFailure}">
+							        <span class="label-input100 error">Email Id</span>
+							    </c:when>
+								<c:otherwise>
+								    <span ng-class="isEmailIdValidationError ? 'label-input100 error' : 'label-input100' ">Email Id</span>
+								</c:otherwise>
+							</c:choose>
+							<input class="input100" type="email" name="email" placeholder="Type your Email Id" ng-model="emailIdModel" ng-change="emailIdModelChanged(emailIdModel)" no-email-validation required> 
+						    <span class="focus-input100" data-symbol="&#9993"></span>
 						</div>
-						
 						<div class="myradio" style="margin-top: 15px;">
-						    <input id="radio-1" name="signInType" type="radio" value="Student" checked>
+						    <input id="radio-1" name="signInType" ng-model="signInTypeModelValue" type="radio" value="Student" checked>
 						    <label for="radio-1" class="myradio-label" style="font-weight:600;font-family: Poppins-Regular;margin-left:7px;">Student</label>
-						    <input id="radio-2" name="signInType" type="radio" value="Teacher">
+						    <input id="radio-2" name="signInType" ng-model="signInTypeModelValue" type="radio" value="Teacher" >
 						    <label  for="radio-2" class="myradio-label" style="font-weight:600;font-family: Poppins-Regular;margin-left:10px;">Teacher</label>
 					    </div>
-						
-						<!-- <span class="mySignUpCheckbox">Student Sign In</span><label class="switch" style="margin-bottom:15px;margin-top: 15px;">
-						  <input id="flag" type="checkbox" checked><span class="slider round"></span>
-						  <span class="mySignUpCheckbox">Student Sign In</span> 	
-						</label> -->
-						
 						<div class="container-login100-form-btn">
 							<div class="wrap-login100-form-btn">
 								<div class="login100-form-bgbtn"></div>
-								<button type="submit" class="login100-form-btn">Sign up
+								<button type="submit" ng-disabled="isEmailIdValidationError" class="login100-form-btn">Sign up
 									Now</button>
 							</div>
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 					</form:form>
+					<h5 ng-if="isEmailIdValidationError" class="buttonDisabledText" > * Button is disabled </h5>
 					<div class="flex-col-c p-t-15">
 						<span class="txt1 p-b-17"> Already a member? <a
 							href="/login" class="txt2">Login now</a>

@@ -109,6 +109,41 @@
 	    	
 	    }
 	    
+	    //Email Validation For Register Page
+	    function isValidEmailAddress(emailAddress,pattern) {
+    	   return pattern.test(emailAddress.toLowerCase());  // returns a boolean 
+	    }
+	    
+	    var minLength = 8;
+	    $scope.signInTypeModelValue = 'Student';
+	    $scope.isEmailIdValidationError = false;
+	    $scope.emailIdModelChanged = function(emailIdModel) {
+	    	if (emailIdModel && ( emailIdModel.indexOf('@') != -1 || emailIdModel.length >= minLength ) && $scope.signInTypeModelValue == 'Student'){
+	    		var wipro_email_regex = /^\w+([\.-]?\w+)*@\wipro(\.\w{2,3})+$/;
+	    		console.log("Email  " + emailIdModel + "     isValid " + isValidEmailAddress(emailIdModel,wipro_email_regex));
+	    		if(!isValidEmailAddress(emailIdModel,wipro_email_regex)){
+	    			$scope.emailErrorMessage = '* Please note, only WIPRO Mail id is allowed for sign in';
+	    			$scope.isEmailIdValidationError = true;
+	    		}else{
+	    			$scope.emailErrorMessage = '';
+	    			$scope.isEmailIdValidationError = false;
+	    		}
+	    		
+	    	}else{
+    			$scope.emailErrorMessage = '';
+    			$scope.isEmailIdValidationError = false;
+    		}
+	    }
+	    
+	    $scope.$watch('signInTypeModelValue', function(value) {
+	        if( value == 'Teacher'){
+	        	$scope.emailErrorMessage = '';
+    			$scope.isEmailIdValidationError = false;
+	        }else{
+	        	$scope.emailIdModelChanged($scope.emailIdModel);
+	        }
+	    });
+	    
 	    //To check the forgot password rules
 	    $scope.forgotPassCheckClass = 'forgotPassCheck';
 	    $scope.condition1 = false;
@@ -166,5 +201,17 @@
 	    }
 	    
 	}]);
+	
+	app.directive('noEmailValidation', function() {
+	    return {
+	      restrict: 'A',
+	      require: 'ngModel',
+	      link: function(scope, elm, attr, ctrl) {
+	        ctrl.$validators['email'] = function() {
+	          return true;
+	        };
+	      }
+	    }
+	  });
 	
 })();

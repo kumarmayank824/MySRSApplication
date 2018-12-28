@@ -89,4 +89,9 @@ public class UserService {
     	}
 		return model;
 	}
+
+	public void deleteExistingUser(User userExists) {
+		 userRepository.delete(userExists);
+		
+	}
 }

@@ -2,6 +2,7 @@ package com.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,10 +14,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Transient;
 
 @Entity
@@ -57,6 +61,10 @@ public class User implements Serializable {
 	
 	private String course;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+	private Date requestTime;
+	
 	public User(){
 			
 	}
@@ -73,6 +81,7 @@ public class User implements Serializable {
 		this.semester = user.semester;
 		this.batch = user.batch;
 		this.course = user.course;
+		this.requestTime = user.requestTime;
 	}
 
 	public int getUserId() {
@@ -161,6 +170,14 @@ public class User implements Serializable {
 
 	public void setCourse(String course) {
 		this.course = course;
+	}
+
+	public Date getRequestTime() {
+		return requestTime;
+	}
+
+	public void setRequestTime(Date requestTime) {
+		this.requestTime = requestTime;
 	}
     
 	

@@ -239,7 +239,7 @@ iframe {
 .label-input100 {
   font-family: Poppins-Regular;
   font-size: 16px;
-  color: #333333;
+  color: #4c6267;
   line-height: 1.5;
   padding-left: 7px;
 }
@@ -540,6 +540,16 @@ iframe {
 	color:#f44336;
 }
 
+.emailErrorMessage {
+   padding: 10px 0px 34px 0px;
+   color: red;
+   text-align: center;
+   font-size: 12px;
+}
+
+.error{
+	color : red;
+}
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 
@@ -549,3 +559,9 @@ iframe {
     padding-right: 15px;
   }
 } 
+
+// Just change "red" to any color
+input:-webkit-autofill, input:focus:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px #FFF inset !important; }
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px #FFF inset !important; 
+}

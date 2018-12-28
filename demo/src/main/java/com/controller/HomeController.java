@@ -44,7 +44,7 @@ public class HomeController {
 				String marqueeMessage = "Kindly make a note of the APD documents submission schedule, started from <b>" 
 				               +  submissionSchedule.getStartDate() + " </b> and ends on <b>" + submissionSchedule.getEndDate()
 				               + ",</b> Please plan accordingly, Also note that there is no after or offline acceptance of documents"
-				               + " once the timelines are missed.";
+				               + " once the timelines are over.";
 				model.addAttribute("marqueeMessage", marqueeMessage); 
 				model.addAttribute("isSubmissionAllowed",isSubmissionAllowed); 
 			}

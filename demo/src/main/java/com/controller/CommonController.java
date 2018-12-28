@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.domain.Attachment;
 import com.domain.User;
@@ -89,7 +90,7 @@ public class CommonController {
 			if (userExists == null) {
 				model.addAttribute("noSuchUserError", "no such user error");
 				model.addAttribute("previousEmail", email);
-				return "forgotPassword";
+				return "forgotPassword"; 
 			}else {
 				//send forgot password email
 				String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -143,63 +144,83 @@ public class CommonController {
 	
 	@RequestMapping(value="/registerUser", method = RequestMethod.POST) 
 	public String registerUser(@Valid @ModelAttribute("user") User user, 
-			  BindingResult bindingResult,  Model model, HttpServletRequest request) {
-		
-	        // Lookup user in database by e-mail
-			User userExists = userService.findByEmail(user.getEmail());
-			
-			if (userExists != null) {
-				model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
-				bindingResult.reject("email");
-				return "registration";
-			}
+			  BindingResult bindingResult,  Model model,
+			  RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		     
+		     if(user.getSignInType().equals("Student") && !validatorUtil.validateWiproEmail(user.getEmail())) {
+		    	 redirectAttributes.addFlashAttribute("failureMessage", "Please note, only WIPRO Mail id is allowed for sign in");
+			     redirectAttributes.addFlashAttribute("isFailure", true);
+			     redirectAttributes.addFlashAttribute("username", user.getUsername());
+		    	 bindingResult.reject("email");
+		    	 return "redirect:" + request.getRequestURI(); 
+		     }else {
+		    	// Lookup user in database by e-mail
+				User userExists = userService.findByEmail(user.getEmail());
 				
-			if (bindingResult.hasErrors()) { 
-				return "registration";
-			} else { // new user so we create user and send confirmation e-mail
-						
-				// Disable user until they click on confirmation link in email
-			    user.setEnabled(false);
-			      
-			    // Generate random 36-character string token for confirmation link
-			    user.setConfirmationToken(UUID.randomUUID().toString());
-			        
-			    userService.saveUser(user);
-				
-			    //send registration email
-				String appUrl = request.getScheme() + "://" + request.getServerName();
-				
-				String text = "To confirm your e-mail address, please click the link below:\n"
-						+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType();
-				
-				SimpleMailMessage registrationEmail = CommonUtil.emailTemplate(user.getEmail(), "noreply@domain.com", "Registration Confirmation", text);
-				
-				emailService.sendEmail(registrationEmail);
-				
-				model.addAttribute("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
-				
-				return "registration";
-			}
+				if (userExists != null && userExists.isEnabled()) { //user already exists and also enabled
+					redirectAttributes.addFlashAttribute("failureMessage", "Oops!  There is already a user registered with the email provided.");
+			    	redirectAttributes.addFlashAttribute("isFailure", true);
+			    	redirectAttributes.addFlashAttribute("username", user.getUsername());
+			    	bindingResult.reject("email");
+					return "redirect:" + request.getRequestURI(); 
+				}else if(userExists != null && !userExists.isEnabled()) { //user already exists but not enabled
+					//delete existing but disabled user
+					userService.deleteExistingUser(userExists);
+				}
+				if (bindingResult.hasErrors()) {
+					redirectAttributes.addFlashAttribute("username", user.getUsername());
+					return "redirect:" + request.getRequestURI(); 
+				} else { // new user so we create user and send confirmation e-mail
+							
+					// Disable user until they click on confirmation link in email
+				    user.setEnabled(false);
+				      
+				    // Generate random 36-character string token for confirmation link
+				    user.setConfirmationToken(UUID.randomUUID().toString());
+				        
+				    userService.saveUser(user);
+					
+				    //send registration email
+					String appUrl = request.getScheme() + "://" + request.getServerName();
+					
+					String text = "To confirm your e-mail address, please click the link below:\n"
+							+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType();
+					
+					SimpleMailMessage registrationEmail = CommonUtil.emailTemplate(user.getEmail(), "noreply@domain.com", "Registration Confirmation", text);
+					
+					emailService.sendEmail(registrationEmail);
+					
+					redirectAttributes.addFlashAttribute("successMessage", "A confirmation e-mail has been sent to " + user.getEmail());
+					
+					return "redirect:" + request.getRequestURI(); 
+				} 
+		   }
     }
 	
     // Process confirmation link
 	@RequestMapping(value="/confirm", method = RequestMethod.GET)
 	public String showConfirmationPage(Model model, @RequestParam("token") String token
-			,@RequestParam("signInType") String signInType) throws Exception {
+			,@RequestParam("signInType") String signInType,RedirectAttributes redirectAttributes,
+			HttpServletRequest request) throws Exception {
 			
 		User user = userService.findByConfirmationToken(token);
 		String returnPageName = "studentConfirmPage";
 		if (user == null) { // No token found in DB
-			model.addAttribute("invalidToken", "Oops!  This is an invalid confirmation link.");
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This is an invalid confirmation link.");
+			return "redirect:" + request.getRequestURI(); 
 		}else if( null != user.getSignInType() && !user.getSignInType().equals(signInType)){
-			model.addAttribute("signInTypeError", "Not Allowed! As your signed in type changed");
-		}else { // Token found
+			redirectAttributes.addFlashAttribute("failureMessage", "Not Allowed! Since your sign in type has been modified.");
+			return "redirect:" + request.getRequestURI(); 
+		}else if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastTenMinutesAgo(user.getRequestTime())){
+			//link is more than 10 minutes old, hence expired
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This link is no longer valid, please generate a new link and try.");
+			return "redirect:" + request.getRequestURI(); 
+		}else { // Token found	
 			model.addAttribute("confirmationToken", user.getConfirmationToken());
 			if(user.getSignInType().equals("Teacher")){
 				returnPageName =  "teacherConfirmPage";		
 			}
 		}
-			
 		return returnPageName;		
 	}
 	
