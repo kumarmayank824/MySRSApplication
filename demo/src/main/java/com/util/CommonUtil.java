@@ -195,6 +195,9 @@ public class CommonUtil {
 	}
 	
 	public static String decoder(String value) {
+		//User user2 = userService.findByEmail(user.getEmail());
+		//String orginalPassword = CommonUtil.decoder(user2.getPassword());
+		//System.out.println(orginalPassword+orginalPassword);
        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
        encryptor.setPassword(Constant.encrpytorPassWord);
        return encryptor.decrypt(value);

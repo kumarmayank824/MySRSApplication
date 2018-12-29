@@ -14,10 +14,11 @@
    
    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
-   <link rel="stylesheet"  href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-   <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css">
-   <link rel="stylesheet"  href="css/util.css">
-   <link rel="stylesheet"  href="css/login.css">
+   <link rel="stylesheet"  href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
+   <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css"/>
+   <link rel="stylesheet"  href="css/util.css"/>
+   <link rel="stylesheet"  href="css/login.css"/>
+   <link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css"/>
    
    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -26,7 +27,8 @@
    <script src="js/avatar/ionic-letter-avatar.js"></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.3.0/zxcvbn.js"></script>
+   <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+   <script src="js/alert.js"></script>
    
   </head>
   <style>
@@ -62,30 +64,27 @@
 				  </div>
 				</div>
 				<div class="wrap-login100" style="margin-bottom: 25px;padding: 40px 30px;">
+				    <p class="errorMessage" >${errorMessage}</p>
 					<form action="/studentConfirm" method="post">
 					        
-				        <!-- <span class="login100-form-title p-b-30">
-						   Set Your Password
-					    </span> -->
-					    <c:if test="${invalidToken ne null}">
-					        <span style="color:red;margin-left:31%;font-size: 15px;">${invalidToken}</span>
-						</c:if>
+					    <c:if test="${successMessage ne null}">
+						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+					    </c:if>
+					    <c:if test="${failureMessage ne null}">
+					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+					    </c:if>
 	                   
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
-							<span class="label-input100">Password</span>
-							<input class="input100" style="height:55px;" type="password" name="password" placeholder="Type your password" required>
+							<span class="${ ( isPasswordNotValidError || isEmptyPasswordError ) ? 'label-input100 error' : 'label-input100' }">Password
+							    <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+							</span>
+							<input class="input100" style="height:55px;" type="{{inputTypePassword}}" name="password" placeholder="Type your password" required>
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
-						<!-- <div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
-							<span class="label-input100">Confirm Password</span>
-							<input class="input100" style="height:55px;" type="password" name="confirmPassword" placeholder="Type your confirm password">
-							<span class="focus-input100" data-symbol="&#xf190;"></span>
-						</div> -->
-						
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Semester is required">
-							<span class="label-input100">Semester</span>
-							<input class="input100" list="semesterList" style="height:55px;" type="text" name="semester" placeholder="Choose your semester" required>
+							<span class="${ isSemsterError ? 'label-input100 error' : 'label-input100' }">Semester</span>
+							<input class="input100" list="semesterList" style="height:55px;" type="text" name="semester" placeholder="Choose your semester" value="${semester}" required>
 							<span class="focus-input100" data-symbol="&#xf11b;"></span>
 							<datalist id="semesterList">
 							  <select>
@@ -97,8 +96,8 @@
 						</div>
 						
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Batch is required">
-							<span class="label-input100">Batch</span>
-							<input class="input100" list="batchList" style="height:55px;" type="text" name="batch" placeholder="Choose your batch" required>
+							<span class="${ isBatachError ? 'label-input100 error' : 'label-input100' }">Batch</span>
+							<input class="input100" list="batchList" style="height:55px;" type="text" name="batch" placeholder="Choose your batch" value="${batch}" required>
 							<span class="focus-input100" data-symbol="&#xf3e9;"></span>
 							<datalist id="batchList">
 							  <select>
@@ -117,8 +116,8 @@
 						</div>
 						
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Semester is required">
-							<span class="label-input100">Course</span>
-							<input class="input100" list="courseList" style="height:55px;" type="text" name="course" placeholder="Choose your course" required>
+							<span class="${ isCourseError ? 'label-input100 error' : 'label-input100' }">Course</span>
+							<input class="input100" list="courseList" style="height:55px;" type="text" name="course" placeholder="Choose your course" value="${course}" required>
 							<span class="focus-input100" data-symbol="&#xf174;"></span>
 							<datalist id="courseList">
 							  <select>

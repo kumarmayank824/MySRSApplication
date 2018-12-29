@@ -14,19 +14,20 @@
    
    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
-   <!-- <link rel="stylesheet"  href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
-   <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css">
-   <link rel="stylesheet"  href="css/util.css">
-   <link rel="stylesheet"  href="css/login.css">
+   <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
+   <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css"/>
+   <link rel="stylesheet"  href="css/util.css"/>
+   <link rel="stylesheet"  href="css/login.css"/>
+   <link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css"/>
    
    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-   
    <script src="js/angular.min.js" ></script>
    <script src="js/avatar/ionic-letter-avatar.js"></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.3.0/zxcvbn.js"></script>
+   <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+   <script src="js/alert.js"></script>
    
   </head>
   <style>
@@ -54,42 +55,46 @@
 		</div>
         
 		<div class="limiter">
-			<div class="container-login100">
+			<div class="container-login100" style="padding:75px">
 			    <div class="wrap-logo">
 				  <div class="login-upper-div">
 				  	<!-- <img class="app-logo" alt="" src="images/logo/logo.png"> -->
 				  	<div class="signin-text">Choose Password</div>
 				  </div>
 				</div>
-				<div class="wrap-login100" style="margin-bottom: 25px;padding: 40px 30px;">
+				<div class="wrap-login100">
+					<p class="errorMessage" >${errorMessage}</p>
 					<form action="/teacherConfirm" method="post">
 					        
 				        <!-- <span class="login100-form-title p-b-30">
 						   Set Your Password
 					    </span> -->
-					    <c:if test="${invalidToken ne null}">
-					        <span style="color:red;margin-left:31%;font-size: 15px;">${invalidToken}</span>
-						</c:if>
-	                    
-	                    <c:if test="${secretCodeError ne null}">
-					        <span style="color:red;margin-left:31%;font-size: 15px;">${secretCodeError}</span>
-						</c:if>
+					    <c:if test="${successMessage ne null}">
+						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+					    </c:if>
+					    <c:if test="${failureMessage ne null}">
+					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+					    </c:if>
 
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
-							<span class="label-input100">Password</span>
-							<input class="input100" style="height:55px;" type="password" name="password" placeholder="Type your password">
+							<span class="${ ( isPasswordAndConfirmPasswordNotSameError || isEmptyPasswordError ) ? 'label-input100 error' : 'label-input100' }">Password
+							    <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+							</span>
+							<input class="input100" style="height:55px;" type="{{inputTypePassword}}" name="password" placeholder="Type your password" required>
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
-							<span class="label-input100">Confirm Password</span>
-							<input class="input100" style="height:55px;" type="password" name="confirmPassword" placeholder="Type your confirm password">
+							<span class="${ isPasswordAndConfirmPasswordNotSameError ? 'label-input100 error' : 'label-input100' }">Confirm Password
+							    <span class="showHidePasswordIcon" title="{{titleConfirmPassword}}"  ng-click="hideShowConfirmPassword()" ><i ng-class="isConfirmPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+							</span>
+							<input class="input100" style="height:55px;" type="{{inputTypeConfirmPassword}}" name="confirmPassword" placeholder="Type your confirm password" required>
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
 						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Secret Code is required">
-							<span class="label-input100">Secret Code</span>
-							<input class="input100" style="height:55px;" type="password" name="secretCode" placeholder="Type your secret code">
+							<span class="${ isWrongSecretCodeError ? 'label-input100 error' : 'label-input100' } ">Secret Code</span>
+							<input class="input100" style="height:55px;" type="password" name="secretCode" value = "${secretCode}" placeholder="Type your secret code" required>
 							<span class="focus-input100" data-symbol="&#xf183;"></span>
 						</div>
 												

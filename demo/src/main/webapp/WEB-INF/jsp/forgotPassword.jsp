@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" href="css/util.css">
 	<link rel="stylesheet" href="css/login.css">
-	<link rel="stylesheet" href="css/toggle-button.css">
 	<link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -66,14 +65,18 @@
 				</div>
 				<div class="wrap-login100" style="width:380px;">
 				        
-				        <c:if test="${noSuchUserError ne null}">
-					      <input type="hidden" id="alertFailureMessage" value="${noSuchUserError}"/>
-					    </c:if>
-					    
+				        <c:if test="${successMessage ne null}">
+					        <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+				        </c:if>
+				        <c:if test="${failureMessage ne null}">
+				           <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+				        </c:if>
+				         
 					    <c:if test="${forgotPasswordEmailSendSuccessfully ne true}">
 					        
 					        <h2 class="forgotPassTitle">Please set me up with a new password</h2>
 					        <form:form action="/forgotPassword" method="post">
+							    
 							    <p class="forgotParagraph">To reset your password for <strong>http://localhost:9099</strong>, enter your email address and we'll send you an email with instructions.</p>
 							    
 								<div class="wrap-input100 validate-input m-b-23" style="margin-bottom: 10px;"

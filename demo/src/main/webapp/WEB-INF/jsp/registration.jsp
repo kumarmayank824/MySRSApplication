@@ -13,17 +13,14 @@
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
 	<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet" />
-	<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"> -->
-	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" href="css/util.css">
-	<link rel="stylesheet" href="css/login.css">
-	<link rel="stylesheet" href="css/toggle-button.css">
-	<link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
+	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css"/>
+	<link rel="stylesheet" href="css/util.css"/>
+	<link rel="stylesheet" href="css/login.css"/>
+	<link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css"/>
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	
 	<script src="js/angular.min.js"></script>
 	<script src="js/avatar/ionic-letter-avatar.js"></script>
 	<script src="js/mainController.js"></script>
@@ -67,7 +64,7 @@
 				  </div>
 				</div>
 				<div class="wrap-login100">
-				    <p class="emailErrorMessage" >{{emailErrorMessage}}</p>
+				    <p class="errorMessage" >{{emailErrorMessage}}</p>
 					<form:form action="/registerUser" method="post" modelAttribute="user">
 	
 						<c:if test="${successMessage ne null}">
@@ -125,18 +122,6 @@
 	
 		<!-- Footer -->
 		<footer class="w3-container w3-center">
-			<!-- <div class="w3-xlarge w3-padding-32">
-				<i class="fa fa-facebook-official w3-hover-opacity"></i> <i
-					class="fa fa-instagram w3-hover-opacity"></i> <i
-					class="fa fa-snapchat w3-hover-opacity"></i> <i
-					class="fa fa-pinterest-p w3-hover-opacity"></i> <i
-					class="fa fa-twitter w3-hover-opacity"></i> <i
-					class="fa fa-linkedin w3-hover-opacity"></i>
-			</div>
-			<p>
-				Powered by <a href="https://www.w3schools.com/w3css/default.asp"
-					target="_blank">w3.css</a>
-			</p> -->
 			<p> &copy;2018 MyApplication </p>
 		</footer>
 

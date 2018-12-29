@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,12 +32,16 @@ import com.services.MarksService;
 import com.services.SecretCodeService;
 import com.services.UserService;
 import com.util.CommonUtil;
+import com.util.ValidatorUtil;
 
 @Controller
 public class TeacherController {
     
 	@Autowired
 	CommonUtil commonUtil;
+	
+	@Autowired
+	ValidatorUtil validatorUtil;
 	
 	@Autowired
 	UserService userService;
@@ -49,39 +55,52 @@ public class TeacherController {
 	@Autowired
 	MarksService marksService;
 	
-	// Process confirmation link
+ 	// Process confirmation link
 	@RequestMapping(value="/teacherConfirm", method = RequestMethod.POST)
-	public ModelAndView processConfirmationForm(ModelAndView modelAndView, BindingResult bindingResult,
-			@RequestParam Map requestParams, RedirectAttributes redir) {
+	public String processConfirmationForm(Model model,
+			  RedirectAttributes redirectAttributes,HttpServletRequest request) throws IOException {
 		
-		String secretCode = (String)requestParams.get("secretCode");
+		String secretCode = (String)request.getParameter("secretCode");
+		String password = (String)request.getParameter("password");
+		String confirmPassword = (String)request.getParameter("confirmPassword");
+		String token = (String)request.getParameter("token");
+		// Find the user associated with the token
+		User user = userService.findByConfirmationToken(token);
 		
-		if(!secretCode.equals(secretCodeService.findAll().get(0).getSecretCode())){
-			modelAndView.setViewName("teacherConfirmPage");
-			modelAndView.addObject("secretCodeError", "Wrong Secret Provided!");
+		model.addAttribute("confirmationToken", token);
+		model.addAttribute("secretCode", secretCode);
+		
+		//Validation Part
+		if( null == token || token.isEmpty() || ( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()) ) ){
+			//link is more than 15 minutes old, hence expired
+			userService.deleteExistingUser(user);
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			return "redirect:/registerUser"; 
+		}else  if( null == password || password.isEmpty()) {
+			model.addAttribute("errorMessage", " * Password cannot be empty");
+			model.addAttribute("isEmptyPasswordError", true);
+			return "teacherConfirmPage";
+		}else if(!password.equals(confirmPassword)) {
+			model.addAttribute("errorMessage", " * Please check, password and confirm password must be same");
+			model.addAttribute("isPasswordAndConfirmPasswordNotSameError", true);
+			return "teacherConfirmPage";
+		}else if(!validatorUtil.validatorPassword(password)) {
+			String message = "<b>Password requirements:</b>" + "<br/><br/>" 
+		                       + "1. must be at least 8 characters" + "<br/>"
+					           + "2. must contains a minimum of 1 numeric character [0-9]" + "<br/>"
+		                       + "3. must contains a minimum of 1 special character [@#$%^& only.]"; 
+			model.addAttribute("failureMessage", message);
+			model.addAttribute("isPasswordAndConfirmPasswordNotSameError", true);
+			return "teacherConfirmPage";
+		}else if(null == secretCode || secretCode.isEmpty() || 
+				!secretCode.equals(secretCodeService.findAll().get(0).getSecretCode())){
+			model.addAttribute("errorMessage", "Wrong secret code provided!");
+			model.addAttribute("isWrongSecretCodeError", true);
+			return "teacherConfirmPage";
 		}else{
 			
-			modelAndView.setViewName("login");
-			
-			//Zxcvbn passwordCheck = new Zxcvbn();
-			
-			//Strength strength = passwordCheck.measure(requestParams.get("password"));
-			
-			/*if (strength.getScore() < 3) {
-				bindingResult.reject("password");
-				
-				redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
-
-				modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-				System.out.println(requestParams.get("token"));
-				return modelAndView;
-			}*/
-		
-			// Find the user associated with the reset token
-			User user = userService.findByConfirmationToken(requestParams.get("token"));
-
-			// Set new password
-			user.setPassword(CommonUtil.encoder((String)requestParams.get("password")));
+			// Set password
+			user.setPassword(CommonUtil.encoder(password));
 
 			// Set user to enabled
 			user.setEnabled(true);
@@ -94,15 +113,10 @@ public class TeacherController {
 			
 			// Save user
 			userService.saveUser(user);
-			modelAndView.addObject("successMemberMessage", "Congrats you have been successfully register!");
+			redirectAttributes.addFlashAttribute("successMessage", "Congrats you have been successfully register!");
 			
-			User user2 = userService.findByEmail(user.getEmail());
-			
-			String orginalPassword = CommonUtil.decoder(user2.getPassword());
-			System.out.println(orginalPassword+orginalPassword);
-			
+			return "redirect:/login";
 		}
-		return modelAndView;		
 	}
 	
 	
@@ -162,9 +176,6 @@ public class TeacherController {
 			marksService.save(marksObj);
 			
 			getSearchDetails(semester, batch, course, response);
-			//returnJson = new JSONObject();
-			//returnJson.put("showMarksLink",false);
-			//response.getWriter().write(returnJson.toString());
 			
 		}  catch (JSONException e) {
 			// TODO Auto-generated catch block

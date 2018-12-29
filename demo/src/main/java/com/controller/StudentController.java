@@ -41,6 +41,7 @@ import com.services.MarksService;
 import com.services.RatingService;
 import com.services.UserService;
 import com.util.CommonUtil;
+import com.util.ValidatorUtil;
 
 @Controller
 public class StudentController {    
@@ -58,6 +59,9 @@ public class StudentController {
 	CommonUtil commonUtil;
 	
 	@Autowired
+	ValidatorUtil validatorUtil;
+	
+	@Autowired
 	UserService userService;
 	
 	@Autowired
@@ -65,62 +69,90 @@ public class StudentController {
 	
 	@Autowired
 	private ConfigProperties configProperties;
-
+    
+	
+	@RequestMapping(value="/studentConfirm", method = RequestMethod.GET) 
+	public String handleRegistrationRequest(Model model, String error, String logout) {
+        return "studentConfirmPage";
+    }
+	
+	
 	// Process confirmation link
 	@RequestMapping(value="/studentConfirm", method = RequestMethod.POST)
-	public ModelAndView processConfirmationForm(ModelAndView modelAndView, BindingResult bindingResult,
-			@RequestParam Map requestParams, RedirectAttributes redir) {
+	public String processConfirmationForm(Model model,RedirectAttributes redirectAttributes,
+			HttpServletRequest request) throws IOException {
 		
-		modelAndView.setViewName("login");
 		
-		//Zxcvbn passwordCheck = new Zxcvbn();
+		String password = (String)request.getParameter("password");
+		String token = (String)request.getParameter("token");
+		String semester = (String)request.getParameter("semester");
+		String batch = (String)request.getParameter("batch");
+		String course = (String)request.getParameter("course");
+		// Find the user associated with the token
+		User user = userService.findByConfirmationToken(token);
 		
-		//Strength strength = passwordCheck.measure(requestParams.get("password"));
+		//set field for error page
+		model.addAttribute("confirmationToken", token);
+		model.addAttribute("semester", semester);
+		model.addAttribute("batch", batch);
+		model.addAttribute("course", course);
 		
-		/*if (strength.getScore() < 3) {
-			bindingResult.reject("password");
+		
+		if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()) ){
+			//link is more than 15 minutes old, hence expired
+		    userService.deleteExistingUser(user);
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			return "redirect:/registerUser"; 
+		}else  if( null == password || password.isEmpty()) {
+			model.addAttribute("errorMessage", " * Password cannot be empty");
+			model.addAttribute("isEmptyPasswordError", true);
+			model.addAttribute("signInType", "Student");
+			return "studentConfirmPage";
+		}else if(!validatorUtil.validatorPassword(password)) {
+			String message = "<b>Password requirements:</b>" + "<br/><br/>" 
+		                       + "1. must be at least 8 characters" + "<br/>"
+					           + "2. must contains a minimum of 1 numeric character [0-9]" + "<br/>"
+		                       + "3. must contains a minimum of 1 special character [@#$%^& only.]"; 
+			model.addAttribute("failureMessage", message);
+			model.addAttribute("isPasswordNotValidError", true);
+			model.addAttribute("signInType", "Student");
+			return "studentConfirmPage";
+		}else if( !((String)validatorUtil.validateStudentParamter(semester,batch,course).get("errorMessage")).isEmpty() ){
+			Map<String,Object> errorMap = validatorUtil.validateStudentParamter(semester,batch,course);
+			model.addAttribute("isSemsterError", (boolean)errorMap.get("isSemsterError"));
+			model.addAttribute("isBatachError", (boolean)errorMap.get("isBatachError"));
+			model.addAttribute("isCourseError", (boolean)errorMap.get("isCourseError"));
+			model.addAttribute("failureMessage", (String)errorMap.get("errorMessage"));
+			model.addAttribute("signInType", "Student");
+			return "studentConfirmPage";
+		}else {
+			// Set new password
+			user.setPassword(CommonUtil.encoder(password));
 			
-			redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
-
-			modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-			System.out.println(requestParams.get("token"));
-			return modelAndView;
-		}*/
+			// Set new semester
+			user.setSemester(semester);
+			
+			// Set new batch
+			user.setBatch(batch);
+					
+			// Set new course
+			user.setCourse(course);		
 	
-		// Find the user associated with the reset token
-		User user = userService.findByConfirmationToken(requestParams.get("token"));
-
-		// Set new password
-		user.setPassword(CommonUtil.encoder((String)requestParams.get("password")));
-		
-		// Set new semester
-		user.setSemester((String)requestParams.get("semester"));
-		
-		// Set new batch
-		user.setBatch((String)requestParams.get("batch"));
-				
-		// Set new course
-		user.setCourse((String)requestParams.get("course"));		
-
-		// Set user to enabled
-		user.setEnabled(true);
-		
-		//Set user role
-		UserRole userRole = new UserRole();
-		userRole.setUser(user);
-		userRole.setRole("ROLE_STUDENT");
-		user.getUserRoles().add(userRole);
-		
-		// Save user
-		userService.saveUser(user);
-		modelAndView.addObject("successMemberMessage", "Congrats you have been successfully register!");
-		
-		User user2 = userService.findByEmail(user.getEmail());
-		
-		String orginalPassword = CommonUtil.decoder(user2.getPassword());
-		System.out.println(orginalPassword+orginalPassword);
+			// Set user to enabled
+			user.setEnabled(true);
 			
-		return modelAndView;		
+			//Set user role
+			UserRole userRole = new UserRole();
+			userRole.setUser(user);
+			userRole.setRole("ROLE_STUDENT");
+			user.getUserRoles().add(userRole);
+			
+			// Save user
+			userService.saveUser(user);
+			redirectAttributes.addFlashAttribute("successMessage", "Congrats you have been successfully register!");
+			
+			return "redirect:/login";	
+		}	
 	}
 	
 	

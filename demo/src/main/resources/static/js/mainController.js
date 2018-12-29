@@ -153,10 +153,10 @@
 	    
 	    $scope.checkPasswordRules = function(forgotPassword) {
 	    	
-	    	var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-	    	var conditionRegex1 = new RegExp("^(?=.{8,})");
+	    	var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[@#\$%\^&])(?=\\S+$).{8,}$");
+	    	var conditionRegex1 = new RegExp("^(?=\\S+$).{8,}$");
 	    	var conditionRegex2 = new RegExp("^(?=.*[0-9])");
-	    	var conditionRegex3 = new RegExp("^(?=.*[!@#\$%\^&\*])");
+	    	var conditionRegex3 = new RegExp("^(?=.*[@#\$%\^&])");
 	    	if(strongRegex.test(forgotPassword)) {
 	    		$scope.forgotPassCheckClass = 'forgotPassCheck2';
 	    		$scope.condition1 = true;
@@ -188,6 +188,9 @@
                 }else{
                 	$scope.condition3 = false;
                 }
+                if( !$scope.condition1 || !$scope.condition2 || !$scope.condition3 ){
+                	$scope.isDisabled = true;
+                }
             }
 	    }
 	    
@@ -199,6 +202,41 @@
 	    $scope.backToReadMode = function() {
 	    	$scope.showProfileInEditMode = false;
 	    }
+	    
+	    
+	    // Set the default value of inputTypePassword
+	    $scope.inputTypePassword = 'password';
+	    $scope.titlePassword = 'Show Password';
+	    $scope.isPasswordDanger = false;
+	    // Hide & show password function
+	    $scope.hideShowPassword = function(){
+	        if ($scope.inputTypePassword == 'password'){
+	            $scope.inputTypePassword = 'text';
+	            $scope.titlePassword = 'Hide Password';
+	            $scope.isPasswordDanger = true;
+		    }else{
+		        $scope.inputTypePassword = 'password';
+		        $scope.titlePassword = 'Show Password';
+		        $scope.isPasswordDanger = false;
+		    }    
+	    };
+	    
+	    // Set the default value of inputTypeConfirmPassword
+	    $scope.inputTypeConfirmPassword = 'password';
+	    $scope.titleConfirmPassword = 'Show Confirm Password';
+	    $scope.isConfirmPasswordDanger = false;
+	    // Hide & show password function
+	    $scope.hideShowConfirmPassword = function(){
+	        if ($scope.inputTypeConfirmPassword == 'password'){
+	    	    $scope.inputTypeConfirmPassword = 'text';
+		        $scope.titleConfirmPassword = 'Hide Confirm Password'; 
+		        $scope.isConfirmPasswordDanger = true;
+	        }else{
+	            $scope.inputTypeConfirmPassword = 'password';
+	            $scope.titleConfirmPassword = 'Show Confirm Password';
+	            $scope.isConfirmPasswordDanger = false;
+	        }  
+	    };
 	    
 	}]);
 	

@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" href="css/util.css">
 	<link rel="stylesheet" href="css/login.css">
-	<link rel="stylesheet" href="css/toggle-button.css">
 	<link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -66,20 +65,22 @@
 				</div>
 				<div class="wrap-login100" style="width:430px;">
 				    
-					    <c:if test="${noSuchUserError ne null}">
-					      <input type="hidden" id="alertFailureMessage" value="${noSuchUserError}"/>
-					    </c:if>
-					    <c:if test="${newPasswordRejected ne null }">
-					       <input type="hidden" id="alertFailureMessage" value="${newPasswordRejected}"/>
-					    </c:if>
-					    
 				        <h2 class="forgotPassTitle">Please choose a new password</h2>
 				        
 				        <form action="/forgot-password-reset" method="post">
 						    
+						    <c:if test="${successMessage ne null}">
+						        <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+					        </c:if>
+					        <c:if test="${failureMessage ne null}">
+					           <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+					        </c:if>
+						    
 							<div class="wrap-input100 validate-input" data-validate="Password is required">
-								<span class="label-input100">New Password</span>
-								<input class="input100" type="password" ng-model="forgotPassword" ng-change="checkPasswordRules(forgotPassword)" name="newPassword" placeholder="Type your password">
+								<span class="${ isNewPasswordError ? 'label-input100 error' : 'label-input100' }">New Password
+								   <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+								</span>
+								<input class="input100" type="{{inputTypePassword}}" ng-model="forgotPassword" ng-change="checkPasswordRules(forgotPassword)" name="newPassword" placeholder="Type your password">
 								<input type="hidden" name="email" value="${email}">
 								<input type="hidden" name="signInType" value="${signInType}">
 								<span class="focus-input100" data-symbol="&#xf190;"></span>
@@ -95,7 +96,7 @@
 					             <i class="{{ condition2 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must contains a minimum of 1 numeric character [0-9]
 					           </li>
 					           <li ng-class="forgotPassCheckClass">
-					             <i class="{{ condition3 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must contains a minimum of 1 special character [!@#$%^&* only.]
+					             <i class="{{ condition3 ? 'fa fa-check forgotPassSuccessFontAwesome' : 'fa fa-times forgotPassErrorFontAwesome' }}" aria-hidden="true"></i> must contains a minimum of 1 special character [@#$%^& only.]
 					           </li>
 					        </ul>
 							

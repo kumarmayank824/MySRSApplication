@@ -65,22 +65,21 @@
 				  </div>
 				</div>
 				
-		        <c:if test="${newPasswordAccepted ne null }">
-			       <input type="hidden" id="alertSuccessMessage" value="${newPasswordAccepted}"/>
-			    </c:if>
-				
 				<div class="wrap-login100">
 					<form action="/login" method="post">
-					        
-				        <!-- <span class="login100-form-title p-b-30">
-						   Login
-					    </span> -->
+					    
+					    <p class="errorMessage" >${errorMessage}</p>    
 					    <c:if test="${param.error ne null}">
 					        <span style="color:red;margin-left:31%;font-size: 15px;">*Authentication Failed</span>
 						</c:if>
-						<c:if test="${successMemberMessage ne null}">
-					        <span style="color:green;margin-left:31%;font-size: 15px;">${successMemberMessage}</span>
-						</c:if>
+						
+					    <c:if test="${successMessage ne null}">
+						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+					    </c:if>
+					    <c:if test="${failureMessage ne null}">
+					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+					    </c:if>
+						
 						<div class="wrap-input100 validate-input m-b-15 " data-validate = "Email is reauired">
 							<span class="label-input100">Email</span>
 							<input class="input100" type="text" name="email" placeholder="Type your email">
@@ -88,8 +87,10 @@
 						</div>
 	
 						<div class="wrap-input100 validate-input" data-validate="Password is required">
-							<span class="label-input100">Password</span>
-							<input class="input100" type="password" name="password" placeholder="Type your password">
+							<span class="label-input100">Password
+							    <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+							</span>
+							<input class="input100" type="{{inputTypePassword}}" name="password" placeholder="Type your password">
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						

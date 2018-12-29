@@ -81,16 +81,16 @@ public class CommonController {
     }
 	
 	@RequestMapping(value="/forgotPassword", method = RequestMethod.POST) 
-	public String forgotPasswordSave(Model model,  @RequestParam("email") String email
-			,HttpServletRequest request) {
+	public String forgotPasswordSave(Model model,  @RequestParam("email") String email,
+			RedirectAttributes redirectAttributes ,HttpServletRequest request) {
         
 		try {
 			// Lookup user in database by e-mail
 			User userExists = userService.findByEmail(email);
 			if (userExists == null) {
-				model.addAttribute("noSuchUserError", "no such user error");
-				model.addAttribute("previousEmail", email);
-				return "forgotPassword"; 
+				redirectAttributes.addFlashAttribute("previousEmail", email);
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! No user exists with " + email);
+				return "redirect:/forgotPassword"; 
 			}else {
 				//send forgot password email
 				String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -102,8 +102,9 @@ public class CommonController {
 				//SimpleMailMessage forgotPasswordEmail = CommonUtil.emailTemplate(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
 				mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
 				emailService.getJavaMailSender().send(mimeMessage);
-				model.addAttribute("forgotPasswordEmailSendSuccessfully", "true");
-				return "forgotPassword";
+				redirectAttributes.addFlashAttribute("forgotPasswordEmailSendSuccessfully", "true");
+				redirectAttributes.addFlashAttribute("successMessage", "An e-mail with password reset link has been successfully sent to " + email);
+				return "redirect:/forgotPassword"; 
 			}
 		} catch (MessagingException ex) {
            
@@ -121,18 +122,24 @@ public class CommonController {
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.POST) 
 	public String saveNewPassword(Model model,@RequestParam("newPassword") String newPassword,
-			@RequestParam("signInType") String signInType, @RequestParam("email") String email ) {
+			@RequestParam("signInType") String signInType, @RequestParam("email") String email,
+			RedirectAttributes redirectAttributes) {
 		if(validatorUtil.validatorPassword(newPassword)) {
-			model.addAttribute("newPasswordAccepted", "Congratulations! Your password has been changed successfully");
+			redirectAttributes.addFlashAttribute("successMessage", "Your password has been changed successfully");
 			User userExists = userService.findByEmail(email);
 			if(userExists != null) {
 				newPassword = CommonUtil.encoder(newPassword);
 				userExists.setPassword(newPassword);
 				userService.saveUser(userExists);
 			}
-			return "login";
+			return "redirect:/login"; 
 		}else {
-			model.addAttribute("newPasswordRejected", "Sorry! Your password does not meet security requirements");
+			String message = "<b>Password requirements:</b>" + "<br/><br/>" 
+                    + "1. must be at least 8 characters" + "<br/>"
+			           + "2. must contains a minimum of 1 numeric character [0-9]" + "<br/>"
+                    + "3. must contains a minimum of 1 special character [@#$%^& only.]";
+			redirectAttributes.addFlashAttribute("isNewPasswordError", true);
+			redirectAttributes.addFlashAttribute("failureMessage", message);
 			return "changePassword";
 		}
     }
@@ -164,7 +171,7 @@ public class CommonController {
 			    	bindingResult.reject("email");
 					return "redirect:" + request.getRequestURI(); 
 				}else if(userExists != null && !userExists.isEnabled()) { //user already exists but not enabled
-					//delete existing but disabled user
+					//delete existing and disabled user
 					userService.deleteExistingUser(userExists);
 				}
 				if (bindingResult.hasErrors()) {
@@ -206,15 +213,19 @@ public class CommonController {
 		User user = userService.findByConfirmationToken(token);
 		String returnPageName = "studentConfirmPage";
 		if (user == null) { // No token found in DB
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This is an invalid confirmation link.");
-			return "redirect:" + request.getRequestURI(); 
-		}else if( null != user.getSignInType() && !user.getSignInType().equals(signInType)){
-			redirectAttributes.addFlashAttribute("failureMessage", "Not Allowed! Since your sign in type has been modified.");
-			return "redirect:" + request.getRequestURI(); 
-		}else if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastTenMinutesAgo(user.getRequestTime())){
-			//link is more than 10 minutes old, hence expired
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This link is no longer valid, please generate a new link and try.");
-			return "redirect:" + request.getRequestURI(); 
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That was an invalid confirmation link.");
+			return "redirect:/registerUser"; 
+		}else if( !user.isEnabled() && null != user.getSignInType() && !user.getSignInType().equals(signInType)){
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your sign in type has been modified.");
+			return "redirect:/registerUser"; 
+		}else if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime())){
+			//link is more than 15 minutes old, hence expired
+			userService.deleteExistingUser(user);
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That confirmation link was no longer valid, please generate a new link and try.");
+			return "redirect:/registerUser"; 
+		}else if( user != null && user.isEnabled() ){
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This confirmation link has been already used for other sign up, please generate a new link and try.");
+			return "redirect:/registerUser"; 
 		}else { // Token found	
 			model.addAttribute("confirmationToken", user.getConfirmationToken());
 			if(user.getSignInType().equals("Teacher")){
