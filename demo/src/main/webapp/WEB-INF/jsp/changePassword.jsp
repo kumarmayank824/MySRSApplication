@@ -83,6 +83,7 @@
 								<input class="input100" type="{{inputTypePassword}}" ng-model="forgotPassword" ng-change="checkPasswordRules(forgotPassword)" name="newPassword" placeholder="Type your password">
 								<input type="hidden" name="email" value="${email}">
 								<input type="hidden" name="signInType" value="${signInType}">
+								<input type="hidden" name="token" value="${token}">
 								<span class="focus-input100" data-symbol="&#xf190;"></span>
 						    </div> 
 							
