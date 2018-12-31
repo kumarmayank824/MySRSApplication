@@ -34,6 +34,7 @@ import com.domain.Attachment;
 import com.domain.Marks;
 import com.domain.Rating;
 import com.domain.SecretCode;
+import com.domain.User;
 import com.repository.MarksRepository;
 import com.repository.RatingRepository;
 import com.repository.SecretCodeRepository;
@@ -81,7 +82,7 @@ public class CommonUtil {
 	
 	
 	public JSONObject getDetailsForPanel(List<Attachment> attachmentLst, JSONObject returnJson,
-			String ObjectType) throws JSONException, ParseException{
+			String ObjectType, User user) throws JSONException, ParseException{
 		
 		List<JSONObject> lst = new ArrayList<JSONObject>();
 		List<JSONObject> ratinglst = null;
@@ -93,6 +94,7 @@ public class CommonUtil {
 			json.put("id",attachment.getId());
 			json.put("fileName",attachment.getFileName());
 			json.put("author",attachment.getAuthor());
+			json.put("authorEmail",attachment.getAuthorEmail());
 			json.put("title",attachment.getTitle());
 			json.put("description",attachment.getDescription());
 			json.put("category",attachment.getCategory());
@@ -106,6 +108,11 @@ public class CommonUtil {
 				ratinglst = new ArrayList<JSONObject>();
 				List<Rating> ratingLst = ratingRepository.findRatingByAttachmentId(attachment.getId());
 				json = processRatings(ratingLst,ratinglst,totalRating,json);
+				boolean isRateItLinkRequired = true;
+				if( null != user && user.getEmail().equals(attachment.getAuthorEmail())) {
+					isRateItLinkRequired = false;
+				}
+				json.put("isRateItLinkRequired", isRateItLinkRequired);
 			}else{
 				Marks marks = marksRepository.getMarksByAttachmentId(attachment.getId());
 				json = processMarks(marks,json);
@@ -127,6 +134,7 @@ public class CommonUtil {
 			for (Rating rating : ratingLst) {
 				JSONObject ratingJson = new JSONObject();
 				ratingJson.put("authorName",rating.getAuthor());
+				ratingJson.put("email",rating.getEmail());
 				ratingJson.put("commentTime",dateFormatterReturnStringObj(rating.getCommentTime().toString(), Constant.dateFormat1));
 				ratingJson.put("comment",rating.getComment());
 				ratingJson.put("rating",rating.getRating());
@@ -255,7 +263,7 @@ public class CommonUtil {
 		return fileName.substring(0,fileName.indexOf(".")) + ".png";
 	}
 	
-	public static String constructReturnUrl(HttpServletRequest request, Map<String,Object> urlParamsMap ) {
+	public static String constructReturnUrl(HttpServletRequest request, Map<String,Object> urlParamsMap, String customURI ) {
 		
 		String returnUrl = null;
 		String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -263,7 +271,11 @@ public class CommonUtil {
 		for (Entry<String, Object> entry : urlParamsMap.entrySet()){
 			++counter;
 			if( counter == 0 ){
-				returnUrl = request.getRequestURI()+"?"+entry.getKey()+"="+entry.getValue();
+				if( null != customURI) {
+					returnUrl = customURI+"?"+entry.getKey()+"="+entry.getValue();
+				}else {
+					returnUrl = request.getRequestURI()+"?"+entry.getKey()+"="+entry.getValue();
+				}
 			}else{
 				returnUrl += "&"+entry.getKey()+"="+entry.getValue(); 
 			}

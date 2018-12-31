@@ -52,6 +52,14 @@ public class TeacherController {
 	@Autowired
 	MarksService marksService;
 	
+	@RequestMapping(value="/teacherConfirm", method = RequestMethod.GET) 
+	public String handleRegistrationRequest(Model model, String error, 
+			String logout,HttpServletRequest request) {
+		String token = (String)request.getParameter("token");
+		model.addAttribute("confirmationToken", token);
+        return "teacherConfirmPage";
+    }
+	
  	// Process confirmation link
 	@RequestMapping(value="/teacherConfirm", method = RequestMethod.POST)
 	public String processConfirmationForm(Model model,
@@ -68,10 +76,14 @@ public class TeacherController {
 		model.addAttribute("secretCode", secretCode);
 		
 		//Validation Part
-		if( null == token || token.isEmpty() || ( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()) ) ){
+		if( null == token || token.isEmpty() || null == user || ( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()) ) ){
 			//link is more than 15 minutes old, hence expired
-			userService.deleteExistingUser(user);
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			if ( null != user) {
+				userService.deleteExistingUser(user);
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			}else {
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been modified.");
+			}
 			return "redirect:/registerUser"; 
 		}else  if( null == password || password.isEmpty()) {
 			model.addAttribute("errorMessage", " * Password cannot be empty");
@@ -128,7 +140,7 @@ public class TeacherController {
 			List<Attachment> attachmentLst = attachmentService.findAttachmentForTeacher(semester,batch,course);
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
-				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.markObjectType);
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.markObjectType,null);
 			}
 			response.getWriter().write(returnJson.toString());
 			

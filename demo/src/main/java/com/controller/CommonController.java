@@ -137,15 +137,15 @@ public class CommonController {
 		
 		if( null == email || email.isEmpty() || null == signInType || signInType.isEmpty() ){
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Password reset link has been modified. ");
-			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, null);	
 		}else{
 			User userExists = userService.findByEmail(email);
 			if( null == userExists || ( null != userExists && !userExists.isEnabled() ) ){
 				redirectAttributes.addFlashAttribute("failureMessage", "Oops! No active user has been associated with this email id, please check your e-mail id and try again. ");
-				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, null);	
 			} else if( null != userExists && !userExists.getSignInType().equals(signInType) ) { 
 				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Password reset link has been modified. ");
-				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, null);	
 			} else if (!validatorUtil.validatorPassword(newPassword)) {
 				String message = "<b>Password requirements:</b>" + "<br/><br/>" 
 	                    + "1. must be at least 8 characters" + "<br/>"
@@ -153,7 +153,7 @@ public class CommonController {
 	                    + "3. must contains a minimum of 1 special character [@#$%^& only.]";
 				redirectAttributes.addFlashAttribute("isNewPasswordError", true);
 				redirectAttributes.addFlashAttribute("failureMessage", message);
-				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, null);	
 			}else {
 				redirectAttributes.addFlashAttribute("successMessage", "Your password has been changed successfully");
 				newPassword = CommonUtil.encoder(newPassword);
@@ -210,7 +210,7 @@ public class CommonController {
 				      try {    
 						    //send registration email
 							String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-							String text = "<p>This email was sent to you because someone requested a registration on your account.</p>"
+							String text = "<p>This email was sent to you because someone requested a registration on your email.</p>"
 									      +"<p>Visit the following URL to complete the registration process:</p>" 
 									      + "<p><a target='_blank' href='"+ appUrl + "/confirm?token="+ user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "'>" + appUrl + "/confirm?token="+  user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "</a></p>"
 							              +"<p>You can check the site at: <a target='_blank' href='" + appUrl + "/home'>" + appUrl + "/home" + "</a></p>";
@@ -241,16 +241,14 @@ public class CommonController {
 		
 		Map<String,Object> urlParamsMap = new LinkedHashMap<>();
 		urlParamsMap.put("token", token);
-		urlParamsMap.put("signInType", signInType);
-		
 		User user = userService.findByConfirmationToken(token);
-		String returnPageName = "studentConfirmPage";
+		String returnPageName = "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, "/studentConfirm");
 		if (user == null) { // No token found in DB
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That was an invalid confirmation link.");
-			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);
+			return "redirect:/registerUser";
 		}else if( !user.isEnabled() && null != user.getSignInType() && !user.getSignInType().equals(signInType)){
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your sign in type has been modified.");
-			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);
+			return "redirect:/registerUser";
 		}else if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime())){
 			//link is more than 15 minutes old, hence expired
 			userService.deleteExistingUser(user);
@@ -260,9 +258,8 @@ public class CommonController {
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That confirmation link has been already used for other sign up, please generate a new link and try.");
 			return "redirect:/registerUser"; 
 		}else { // Token found	
-			model.addAttribute("confirmationToken", user.getConfirmationToken());
 			if(user.getSignInType().equals("Teacher")){
-				returnPageName =  "teacherConfirmPage";		
+				returnPageName =  "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap, "/teacherConfirm");
 			}
 		}
 		return returnPageName;		

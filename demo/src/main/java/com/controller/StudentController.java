@@ -70,8 +70,11 @@ public class StudentController {
     
 	
 	@RequestMapping(value="/studentConfirm", method = RequestMethod.GET) 
-	public String handleRegistrationRequest(Model model, String error, String logout) {
-        return "studentConfirmPage";
+	public String handleRegistrationRequest(Model model, String error,
+			String logout,HttpServletRequest request) {
+		String token = (String)request.getParameter("token");
+		model.addAttribute("confirmationToken", token);
+		return "studentConfirmPage";
     }
 	
 	
@@ -96,10 +99,14 @@ public class StudentController {
 		model.addAttribute("course", course);
 		
 		
-		if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()) ){
+		if( null == token || token.isEmpty() || null == user || ( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime()))  ){
 			//link is more than 15 minutes old, hence expired
-		    userService.deleteExistingUser(user);
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			if ( null != user) {
+				userService.deleteExistingUser(user);
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			}else {
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been modified.");
+			}
 			return "redirect:/registerUser"; 
 		}else  if( null == password || password.isEmpty()) {
 			model.addAttribute("errorMessage", " * Password cannot be empty");
@@ -308,12 +315,16 @@ public class StudentController {
 	public void getAllAttachmentDetail(HttpServletResponse response) {		
 		
 		JSONObject returnJson = null;
-		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
+		if( null != auth){
+			user = (User) auth.getPrincipal();
+		}
 		try {
 			List<Attachment> attachmentLst = attachmentService.getAllAttachment();
 			if( null != attachmentLst){
 				returnJson = new JSONObject();
-				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.ratingObjectType);
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.ratingObjectType,user);
 			}
 			response.getWriter().write(returnJson.toString());
 			
@@ -346,6 +357,7 @@ public class StudentController {
 			Rating ratingObj = new Rating();
 			ratingObj.setAttachmentId(attachmentId);
 			ratingObj.setAuthor(user.getUsername());
+			ratingObj.setEmail(user.getEmail());
 			ratingObj.setComment(comment);
 			ratingObj.setRating(rating);
 			ratingService.saveRatingAndComment(ratingObj);

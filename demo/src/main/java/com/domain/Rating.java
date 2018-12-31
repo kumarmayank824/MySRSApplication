@@ -32,13 +32,17 @@ public class Rating {
 		@NotBlank
 		private String author;
 		
+		@Column(name = "email", nullable = false)
+		@Email(message = "Please provide a valid e-mail")
+		@NotEmpty(message = "Please provide an e-mail")
+		private String email;
+		
 	    @Temporal(TemporalType.TIMESTAMP)
 	    @CreatedDate
 		private Date commentTime;
 		
 		private Long rating;
 		
-	    @NotBlank
 	    @Column(length=500)
 		private String comment;
 
@@ -64,6 +68,14 @@ public class Rating {
 
 		public void setAuthor(String author) {
 			this.author = author;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
 		}
 
 		public Date getCommentTime() {

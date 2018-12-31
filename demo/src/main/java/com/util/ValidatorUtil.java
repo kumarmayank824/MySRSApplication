@@ -65,29 +65,29 @@ public class ValidatorUtil {
 		errorMap.put("isBatachError", false);
 		errorMap.put("isCourseError", false);
 		if (null == semester || semester.isEmpty()) {
-			missingFieldMessage += "Semester<br/>";
+			missingFieldMessage += "<span style='color:red'>Semester</span><br/>";
 			errorMap.put("isSemsterError", true);
 		}else {
 			if (!Arrays.asList(semesterLst).contains(semester) ) {
-				wrongValueMessage += "Semester<br/>";
+				wrongValueMessage += "<span style='color:red'>Semester</span><br/>";
 				errorMap.put("isSemsterError", true);
 			}
 		}
 		if (null == batch || batch.isEmpty()) {
-			missingFieldMessage += "Batch<br/>";
+			missingFieldMessage += "<span style='color:red'>Batch</span><br/>";
 			errorMap.put("isBatachError", true);
 		}else {
 			if (!Arrays.asList(batchLst).contains(batch) ) {
-				wrongValueMessage += "Batch<br/>";
+				wrongValueMessage += "<span style='color:red'>Batch</span><br/>";
 				errorMap.put("isBatachError", true);
 			}
 		}
 		if (null == course || course.isEmpty()) {
-			missingFieldMessage += "Course<br/>";
+			missingFieldMessage += "<span style='color:red'>Course</span><br/>";
 			errorMap.put("isCourseError", true);
 		}else {
 			if (!Arrays.asList(courseLst).contains(course) ) {
-				wrongValueMessage += "Course<br/>";
+				wrongValueMessage += "<span style='color:red'>Course</span><br/>";
 				errorMap.put("isCourseError", true);
 			}
 		}
