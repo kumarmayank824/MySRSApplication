@@ -1,0 +1,50 @@
+<div class="row">
+     <div class="col-sm-5">
+          <!-- <ion-content>
+			 <div class="list">
+				   <ion-item>
+					  <div style="float:left;margin-top: -6px;">
+						 <ionic-letter-avatar data="{{attachment.marks}}" shape="round" charcount="3"></ionic-letter-avatar>
+					  </div>
+				   </ion-item> 
+			 </div>
+          </ion-content> -->
+           <div ng-if="!attachment.marksExists" style="float:left;margin-top: -6px;">
+			   <i style="color:#bb1818;font-size:18px;" class="fa fa-times-circle" aria-hidden="true"></i>
+			   <a href="#previousMarksModal{{attachment.id}}" data-toggle="modal"  id="previousMarksModal" style="text-decoration:none;color:#4f6a82;font-size:12px" title="Click Here To Evaluate ">&nbsp;Not Yet Evaluated</a>
+		   </div> 
+		   <div ng-if="attachment.marksExists" style="float:left;margin-top: -6px;">
+			   <i style="color:#1fc52d;font-size:18px;" class="fa fa-check-circle-o" aria-hidden="true"></i>
+			   <a href="#previousMarksModal{{attachment.id}}" data-toggle="modal"  id="previousMarksModal" style="text-decoration:none;color:#4f6a82;font-size:12px" title="Click To See the Evaluated Report">&nbsp;{{attachment.marks}} Marks</a>
+		   </div> 
+            <!--Previous Rating Model Link Code -->
+		    
+		    <!-- Modal -->
+			<div class="modal fade" id="previousMarksModal{{attachment.id}}" role="dialog">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <!-- Modal Header -->
+			            <div class="modal-header">
+					          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i style="color:#f44336" class="fa fa-window-close" aria-hidden="true"></i></button>
+					          <h3 style="color: #f44336;" class="modal-title" ng-if="!attachment.marksExists">Marks Evaluation</h3>
+					          <h3 style="color: #f44336;" class="modal-title" ng-if="attachment.marksExists">Marks Evaluation Summary</h3>
+				        </div>
+			            
+			            <!-- Modal Body -->
+			            <div class="modal-body" ng-if="!attachment.marksExists" >
+			                <p class="statusMsg"></p>
+			                 <div marks-in-edit-mode></div>
+			            </div>
+			            
+			            <div class="modal-body" ng-if="attachment.marksExists" >
+			                <p class="statusMsg"></p>
+			                <div marks-in-read-mode></div> 
+			            </div>
+			            
+			        </div>
+			    </div>
+			</div>
+			<!--Previous Rating Model Link Code Ends -->
+      </div>
+    	 
+ </div>

@@ -12,7 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,6 +29,11 @@ public class Attachment {
 	
 	@NotBlank
 	private String author;
+	
+	@Column(name = "author_email", nullable = false)
+	@Email(message = "Please provide a valid e-mail")
+	@NotEmpty(message = "Please provide an e-mail")
+	private String authorEmail;
 	
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -52,12 +59,25 @@ public class Attachment {
     @NotBlank
 	private String contentType;
 	
-
+    private String semester;
+    
+    private String batch;
+    
+    private String course;
+    
+    private int count;
+    
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getAuthorEmail() {
+		return authorEmail;
+	}
+	public void setAuthorEmail(String authorEmail) {
+		this.authorEmail = authorEmail;
 	}
 	public String getAuthor() {
 		return author;
@@ -115,6 +135,30 @@ public class Attachment {
 	}
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	public String getSemester() {
+		return semester;
+	}
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
+	public String getBatch() {
+		return batch;
+	}
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+	public String getCourse() {
+		return course;
+	}
+	public void setCourse(String course) {
+		this.course = course;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 	

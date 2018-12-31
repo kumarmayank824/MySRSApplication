@@ -1,0 +1,26 @@
+.bk-btn {
+  height: 30px;
+  width: 30px;
+  background-color: black;
+  border-radius: 50%;
+  margin-top:70px;
+  margin-left: 10px;
+}
+.bk-btn .bk-btn-triangle {
+  position: relative;
+  top: 7.5px;
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
+  border-right: 7.5px solid white;
+}
+.bk-btn .bk-btn-bar {
+  position: relative;
+  background-color: white;
+  height: 4.5px;
+  width: 7.5px;
+  top: -2.1px;
+  left: 13.2px;
+}

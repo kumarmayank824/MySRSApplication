@@ -1,0 +1,49 @@
+.zoom {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 235px;
+  border: 1px dashed #f44336;
+  border-radius: 5px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  width: 100%;
+  opacity: 0;
+  transition: .1s ease;
+  background-color: #f32503c4;
+}
+
+.zoom:hover .overlay {
+  opacity: 1;
+}
+
+.icon {
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.fa-user:hover {
+  color: #eee;
+}
+
+.zoom:hover {
+  transition: transform .2s; /* Animation */
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}

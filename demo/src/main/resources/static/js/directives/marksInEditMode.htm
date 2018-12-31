@@ -1,0 +1,24 @@
+<form role="form">
+    <div class="row">
+       <div class="col-sm-4"><strong>Title</strong></div>
+       <div class="col-sm-7" style="word-wrap: break-word;">
+            {{$parent.attachment.title}}
+          </div>  
+    </div>
+    <br>
+    <div class="row">
+       <div class="col-sm-4"><strong>Description</strong></div>
+       <div class="col-sm-7" style="word-wrap: break-word;">
+           {{$parent.attachment.description}}
+       </div>
+    </div>
+    <hr>
+    <div marks-select-options></div>
+</form>
+
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " ng-click="saveMarks($parent.attachment.id)">SUBMIT</button>
+</div>

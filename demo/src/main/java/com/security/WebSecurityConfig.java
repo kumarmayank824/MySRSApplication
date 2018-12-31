@@ -29,13 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	 http.authorizeRequests()
-    	  .antMatchers("/loginSuccess","/to*","/to*/*/*").access("hasRole('ROLE_USER')")
-    	  .anyRequest().permitAll()
+    	  .antMatchers("/loginSuccess").access("hasRole('STUDENT') or hasRole('TEACHER') or hasRole('ROLE_COORDINATOR')")
+    	  .antMatchers("/std-*","/std-*/*/*").access("hasRole('STUDENT')")
+    	  .antMatchers("/tch-*").access("hasRole('TEACHER')")
+    	  .antMatchers("/coord-*").access("hasRole('COORDINATOR')")
     	  .and()
     	    .formLogin().loginPage("/login")
     	    .usernameParameter("email").passwordParameter("password")
     	  .and()
-    	    .csrf();
+    	    .csrf()
+    	    .and().exceptionHandling().accessDeniedPage("/access_denied");
     }
     
     @Override
@@ -44,12 +47,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	       .ignoring()
 	       .antMatchers("/resources/**", "/static/**", "/css/**","/fonts/**","/images/**","/vendor/**","/js/**");
 	}
-    
-    /*@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.inMemoryAuthentication().
-    	       withUser("ADMIN").password("ADMIN").
-    	       authorities("ROLE_ADMIN");
-    }*/
     
 }

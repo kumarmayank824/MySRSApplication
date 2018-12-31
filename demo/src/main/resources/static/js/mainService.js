@@ -11,6 +11,16 @@
             });
     	}
     	
+    	this.getGraphDetails = function(cb){
+	       	 $http({
+	       		 url : '/get-graph-details',
+	       	     method : 'GET'		 
+	       	 }).then(function(response){
+	       		 cb(response.data);
+	       	 },function(response){
+	       		 $log.error("ERROR Occurred"); 
+	       	 });
+  	    }
     	
         /*//used for update and create
         this.addUser = function addUser(user) {

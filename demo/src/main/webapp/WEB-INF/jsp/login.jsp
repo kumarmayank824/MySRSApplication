@@ -10,36 +10,27 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    
-   <link rel="stylesheet"  href="https://www.w3schools.com/w3css/4/w3.css">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Lato">
-   <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Montserrat">
-   <!-- <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+   <link rel="stylesheet" href="css/w3.css">
    
    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
    <link rel="stylesheet"  href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
    <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css">
-   <link rel="stylesheet"  href="vendor/animate/animate.css">
-   <link rel="stylesheet"  href="vendor/css-hamburgers/hamburgers.min.css">
-   <link rel="stylesheet"  href="vendor/animsition/css/animsition.min.css">
-   <link rel="stylesheet"  href="vendor/select2/select2.min.css">
-   <link rel="stylesheet"  href="vendor/daterangepicker/daterangepicker.css">
    <link rel="stylesheet"  href="css/util.css">
    <link rel="stylesheet"  href="css/login.css">
+   <link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css">
    
    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-   <script src="vendor/animsition/js/animsition.min.js"></script>
-   <script src="vendor/bootstrap/js/popper.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
    <script src="vendor/select2/select2.min.js"></script>
-   <script src="vendor/daterangepicker/moment.min.js"></script>
-   <script src="vendor/daterangepicker/daterangepicker.js"></script>
-   <script src="vendor/countdowntime/countdowntime.js"></script>	
-   <script src="vendor/jquery/main.js"></script>
    
    <script src="js/angular.min.js" ></script>
+   <script src="js/avatar/ionic-letter-avatar.js"></script>
    <script src="js/mainController.js" ></script>
    <script src="js/mainService.js" ></script>
+   <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+   <script src="js/alert.js"></script>
+   
    
   </head>
   <style>
@@ -69,22 +60,26 @@
 			<div class="container-login100">
 				<div class="wrap-logo">
 				  <div class="login-upper-div">
-				  	<img class="app-logo" alt="" src="images/logo/logo.png">
+				  	<!-- <img class="app-logo" alt="" src="images/logo/logo.png"> -->
 				  	<div class="signin-text">Sign in to app</div>
 				  </div>
 				</div>
+				
 				<div class="wrap-login100">
 					<form action="/login" method="post">
-					        
-				        <!-- <span class="login100-form-title p-b-30">
-						   Login
-					    </span> -->
+					    
+					    <p class="errorMessage" >${errorMessage}</p>    
 					    <c:if test="${param.error ne null}">
 					        <span style="color:red;margin-left:31%;font-size: 15px;">*Authentication Failed</span>
 						</c:if>
-						<c:if test="${successMemberMessage ne null}">
-					        <span style="color:green;margin-left:31%;font-size: 15px;">${successMemberMessage}</span>
-						</c:if>
+						
+					    <c:if test="${successMessage ne null}">
+						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+					    </c:if>
+					    <c:if test="${failureMessage ne null}">
+					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+					    </c:if>
+						
 						<div class="wrap-input100 validate-input m-b-15 " data-validate = "Email is reauired">
 							<span class="label-input100">Email</span>
 							<input class="input100" type="text" name="email" placeholder="Type your email">
@@ -92,13 +87,15 @@
 						</div>
 	
 						<div class="wrap-input100 validate-input" data-validate="Password is required">
-							<span class="label-input100">Password</span>
-							<input class="input100" type="password" name="password" placeholder="Type your password">
+							<span class="label-input100">Password
+							    <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
+							</span>
+							<input class="input100" type="{{inputTypePassword}}" name="password" placeholder="Type your password">
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
 						<div class="text-right p-t-8 p-b-15">
-							<a href="#">
+							<a href="/forgotPassword">
 								Forgot password?
 							</a>
 						</div>
@@ -138,7 +135,7 @@
 	
 						<div class="flex-col-c ">
 							<span class="txt1 p-b-17">
-								Not a member?<a href="/registerRequest" class="txt2">Sign up now</a>
+								Not a member?<a href="/registerUser" class="txt2">Sign up now</a>
 							</span>
 						</div>
 				</div>

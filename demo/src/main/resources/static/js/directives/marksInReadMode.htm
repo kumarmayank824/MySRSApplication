@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-sm-12">
+  <ion-content>
+	 <div class="list">
+		   <ion-item>
+			  <div style="float:left;padding-right: 10px;">
+				 <ionic-letter-avatar data="{{attachment.authorName}}" shape="round" charcount="2"></ionic-letter-avatar>
+			  </div>
+		   </ion-item> 
+	 </div>
+  </ion-content>
+  <strong>{{attachment.authorName|camelCase}}</strong><i> evaluated on <b>{{attachment.commentTime | asDate | date:'MMM d, y'}}</b> at <b>{{attachment.commentTime | asDate | date:'h:mm a'}}</b></i></div>
+</div>
+
+<div class="row" style="padding-left:40px;padding-top: 15px;">
+  <div class="col-sm-11"><span style="color:#109828;"> Quality Of the content : </span> <strong>{{attachment.markPara1}} Marks</strong></div>
+</div>
+<br>
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11"><span style="color:#109828;">Uniqueness of the content : </span><strong>{{attachment.markPara2}} Marks</strong></div>
+</div>
+<br>
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11"><span style="color:#109828;">Information Quality : </span><strong>{{attachment.markPara3}} Marks</strong></div>
+</div>
+<br>
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11"><span style="color:#109828;">Uniqueness of the content4 : </span><strong>{{attachment.markPara4}} Marks</strong></div>
+</div>
+<br>
+<div class="row" style="padding-left:40px;">
+  <div class="col-sm-11"><span style="color:#109828;">Uniqueness of the content5 : </span><strong>{{attachment.markPara5}} Marks</strong></div>
+</div>
+<br>
+<div class="row" style="padding-left:40px;">  
+  <div class="col-sm-4">
+    <span style="color:#0e336d;"> Total Marks </span> : <strong>{{attachment.marks}} Marks</strong>
+  </div>
+</div>
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+    <button type="button" style="background-color:#f44336;color: white "class="btn btn-default " data-dismiss="modal">Close</button>
+</div>

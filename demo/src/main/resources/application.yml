@@ -1,0 +1,4 @@
+config:
+  upload-properties:
+     file-path: D:\Mayank_Work\setup\MySRSApplication\demo\uploadedFile\
+     coordinator-file-path: D:\Mayank_Work\setup\MySRSApplication\demo\coordinatorUploadedFile\
