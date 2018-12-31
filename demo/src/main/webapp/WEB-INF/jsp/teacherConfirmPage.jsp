@@ -118,19 +118,6 @@
 		</div>
 		
 		<footer class="w3-container w3-center">  
-		  <!-- <div class="w3-xlarge " style="    color: white;">
-		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-		    <i class="fa fa-instagram w3-hover-opacity"></i>
-		    <i class="fa fa-snapchat w3-hover-opacity"></i>
-		    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-		    <i class="fa fa-twitter w3-hover-opacity"></i>
-		    <i class="fa fa-linkedin w3-hover-opacity"></i>
-		    <ul class="list-inline" style="font-size:16px ">
-		    	<li>&copy; abc</li>
-		    	<li>&copy; abc</li>
-		    </ul>
-		 </div>
-		 <p style="color:white">&copy; abc</p> -->
 		 <p> &copy;2018 MyApplication </p>
 		</footer>
 		
