@@ -155,32 +155,25 @@ public class TeacherController {
 			@RequestParam(Constant.markPara5) String markPara5,@RequestParam(Constant.semester) String semester ,@RequestParam(Constant.batch) String batch,
 			@RequestParam(Constant.course) String course, HttpServletResponse response) {		
 		
-		//JSONObject returnJson = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User user = (User) auth.getPrincipal();
+	    
+		Marks marksObj = new Marks();
+		marksObj.setAttachmentId(attachmentId);
+		marksObj.setAuthor(user.getUsername());
+		marksObj.setEmail(user.getEmail());
+		marksObj.setMarkPara1(markPara1);
+		marksObj.setMarkPara2(markPara2);
+		marksObj.setMarkPara3(markPara3);
+		marksObj.setMarkPara4(markPara4);
+		marksObj.setMarkPara5(markPara5);
+		//marksObj.setRemarks("testing");
+		marksObj.setMarks(marks);
+		marksService.save(marksObj);
 		
-		try {
+		getSearchDetails(semester, batch, course, response);
 			
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    User user = (User) auth.getPrincipal();
-		    
-			Marks marksObj = new Marks();
-			marksObj.setAttachmentId(attachmentId);
-			marksObj.setAuthor(user.getUsername());
-			marksObj.setEmail(user.getEmail());
-			marksObj.setMarkPara1(markPara1);
-			marksObj.setMarkPara2(markPara2);
-			marksObj.setMarkPara3(markPara3);
-			marksObj.setMarkPara4(markPara4);
-			marksObj.setMarkPara5(markPara5);
-			//marksObj.setRemarks("testing");
-			marksObj.setMarks(marks);
-			marksService.save(marksObj);
-			
-			getSearchDetails(semester, batch, course, response);
-			
-		}  catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 	

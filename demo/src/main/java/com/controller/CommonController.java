@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -107,9 +107,12 @@ public class CommonController {
 				return "redirect:/forgotPassword"; 
 			}
 		} catch (MessagingException ex) {
-           
-        }
-		return null;
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops!  There is some problem occurs while constructing password reset e-mail .");
+       	    return "redirect:" + request.getRequestURI(); 
+        } catch (Exception ex) {
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops!  There is some problem with e-mail delivery system.");
+       	    return "redirect:" + request.getRequestURI(); 
+        } 
     }
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.GET) 
@@ -117,31 +120,48 @@ public class CommonController {
 			,@RequestParam("signInType") String signInType, @RequestParam("email") String email) {
 		model.addAttribute("signInType", signInType);
 		model.addAttribute("email", email);
+		model.addAttribute("token", token);
 		return "changePassword";
     }
 	
 	@RequestMapping(value="/forgot-password-reset", method = RequestMethod.POST) 
 	public String saveNewPassword(Model model,@RequestParam("newPassword") String newPassword,
 			@RequestParam("signInType") String signInType, @RequestParam("email") String email,
-			RedirectAttributes redirectAttributes) {
-		if(validatorUtil.validatorPassword(newPassword)) {
-			redirectAttributes.addFlashAttribute("successMessage", "Your password has been changed successfully");
+			@RequestParam("token") String token,
+			RedirectAttributes redirectAttributes,HttpServletRequest request) {
+		
+		Map<String,Object> urlParamsMap = new LinkedHashMap<>();
+		urlParamsMap.put("token", token);
+		urlParamsMap.put("signInType", signInType);
+		urlParamsMap.put("email", email);
+		
+		if( null == email || email.isEmpty() || null == signInType || signInType.isEmpty() ){
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Password reset link has been modified. ");
+			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+		}else{
 			User userExists = userService.findByEmail(email);
-			if(userExists != null) {
+			if( null == userExists || ( null != userExists && !userExists.isEnabled() ) ){
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! No active user has been associated with this email id, please check your e-mail id and try again. ");
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+			} else if( null != userExists && !userExists.getSignInType().equals(signInType) ) { 
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Password reset link has been modified. ");
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+			} else if (!validatorUtil.validatorPassword(newPassword)) {
+				String message = "<b>Password requirements:</b>" + "<br/><br/>" 
+	                    + "1. must be at least 8 characters" + "<br/>"
+				           + "2. must contains a minimum of 1 numeric character [0-9]" + "<br/>"
+	                    + "3. must contains a minimum of 1 special character [@#$%^& only.]";
+				redirectAttributes.addFlashAttribute("isNewPasswordError", true);
+				redirectAttributes.addFlashAttribute("failureMessage", message);
+				return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);	
+			}else {
+				redirectAttributes.addFlashAttribute("successMessage", "Your password has been changed successfully");
 				newPassword = CommonUtil.encoder(newPassword);
 				userExists.setPassword(newPassword);
 				userService.saveUser(userExists);
+				return "redirect:/login"; 
 			}
-			return "redirect:/login"; 
-		}else {
-			String message = "<b>Password requirements:</b>" + "<br/><br/>" 
-                    + "1. must be at least 8 characters" + "<br/>"
-			           + "2. must contains a minimum of 1 numeric character [0-9]" + "<br/>"
-                    + "3. must contains a minimum of 1 special character [@#$%^& only.]";
-			redirectAttributes.addFlashAttribute("isNewPasswordError", true);
-			redirectAttributes.addFlashAttribute("failureMessage", message);
-			return "changePassword";
-		}
+		}	
     }
 	
 	@RequestMapping(value="/registerUser", method = RequestMethod.GET) 
@@ -153,7 +173,7 @@ public class CommonController {
 	public String registerUser(@Valid @ModelAttribute("user") User user, 
 			  BindingResult bindingResult,  Model model,
 			  RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		     
+		 
 		     if(user.getSignInType().equals("Student") && !validatorUtil.validateWiproEmail(user.getEmail())) {
 		    	 redirectAttributes.addFlashAttribute("failureMessage", "Please note, only WIPRO Mail id is allowed for sign in");
 			     redirectAttributes.addFlashAttribute("isFailure", true);
@@ -187,20 +207,29 @@ public class CommonController {
 				        
 				    userService.saveUser(user);
 					
-				    //send registration email
-					String appUrl = request.getScheme() + "://" + request.getServerName();
-					
-					String text = "To confirm your e-mail address, please click the link below:\n"
-							+ appUrl + ":9099/confirm?token=" + user.getConfirmationToken()+"&signInType="+ user.getSignInType();
-					
-					SimpleMailMessage registrationEmail = CommonUtil.emailTemplate(user.getEmail(), "noreply@domain.com", "Registration Confirmation", text);
-					
-					emailService.sendEmail(registrationEmail);
-					
-					redirectAttributes.addFlashAttribute("successMessage", "A confirmation e-mail has been sent to " + user.getEmail());
-					
-					return "redirect:" + request.getRequestURI(); 
-				} 
+				      try {    
+						    //send registration email
+							String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+							String text = "<p>This email was sent to you because someone requested a registration on your account.</p>"
+									      +"<p>Visit the following URL to complete the registration process:</p>" 
+									      + "<p><a target='_blank' href='"+ appUrl + "/confirm?token="+ user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "'>" + appUrl + "/confirm?token="+  user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "</a></p>"
+							              +"<p>You can check the site at: <a target='_blank' href='" + appUrl + "/home'>" + appUrl + "/home" + "</a></p>";
+							MimeMessage mimeMessage = emailService.getMimeMessageObj();
+							mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, user.getEmail(), "noreply@domain.com", "MyApplication registration confirmation", text);
+							emailService.getJavaMailSender().send(mimeMessage);
+							
+							redirectAttributes.addFlashAttribute("successMessage", "A confirmation e-mail has been sent to " + user.getEmail());
+						
+						    return "redirect:" + request.getRequestURI(); 
+						    
+				      } catch (MessagingException ex) {
+							redirectAttributes.addFlashAttribute("failureMessage", "Oops!  There is some problem occurs while constructing password reset e-mail .");
+				       	    return "redirect:" + request.getRequestURI(); 
+				      } catch (Exception ex) {
+							redirectAttributes.addFlashAttribute("failureMessage", "Oops!  There is some problem with e-mail delivery system.");
+				       	    return "redirect:" + request.getRequestURI(); 
+				      }     
+				 } 
 		   }
     }
 	
@@ -209,22 +238,26 @@ public class CommonController {
 	public String showConfirmationPage(Model model, @RequestParam("token") String token
 			,@RequestParam("signInType") String signInType,RedirectAttributes redirectAttributes,
 			HttpServletRequest request) throws Exception {
-			
+		
+		Map<String,Object> urlParamsMap = new LinkedHashMap<>();
+		urlParamsMap.put("token", token);
+		urlParamsMap.put("signInType", signInType);
+		
 		User user = userService.findByConfirmationToken(token);
 		String returnPageName = "studentConfirmPage";
 		if (user == null) { // No token found in DB
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That was an invalid confirmation link.");
-			return "redirect:/registerUser"; 
+			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);
 		}else if( !user.isEnabled() && null != user.getSignInType() && !user.getSignInType().equals(signInType)){
 			redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your sign in type has been modified.");
-			return "redirect:/registerUser"; 
+			return "redirect:"+CommonUtil.constructReturnUrl(request, urlParamsMap);
 		}else if( user != null && validatorUtil.isConfirmationLinkRequestedAtleastFifteenMinutesAgo(user.getRequestTime())){
 			//link is more than 15 minutes old, hence expired
 			userService.deleteExistingUser(user);
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That confirmation link was no longer valid, please generate a new link and try.");
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That confirmation link has been expired, please generate a new link and try.");
 			return "redirect:/registerUser"; 
 		}else if( user != null && user.isEnabled() ){
-			redirectAttributes.addFlashAttribute("failureMessage", "Oops! This confirmation link has been already used for other sign up, please generate a new link and try.");
+			redirectAttributes.addFlashAttribute("failureMessage", "Oops! That confirmation link has been already used for other sign up, please generate a new link and try.");
 			return "redirect:/registerUser"; 
 		}else { // Token found	
 			model.addAttribute("confirmationToken", user.getConfirmationToken());

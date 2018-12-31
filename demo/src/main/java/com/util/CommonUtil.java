@@ -8,11 +8,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -250,6 +253,22 @@ public class CommonUtil {
 	
 	public static String changeFileExtensionToPng(String fileName) {
 		return fileName.substring(0,fileName.indexOf(".")) + ".png";
+	}
+	
+	public static String constructReturnUrl(HttpServletRequest request, Map<String,Object> urlParamsMap ) {
+		
+		String returnUrl = null;
+		String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+		int counter = -1;
+		for (Entry<String, Object> entry : urlParamsMap.entrySet()){
+			++counter;
+			if( counter == 0 ){
+				returnUrl = request.getRequestURI()+"?"+entry.getKey()+"="+entry.getValue();
+			}else{
+				returnUrl += "&"+entry.getKey()+"="+entry.getValue(); 
+			}
+		}
+		return appUrl+returnUrl;
 	}
 	
 	@Scheduled(cron = "0 0 */6 ? * *")
