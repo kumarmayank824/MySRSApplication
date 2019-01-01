@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.constant.Constant;
-import com.domain.Attachment;
 import com.domain.CoordinatorAttachment;
 import com.domain.SubmissionSchedule;
 import com.repository.CoordinatorAttachmentRepository;

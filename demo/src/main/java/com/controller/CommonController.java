@@ -106,7 +106,7 @@ public class CommonController {
 				              +"<p>You can do a regular login at: <a target='_blank' href='" + appUrl + "/login'>" + appUrl + "/login" + "</a></p>";
 				MimeMessage mimeMessage = emailService.getMimeMessageObj();
 				//SimpleMailMessage forgotPasswordEmail = CommonUtil.emailTemplate(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
-				mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", "MyApplication password reset", text);
+				mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", null, "MyApplication password reset", text);
 				emailService.getJavaMailSender().send(mimeMessage);
 				redirectAttributes.addFlashAttribute("forgotPasswordEmailSendSuccessfully", "true");
 				redirectAttributes.addFlashAttribute("successMessage", "An e-mail with password reset link has been successfully sent to " + email);
@@ -221,7 +221,7 @@ public class CommonController {
 									      + "<p><a target='_blank' href='"+ appUrl + "/confirm?token="+ user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "'>" + appUrl + "/confirm?token="+  user.getConfirmationToken() + "&signInType="+ user.getSignInType() + "</a></p>"
 							              +"<p>You can check the site at: <a target='_blank' href='" + appUrl + "/home'>" + appUrl + "/home" + "</a></p>";
 							MimeMessage mimeMessage = emailService.getMimeMessageObj();
-							mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, user.getEmail(), "noreply@domain.com", "MyApplication registration confirmation", text);
+							mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, user.getEmail(), "noreply@domain.com", null, "MyApplication registration confirmation", text);
 							emailService.getJavaMailSender().send(mimeMessage);
 							
 							redirectAttributes.addFlashAttribute("successMessage", "A confirmation e-mail has been sent to " + user.getEmail());

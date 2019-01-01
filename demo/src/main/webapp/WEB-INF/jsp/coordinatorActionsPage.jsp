@@ -16,6 +16,7 @@
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="css/common.css">
         <link rel="stylesheet" href="vendor/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" href="css/jquery-confirm/jquery-confirm-3.3.0.min.css"/>
         
 		<script src="js/angular.min.js"></script>
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -24,6 +25,8 @@
 		<script src="vendor/daterangepicker/daterangepicker.js"></script>
 	    <script src="js/coordinator/controller.js" ></script>
 	    <script src="js/coordinator/service.js" ></script>
+	    <script src="js/jquery-confirm/jquery-confirm-3.3.0.min.js"></script>
+	    <script src="js/alert.js"></script>
 		
 	</head>
 	
@@ -78,6 +81,13 @@
 	  		         <h3 class="text-center" style="padding-top:70px!important;">Coordinator Actions</h3>
 	  		      </div>
 			</div> 
+			
+			<c:if test="${successMessage ne null}">
+			   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
+		    </c:if>
+		    <c:if test="${failureMessage ne null}">
+		       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
+		    </c:if>
 			
 			<div style="padding-top:40px!important;">
 			  ` <div class="row">

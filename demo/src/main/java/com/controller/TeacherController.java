@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,7 @@ import com.domain.Marks;
 import com.domain.User;
 import com.domain.UserRole;
 import com.services.AttachmentService;
+import com.services.EmailService;
 import com.services.MarksService;
 import com.services.SecretCodeService;
 import com.services.UserService;
@@ -42,6 +45,9 @@ public class TeacherController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	EmailService emailService;
 	
 	@Autowired
 	SecretCodeService secretCodeService;
@@ -125,6 +131,29 @@ public class TeacherController {
 			// Save user
 			userService.saveUser(user);
 			redirectAttributes.addFlashAttribute("successMessage", "Congrats you have been successfully register!");
+			
+			try {
+				//send notification to all coordinators
+				String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+				String text = "<p>This email was sent to you because a new user with "+ "<b>'Teacher'</b> role has been successfully registered.</p>"
+						      +"<p>Please check the following details.</p>" 
+						      +"<p><b>Username</b> - "+ user.getUsername() + "</p>"
+						      +"<p><b>E-mail Id</b> - "+ user.getEmail() + "</p>"
+						      +"<p><b>Used secret code</b></p><p>"+ secretCode + "</p>"
+				              +"<p style='color:red;'>Found it suspicious? Click on this button to immediately block the user </p>"
+				              +"<a target='_blank' href='"+ appUrl + "/coord-block-user?email="+ user.getEmail() + "'"
+				                   +"style='border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none !important;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap;color:#000!important;background-color:#ffc107!important;font-size:15px!important' >Block User</a>";
+				MimeMessage mimeMessage = emailService.getMimeMessageObj();
+				//String email = "mayank.kumar10@wipro.com,kumarmayank824@gmail.com";
+				String email = userService.getCoordinatorEmailLst();
+				mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", "fhdh@gmail.com", "MyApplication user verification", text);
+				emailService.getJavaMailSender().send(mimeMessage);
+			
+			} catch (MessagingException ex) {
+				//do nothing
+	        } catch (Exception ex) {
+	        	//do nothing
+	        } 
 			
 			return "redirect:/login";
 		}

@@ -3,11 +3,13 @@ package com.domain;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
+import com.services.UserService;
 import com.util.CommonUtil;
 
 
@@ -45,7 +47,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	}
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return super.isEnabled();
 	}
 
 	@Override

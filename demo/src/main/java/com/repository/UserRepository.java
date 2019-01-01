@@ -18,4 +18,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
     
     @Query(value="SELECT secret_code from secret_code", nativeQuery = true)
     String getSecretCode();
+	
+    @Modifying
+    @Query(value="UPDATE USERS SET enabled=?1 WHERE email=?2 ", nativeQuery = true)
+    void disableUserAccount(int flag, String email);
+    
+    @Query(value="SELECT  GROUP_CONCAT(DISTINCT email SEPARATOR ',') AS emailLst FROM users WHERE sign_in_type = 'Coordinator'", nativeQuery = true)
+    String getCoordinatorEmailLst();
 }

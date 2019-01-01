@@ -226,14 +226,22 @@ public class CommonUtil {
 		
 	}
 	
-	public static MimeMessage htmlMailMessage(MimeMessage mimeMessage ,String to, String from, String subject
+	public static MimeMessage htmlMailMessage(MimeMessage mimeMessage ,String to, String from, String cc,String subject
 			, String text) throws MessagingException {
 		
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 		mimeMessage.setContent(text, "text/html");
-		helper.setTo(to);
+		if(to.contains(",")) {
+			String[] toArray = to.split(",");
+			helper.setTo(toArray);
+		}else {
+			helper.setTo(to);
+		}
 		helper.setSubject(subject);
 		helper.setFrom(from);
+		if( null != cc) {
+			helper.setCc(cc);
+		}
 		return mimeMessage;
 	}
 	

@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,13 +29,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.constant.Constant;
-import com.domain.Attachment;
 import com.domain.ConfigProperties;
 import com.domain.CoordinatorAttachment;
 import com.domain.User;
 import com.services.CoordinatorService;
+import com.services.EmailService;
 import com.services.UserService;
 import com.util.CommonUtil;
 
@@ -42,6 +45,12 @@ public class CoordinatorController {
    
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	EmailService emailService;
+	
+	@Autowired
+	CommonUtil commonUtil;
 	
 	@Autowired
 	CoordinatorService coordinatorService;
@@ -210,7 +219,47 @@ public class CoordinatorController {
 		}catch (IOException e){
 			e.printStackTrace();
 	    }
-	         
+	}
+	
+	@RequestMapping(value="/coord-block-user", method = RequestMethod.GET)
+	public String blockUser(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if( null != auth){
+				
+				//disable suspicious user
+				String email = (String)request.getParameter("email");
+				
+				User user = userService.findByEmail(email);
+				
+				if( user.isEnabled() ) {
+					userService.disableUserAccount(0,email);
+					
+					//notify suspicious user, that his/her account is blocked by coordinator
+					String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+					String text = "<p>This email was sent to you because your account is blocked due to suspicious registration.</p>"
+							      +"<p>Please verify login at: <a target='_blank' href='" + appUrl + "/login'>" + appUrl + "/login" + "</a></p>";
+					MimeMessage mimeMessage = emailService.getMimeMessageObj();
+					mimeMessage = CommonUtil.htmlMailMessage(mimeMessage, email, "noreply@domain.com", null, "MyApplication account blocked", text);
+					emailService.getJavaMailSender().send(mimeMessage);
+					
+					//account blocked confirmation to coordinator
+					redirectAttributes.addFlashAttribute("successMessage", "Suspicious user is successfully blocked.");
+					return "redirect:/loginSuccess";
+				} else {
+					redirectAttributes.addFlashAttribute("successMessage", "Suspicious user is already blocked.");
+					return "redirect:/loginSuccess";
+				}
+			}
+		}catch (MessagingException e) {
+			//do nothing
+		}catch (Exception e) {
+			//do nothing
+		}
+		return null;
+		
+		
 	}
 	
 }

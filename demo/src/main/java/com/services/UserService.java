@@ -1,7 +1,5 @@
 package com.services;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import com.constant.Constant;
 import com.domain.Attachment;
 import com.domain.Marks;
-import com.domain.SubmissionSchedule;
 import com.domain.User;
 import com.repository.MarksRepository;
 import com.repository.SubmissionScheduleRepository;
@@ -93,5 +90,15 @@ public class UserService {
 	public void deleteExistingUser(User userExists) {
 		 userRepository.delete(userExists);
 		
+	}
+    
+	@Transactional
+	public void disableUserAccount(int flag,String email) {
+		userRepository.disableUserAccount(flag,email);
+		
+	}
+
+	public String getCoordinatorEmailLst() {
+		return userRepository.getCoordinatorEmailLst();
 	}
 }
