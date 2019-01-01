@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	 http.authorizeRequests()
-    	  .antMatchers("/loginSuccess").access("hasRole('STUDENT') or hasRole('TEACHER') or hasRole('ROLE_COORDINATOR')")
+    	  .antMatchers("/loginSuccess").access("hasRole('STUDENT') or hasRole('TEACHER') or hasRole('COORDINATOR')")
     	  .antMatchers("/std-*","/std-*/*/*").access("hasRole('STUDENT')")
     	  .antMatchers("/tch-*").access("hasRole('TEACHER')")
     	  .antMatchers("/coord-*").access("hasRole('COORDINATOR')")

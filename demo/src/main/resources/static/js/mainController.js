@@ -21,27 +21,6 @@
 		    }
 		}
 		
-		$scope.submit = function () {
-	        console.log('Submitting');
-	        if ($scope.user.username && $scope.user.password ) {
-	        	mainService.checkUser($scope.user)
-	        	.then(function success(response) {
-		        	  console.log('request succeded');
-		        	  if(response.data.isValidUser){
-		        		  $scope.errorMessage = '';
-		        		  $window.location.href = '/loginSuccess';
-		        	  }else{
-		        		  $scope.errorMessage = '**Authentication Failed'; 
-		        	  }
-		          },
-		          function error (errResponse) {
-		        	  console.error('Error while checking User');
-		        	  $scope.errorMessage = 'Error while checking User: ' + errResponse.errorMessage;
-		        	  $scope.successMessage='';
-		          });
-	        }
-	    }
-		
 		$scope.signInType = "Student";
 		$scope.isChecked = true;
 	    $scope.checkSignInType = function(isChecked) {

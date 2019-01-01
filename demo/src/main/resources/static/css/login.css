@@ -44,9 +44,9 @@ body, html {
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
+	/* font-family: Poppins-Regular; */
 	/* font-size: 14px; */
-	line-height: 1.7;
+	/* line-height: 1.7; */
 	color: #666666;
 	margin: 0px;
 	transition: all 0.4s;
@@ -232,7 +232,7 @@ iframe {
 }
 .signin-text{
 	color: #ea4335;
-    font-size: 29px;
+    font-size: 25px;
     margin-top: 25px;
 }
 

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import com.domain.Attachment;
 import com.domain.CoordinatorAttachment;
 import com.domain.GraphDetail;
 import com.domain.SubmissionSchedule;
+import com.domain.User;
 import com.repository.GraphDetailRepository;
 import com.services.CoordinatorService;
 
@@ -52,7 +55,6 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return "home";
 	}
 	

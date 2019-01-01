@@ -6,13 +6,12 @@
 <!DOCTYPE html>
 <html ng-app="mainApp"> 
   <head> 
-   <title>Login</title> 
+   <title>Student Registration Confirmation | MyApplication</title> 
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" type="image/png" href="images/logo/vit-logo.png"/>
    
    <link rel="stylesheet" href="css/w3.css">
-   
-   <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
    <link rel="stylesheet"  href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
    <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css"/>
@@ -38,19 +37,23 @@
    </style>
    <body data-ng-controller="mainController"> 
    
-        <!-- Navbar -->
+       <!-- Navbar -->
 		<div class="w3-top">
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+		    <a href="/loginSuccess" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Click Here To Start</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
 		  </div>
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+		    <a href="/loginSuccess" class="w3-bar-item w3-button w3-padding-large">Click Here To Start</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
 		  </div>
 		</div>
         
@@ -62,7 +65,7 @@
 				  	<div class="signin-text">Choose Password</div>
 				  </div>
 				</div>
-				<div class="wrap-login100" style="margin-bottom: 25px;padding: 40px 30px;">
+				<div class="wrap-login100" style="padding: 40px 30px;">
 				    <p class="errorMessage" >${errorMessage}</p>
 					<form action="/studentConfirm" method="post">
 					        

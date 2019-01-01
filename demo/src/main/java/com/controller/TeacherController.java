@@ -81,6 +81,8 @@ public class TeacherController {
 			if ( null != user) {
 				userService.deleteExistingUser(user);
 				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been expired, please generate a new confirmation link and try.");
+			}else if(null == token || token.isEmpty()) {
+				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link does not contains the required token, please generate a new confirmation link and try.");
 			}else {
 				redirectAttributes.addFlashAttribute("failureMessage", "Oops! Your confirmation link has been modified.");
 			}

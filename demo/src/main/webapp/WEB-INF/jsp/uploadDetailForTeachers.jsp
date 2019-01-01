@@ -7,9 +7,11 @@
 <html ng-app="teacherUploadDetailApp">
     
     <head>
-		<title>Upload Details</title>
+		<title>Submitted Documents | MyApplication</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="images/logo/vit-logo.png"/>
+		
 		<link rel="stylesheet" href="css/w3.css">
 	    <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
@@ -41,15 +43,15 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+		 <a href="/guideline-documents" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
-		    <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Download others Work</a> -->
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
 			      <i class="fa fa-caret-down"></i>
 			    </button>
 			    <div class="dropdown-content">
-			      <a href="/user-profile"><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/tch-user-profile"><i class="fa fa-user-o"> Profile</i></a>
 			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
@@ -57,10 +59,9 @@
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-		    <a href="/tch-upload-pdf-page" class="w3-bar-item w3-button w3-padding-large">Upload Your Work Here</a>
-		    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">How To Download</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Profile</a>
-		    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a> -->
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
 		  </div>
 		</div>
 		
@@ -88,7 +89,6 @@
 				<label  for="radio-3" class="myradio-label myradioApplyFilter" >Not Yet Evaluated </label>
 			 </div><br>
 		     
-		     <!-- <div dir-paginate="attachment in attachmentLst|filter:search|itemsPerPage:itemsPerPage"  total-items="{{total_count}}" class="col-md-4"> -->
 		     <div dir-paginate="attachment in attachmentLst|filter:filterType|itemsPerPage:6"  class="col-md-4"> 
 		         <div attachment-details></div>
 		     </div>  
@@ -98,18 +98,8 @@
 									value="${_csrf.token}" />
 									
 		<!-- Footer -->
-		<!-- <footer class="w3-container w3-padding-64 w3-center w3-opacity">   -->
 		<footer class="w3-container w3-center w3-opacity">
-		  <!-- <div class="w3-xlarge w3-padding-32">
-		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-		    <i class="fa fa-instagram w3-hover-opacity"></i>
-		    <i class="fa fa-snapchat w3-hover-opacity"></i>
-		    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-		    <i class="fa fa-twitter w3-hover-opacity"></i>
-		    <i class="fa fa-linkedin w3-hover-opacity"></i>
-		 </div> -->
-		 <!-- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p> -->
-		 <p> &copy;2018 MyApplication </p>
+		    <p> &copy;2018 MyApplication </p>
 		</footer>
 		
 	</body>

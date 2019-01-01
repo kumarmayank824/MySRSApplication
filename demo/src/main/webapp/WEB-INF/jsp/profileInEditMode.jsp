@@ -7,7 +7,7 @@
 <div class="col-sm-9">
 	 <div class="tab-content">
 		  <div class="tab-pane active">
-		        <form:form action="/updateProfileDetails" method="post" modelAttribute="user">
+		        <form:form action="/std-updateProfileDetails" method="post" modelAttribute="user">
 		            <c:if test="${user.signInType == 'Student'}">
 		               <div style="padding-bottom:10px;">
 		               <div class="col-xs-12">

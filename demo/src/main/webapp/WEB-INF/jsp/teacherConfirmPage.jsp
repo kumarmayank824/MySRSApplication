@@ -6,13 +6,12 @@
 <!DOCTYPE html>
 <html ng-app="mainApp"> 
   <head> 
-   <title>Login</title> 
+   <title>Teacher Registration Confirmation | MyApplication</title> 
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" type="image/png" href="images/logo/vit-logo.png"/>
    
    <link rel="stylesheet" href="css/w3.css">
-   
-   <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
    <link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
    <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
    <link rel="stylesheet"  href="fonts/iconic/css/material-design-iconic-font.min.css"/>
@@ -43,22 +42,25 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+		    <a href="/loginSuccess" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Click Here To Start</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
 		  </div>
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+		    <a href="/loginSuccess" class="w3-bar-item w3-button w3-padding-large">Click Here To Start</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
 		  </div>
 		</div>
         
 		<div class="limiter">
-			<div class="container-login100" style="padding:75px">
+			<div class="container-login100" style="padding:55px">
 			    <div class="wrap-logo">
 				  <div class="login-upper-div">
-				  	<!-- <img class="app-logo" alt="" src="images/logo/logo.png"> -->
 				  	<div class="signin-text">Choose Password</div>
 				  </div>
 				</div>
@@ -66,9 +68,6 @@
 					<p class="errorMessage" >${errorMessage}</p>
 					<form action="/teacherConfirm" method="post">
 					        
-				        <!-- <span class="login100-form-title p-b-30">
-						   Set Your Password
-					    </span> -->
 					    <c:if test="${successMessage ne null}">
 						   <input type="hidden" id="alertSuccessMessage" value="${successMessage}"/>
 					    </c:if>
@@ -76,7 +75,7 @@
 					       <input type="hidden" id="alertFailureMessage" value="${failureMessage}"/>
 					    </c:if>
 
-						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
+						<div class="wrap-input100 validate-input" style="margin-bottom:20px;" data-validate="Password is required">
 							<span class="${ ( isPasswordAndConfirmPasswordNotSameError || isEmptyPasswordError ) ? 'label-input100 error' : 'label-input100' }">Password
 							    <span class="showHidePasswordIcon" title="{{titlePassword}}"  ng-click="hideShowPassword()" ><i ng-class="isPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
 							</span>
@@ -84,7 +83,7 @@
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
-						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Password is required">
+						<div class="wrap-input100 validate-input" style="margin-bottom:20px;" data-validate="Password is required">
 							<span class="${ isPasswordAndConfirmPasswordNotSameError ? 'label-input100 error' : 'label-input100' }">Confirm Password
 							    <span class="showHidePasswordIcon" title="{{titleConfirmPassword}}"  ng-click="hideShowConfirmPassword()" ><i ng-class="isConfirmPasswordDanger ? 'fa fa-eye error' : 'fa fa-eye' " aria-hidden="true"></i></span>
 							</span>
@@ -92,14 +91,14 @@
 							<span class="focus-input100" data-symbol="&#xf190;"></span>
 						</div>
 						
-						<div class="wrap-input100 validate-input" style="margin-bottom:5px;" data-validate="Secret Code is required">
+						<div class="wrap-input100 validate-input" style="margin-bottom:20px;" data-validate="Secret Code is required">
 							<span class="${ isWrongSecretCodeError ? 'label-input100 error' : 'label-input100' } ">Secret Code</span>
 							<input class="input100" style="height:55px;" type="password" name="secretCode" value = "${secretCode}" placeholder="Type your secret code" required>
 							<span class="focus-input100" data-symbol="&#xf183;"></span>
 						</div>
 												
 						<div class="container-login100-form-btn">
-							<div class="wrap-login100-form-btn" style="margin: 5px auto;">
+							<div class="wrap-login100-form-btn" style="margin: 7px auto;">
 								<div class="login100-form-bgbtn"></div>
 								<button type="submit" class="login100-form-btn">
 									Save
@@ -111,7 +110,6 @@
 						
 						<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
-									
 	                </form>
 				</div>
 			</div>

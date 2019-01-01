@@ -6,9 +6,11 @@
 <!DOCTYPE html>
 <html ng-app="mainApp"> 
   <head>
-		<title>User Profile</title>
+		<title>User Profile | MyApplication</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="images/logo/vit-logo.png"/>
+		
 		<link rel="stylesheet" href="css/w3.css">
 	    <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
@@ -37,14 +39,22 @@
 		  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact Us</a>
+		    <c:if test="${user.signInType == 'Student'}">
+		       <a href="/std-upload-details" class="w3-bar-item w3-button w3-padding-large">View Uploaded Details</a>
+		       <a href="/std-upload-pdf-page" class="w3-bar-item w3-button w3-padding-large">Upload Your Work Here</a>
+		    </c:if>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
 		    <div class="dropdown">
 			    <button class="dropbtn">${user.username}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
 			      <i class="fa fa-caret-down"></i>
 			    </button>
 			    <div class="dropdown-content">
-			      <a href="/user-profile" ><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/std-user-profile" ><i class="fa fa-user-o"> Profile</i></a>
+			      <c:if test="${user.signInType == 'Student'}">
+			          <a href="/std-activity-history"><i class="fa fa-history"> History</i></a>
+			      </c:if>
 			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
@@ -52,12 +62,17 @@
 		
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+		    <c:if test="${user.signInType == 'Student'}">
+		        <a href="/std-upload-details" class="w3-bar-item w3-button w3-padding-large">View Uploaded Details</a>
+		        <a href="/std-upload-pdf-page" class="w3-bar-item w3-button w3-padding-large">Upload Your Work Here</a>
+		    </c:if>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
 		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
-		    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact Us</a>
-		    <a href="/user-profile" class="w3-bar-item w3-button w3-padding-large">Profile</a>
-		    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
 		  </div>
 		</div>
+		
+		
         <div id = "test" class="w3-row-padding w3-container" style="padding-top:110px!important;">
 	        <div class="container bootstrap snippet">
 	          <div class="row">
@@ -98,7 +113,7 @@
        </div>
         
 	   <footer class="w3-container w3-center w3-opacity" style="padding-top: 64px!important;">  
-	   <p> &copy;2018 MyApplication </p>
+	       <p> &copy;2018 MyApplication </p>
 	   </footer>
 		
    </body> 

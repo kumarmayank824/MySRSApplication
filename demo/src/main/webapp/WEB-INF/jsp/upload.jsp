@@ -7,9 +7,11 @@
 <html ng-app="fileUploadApp">
     
     <head>
-		<title>Upload Your Work</title>
+		<title>Upload | MyApplication</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="images/logo/vit-logo.png"/>
+		
 		<link rel="stylesheet" href="css/w3.css">
 		<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link href="css/bootstrap-3.3.7.min.css" rel="stylesheet"/>
@@ -49,16 +51,21 @@
 		    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" ng-click="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 		    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
 		    <a href="/std-upload-details" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Uploaded Details</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">View Statistics</a>
 		    <c:if test="${!isSubmissionAllowed}">
-		       <a href="/user-profile" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> Profile</a>
+		       <a href="/std-user-profile" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> Profile</a>
+		       <a href="/std-activity-history" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> History</a>
 		       <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"> Logout</a>
 		    </c:if>
+		    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About Us</a>
 		    <div class="dropdown">
 			    <button class="dropbtn">${loggedInUser}&nbsp;&nbsp;<i class="fa fa-user-circle"></i>
 			      <i class="fa fa-caret-down"></i>
 			    </button>
 			    <div class="dropdown-content">
-			      <a href="/user-profile" ><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/std-user-profile" ><i class="fa fa-user-o"> Profile</i></a>
+			      <a href="/std-activity-history"><i class="fa fa-history"> History</i></a>
 			      <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 			    </div>
 		    </div> 
@@ -68,15 +75,16 @@
 		  <!-- Navbar on small screens -->
 		  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
 		    <a href="/std-upload-details" class="w3-bar-item w3-button w3-padding-large">View Uploaded Details</a>
-		    <a href="/user-profile" class="w3-bar-item w3-button w3-padding-large">Profile</a>
-		    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+		    <a href="/guideline-documents" class="w3-bar-item w3-button w3-padding-large">Check Guideline Documents</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">View Statistics</a>
+		    <a href="#" class="w3-bar-item w3-button w3-padding-large">About Us</a>
+		    <c:if test="${!isSubmissionAllowed}">
+			    <a href="/std-user-profile" class="w3-bar-item w3-button w3-padding-large">Profile</a>
+			    <a href="/std-activity-history" class="w3-bar-item w3-button w3-padding-large">History</a>
+			    <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+		    </c:if>
 		  </div>
 		</div>
-		
-		<!-- Header -->
-		<!-- <header class="w3-container w3-red w3-center" style="padding:40px 0px 0px 0px;">
-		  <h5 class="w3-margin w3-jumbo">Make Your Work Count</h5>
-		</header> -->
 		
 		<!-- First Grid -->
 		<div class="w3-row-padding w3-container" style="padding-top:60px!important;padding-right: 200px;">
@@ -150,7 +158,7 @@
 			  <input type="file" id="file-to-upload" accept="application/pdf" /> -->
 					  <div id="pdf-main-container">
 						    <div id="pdf-loader">Loading document ...</div>
-						    <div id="nopreview"><img alt="" src="images/No_image_available.jpg"></div>
+						    <div id="nopreview"><img alt="" src="images/icons/No_image_available.jpg"></div>
 						    <div id="pdf-contents">
 						        <div id="pdf-meta">
 						            <!-- <div id="pdf-buttons">
@@ -170,18 +178,8 @@
 		</div>
 		
 		<!-- Footer -->
-		<!-- <footer class="w3-container w3-padding-64 w3-center w3-opacity">   -->
 		<footer class="w3-container w3-center w3-opacity">
-		  <!-- <div class="w3-xlarge w3-padding-32">
-		    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-		    <i class="fa fa-instagram w3-hover-opacity"></i>
-		    <i class="fa fa-snapchat w3-hover-opacity"></i>
-		    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-		    <i class="fa fa-twitter w3-hover-opacity"></i>
-		    <i class="fa fa-linkedin w3-hover-opacity"></i>
-		 </div> -->
-		 <!-- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p> -->
-		 <p> &copy;2018 MyApplication </p>
+		   <p> &copy;2018 MyApplication </p>
 		</footer>
 		
 	</body>
