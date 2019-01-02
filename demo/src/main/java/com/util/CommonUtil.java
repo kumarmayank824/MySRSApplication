@@ -3,6 +3,7 @@ package com.util;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -135,7 +136,9 @@ public class CommonUtil {
 				JSONObject ratingJson = new JSONObject();
 				ratingJson.put("authorName",rating.getAuthor());
 				ratingJson.put("email",rating.getEmail());
-				ratingJson.put("commentTime",dateFormatterReturnStringObj(rating.getCommentTime().toString(), Constant.dateFormat1));
+				//Workaround for date object issue failure
+				Timestamp ts = new Timestamp(rating.getCommentTime().getTime());  
+				ratingJson.put("commentTime",dateFormatterReturnStringObj(ts.toString(), Constant.dateFormat1));
 				ratingJson.put("comment",rating.getComment());
 				ratingJson.put("rating",rating.getRating());
 				totalRating += rating.getRating();

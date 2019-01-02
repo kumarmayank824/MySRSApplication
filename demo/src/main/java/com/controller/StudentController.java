@@ -363,14 +363,22 @@ public class StudentController {
 			ratingObj.setComment(comment);
 			ratingObj.setRating(rating);
 			ratingService.saveRatingAndComment(ratingObj);
-			returnJson = new JSONObject();
-			returnJson.put("showRatingLink",false);
+			
+			//To update page with new ratings results
+			List<Attachment> attachmentLst = attachmentService.getAllAttachment();
+			if( null != attachmentLst){
+				returnJson = new JSONObject();
+				returnJson = commonUtil.getDetailsForPanel(attachmentLst,returnJson,Constant.ratingObjectType,user);
+			}
 			response.getWriter().write(returnJson.toString());
 			
 		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

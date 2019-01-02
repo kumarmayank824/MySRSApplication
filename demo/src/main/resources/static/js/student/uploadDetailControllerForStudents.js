@@ -27,7 +27,8 @@
 	    };
 	    $scope.getData($scope.pageno,$scope.itemsPerPage); // Call the function to fetch initial data on page load.
 	   */
-	    
+		
+		$scope.attachmentLst = null;
 		uploadDetailService.getAttachmentLst(function(result){
 	        $scope.attachmentLst = result.attachmentLst;
 		});
@@ -39,10 +40,9 @@
 	       var rating = $('#rating'+attachmentId).text();
 	       var comment = $('#comment'+attachmentId).val();
 	       uploadDetailService.saveRatingAndComment(csrf_token,attachmentId,rating,comment,function(result){
-		        if(!result.showRatingLink){
+		        if(result.attachmentLst){
 		        	$scope.user = {rating:1};
-		        	$('#ratingModalBtn'+attachmentId).click(function () {return false;});
-		        	$('#ratingModalBtn'+attachmentId).removeAttr("href");
+	        		$scope.attachmentLst = result.attachmentLst;
 		        } 
 		   });
 		  
